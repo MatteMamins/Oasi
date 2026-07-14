@@ -6,11 +6,13 @@ type LeadPayload = {
   nome?: string;
   email?: string;
   telefono?: string;
+  // risposte del percorso di valutazione
   localita?: string;
-  immobili?: string;
   tipologia?: string;
-  obiettivo?: string;
-  messaggio?: string;
+  metratura?: string;
+  posti_letto?: string;
+  spazi_esterni?: string;
+  caratteristiche?: string;
   privacy?: boolean;
   // honeypot anti-spam
   website?: string;
@@ -50,10 +52,11 @@ export async function POST(request: Request) {
     email: body.email?.trim(),
     telefono: body.telefono?.trim(),
     localita: body.localita?.trim() || null,
-    immobili: body.immobili || null,
     tipologia: body.tipologia || null,
-    obiettivo: body.obiettivo || null,
-    messaggio: body.messaggio?.trim() || null,
+    metratura: body.metratura || null,
+    posti_letto: body.posti_letto || null,
+    spazi_esterni: body.spazi_esterni || null,
+    caratteristiche: body.caratteristiche?.trim() || null,
     utm: body.utm ?? {},
     userAgent: request.headers.get("user-agent"),
   };

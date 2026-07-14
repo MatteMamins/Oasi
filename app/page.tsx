@@ -43,6 +43,30 @@ const listings = [
   { src: "/immobili/torino-3.jpg", place: "Torino", rating: "4,52" },
 ];
 
+/* ── Perché l'affitto breve batte il lungo termine ──────────────────── */
+const whyShortTerm = [
+  {
+    icon: IconTrend,
+    title: "Guadagni superiori",
+    text: "Le tariffe per notte seguono il mercato, non un canone fisso deciso anni fa. Il tuo immobile rende quanto vale davvero.",
+  },
+  {
+    icon: IconShield,
+    title: "Nessun rischio morosità",
+    text: "Gli ospiti pagano prima di entrare. Niente canoni arretrati, niente sfratti, niente inquilini che non se ne vanno.",
+  },
+  {
+    icon: IconCalendar,
+    title: "Occupazione massima",
+    text: "Prezzi e calendario ottimizzati ogni giorno su domanda e stagionalità: l'immobile lavora tutto l'anno.",
+  },
+  {
+    icon: IconUserCheck,
+    title: "Nessun impegno operativo",
+    text: "Ospiti, pulizie, burocrazia e fiscalità: tutto gestito da noi. Tu incassi e resti libero di riprenderti l'immobile quando vuoi.",
+  },
+];
+
 /* ── I due pilastri ─────────────────────────────────────────────────── */
 const pillarQuality = [
   "Referente locale selezionato e formato sugli standard Oasi",
@@ -174,31 +198,22 @@ export default function Home() {
           />
           <div className="shell relative grid items-center gap-12 lg:grid-cols-[1fr_0.92fr] lg:gap-16">
             <div>
-              <Reveal as="p" className="eyebrow inline-flex items-center gap-2 text-brass">
-                <span className="h-px w-8 bg-brass/60" />
-                Gestione affitti brevi a 360°
-              </Reveal>
               <Reveal
                 as="h1"
-                delay={80}
-                className="font-display mt-6 text-[clamp(2.6rem,5vw,4rem)] font-semibold text-paper"
+                className="font-display text-[clamp(2.6rem,5vw,4rem)] font-semibold text-paper"
               >
                 Il tuo immobile,
                 <br />
                 gestito come un{" "}
                 <em className="not-italic text-brass">asset.</em>
               </Reveal>
-              <Reveal as="p" delay={140} className="mt-5 text-xl font-semibold text-paper sm:text-2xl">
+              <Reveal as="p" delay={120} className="mt-6 text-xl font-semibold text-paper sm:text-2xl">
                 Specialisti in{" "}
                 <span className="rounded-md bg-brass px-2 py-0.5 text-forest-3">
                   affitti brevi
                 </span>
               </Reveal>
-              <Reveal as="p" delay={190} className="mt-5 max-w-md text-lg text-paper/70">
-                Ospiti, burocrazia e fiscalità: pensiamo a tutto noi. Tu
-                mantieni visibilità, controllo e risultati.
-              </Reveal>
-              <Reveal delay={240} className="mt-9 flex flex-wrap items-center gap-4">
+              <Reveal delay={200} className="mt-9 flex flex-wrap items-center gap-4">
                 <a href="#valutazione" className="btn btn-brass">
                   Richiedi una valutazione <IconArrow className="h-4 w-4" />
                 </a>
@@ -206,7 +221,7 @@ export default function Home() {
                   Scopri il metodo
                 </a>
               </Reveal>
-              <Reveal delay={320} className="mt-8 flex items-center gap-3 text-sm text-paper/60">
+              <Reveal delay={280} className="mt-8 flex items-center gap-3 text-sm text-paper/60">
                 <span className="flex text-brass">
                   {Array.from({ length: 5 }).map((_, i) => (
                     <IconStar key={i} className="h-4 w-4" />
@@ -236,15 +251,59 @@ export default function Home() {
             </div>
           </div>
 
-          {/* cue: scopri il metodo */}
+          {/* cue: continua */}
           <div className="shell relative mt-12 flex justify-center">
             <a
-              href="#metodo"
+              href="#perche"
               className="scroll-cue group inline-flex flex-col items-center gap-2 text-paper/45 transition-colors hover:text-brass"
+              aria-label="Continua a leggere"
             >
-              <span className="eyebrow">Il metodo Oasi</span>
               <IconChevronDown className="h-5 w-5" />
             </a>
+          </div>
+        </section>
+
+        {/* ══════════════════ PERCHÉ L'AFFITTO BREVE ══════════════════ */}
+        <section id="perche" className="bg-paper py-24 lg:py-32">
+          <div className="shell">
+            <Reveal className="max-w-3xl">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+                Molto più redditizio
+                <br />
+                dell&apos;affitto a lungo termine.
+              </h2>
+            </Reveal>
+
+            {/* Quattro pilastri, presenza piena: card scure su fondo chiaro */}
+            <div className="mt-14 grid gap-5 sm:grid-cols-2">
+              {whyShortTerm.map((w, i) => (
+                <Reveal
+                  key={w.title}
+                  delay={(i % 2) * 90}
+                  className="relative overflow-hidden rounded-2xl bg-forest p-8 text-paper sm:p-10"
+                >
+                  <div
+                    className="glow"
+                    style={{
+                      background: "rgba(198,161,91,0.16)",
+                      width: 240,
+                      height: 240,
+                      top: -90,
+                      right: -70,
+                    }}
+                  />
+                  <div className="relative">
+                    <span className="flex h-13 w-13 items-center justify-center rounded-full bg-brass p-3 text-forest-3">
+                      <w.icon className="h-7 w-7" />
+                    </span>
+                    <h3 className="font-display mt-6 text-2xl font-semibold sm:text-[1.7rem]">
+                      {w.title}
+                    </h3>
+                    <p className="mt-3 max-w-md text-paper/70">{w.text}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -252,8 +311,7 @@ export default function Home() {
         <section id="metodo" className="bg-stone py-24 lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
-              <p className="eyebrow text-brass-ink">Il metodo Oasi</p>
-              <h2 className="font-display mt-4 text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
                 La precisione dei grandi operatori.
                 <br />
                 La cura di una gestione dedicata.
@@ -351,8 +409,7 @@ export default function Home() {
         <section id="servizi" className="bg-paper py-24 lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
-              <p className="eyebrow text-brass-ink">Cosa gestiamo per te</p>
-              <h2 className="font-display mt-4 text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
                 Una gestione completa. Nessun carico operativo per te.
               </h2>
               <p className="mt-5 text-lg text-muted">
@@ -416,8 +473,7 @@ export default function Home() {
           <div className="shell relative grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="lg:sticky lg:top-32 lg:self-start">
               <Reveal>
-                <p className="eyebrow text-brass">Il percorso</p>
-                <h2 className="font-display mt-4 text-[clamp(2rem,4vw,3rem)] font-semibold">
+                <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
                   Dalla prima analisi alla gestione completa.
                 </h2>
                 <p className="mt-5 max-w-md text-lg text-paper/70">
@@ -452,10 +508,7 @@ export default function Home() {
         <section id="trasparenza" className="bg-paper py-24 lg:py-32">
           <div className="shell grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
             <div>
-              <Reveal as="p" className="eyebrow text-brass-ink">
-                Tecnologia e trasparenza
-              </Reveal>
-              <Reveal as="h2" delay={80} className="font-display mt-4 text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              <Reveal as="h2" className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
                 Noi ci occupiamo di tutto.
                 <br />
                 Tu vedi tutto.
@@ -546,8 +599,7 @@ export default function Home() {
         <section id="recensioni" className="bg-stone py-24 lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
-              <p className="eyebrow text-brass-ink">La voce degli ospiti</p>
-              <h2 className="font-display mt-4 text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
                 Il nostro profilo host, in anteprima.
               </h2>
               <p className="mt-5 text-lg text-muted">
@@ -686,6 +738,52 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ══════════════════ CHI C'È DIETRO ══════════════════ */}
+        <section id="chi-sono" className="bg-paper py-24 lg:py-32">
+          <div className="shell grid items-center gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
+            <Reveal>
+              <div className="relative mx-auto w-full max-w-xs">
+                <span className="block overflow-hidden rounded-2xl shadow-[0_45px_80px_-50px_rgba(16,61,48,0.6)]">
+                  <Image
+                    src="/ivano.jpg"
+                    alt="Ivano, fondatore di Oasi Properties"
+                    width={480}
+                    height={480}
+                    className="h-auto w-full object-cover"
+                  />
+                </span>
+                <span className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-forest px-4 py-2 text-sm font-medium text-paper shadow-lg">
+                  <IconCheck className="h-4 w-4 text-brass" />
+                  Host verificato su Airbnb
+                </span>
+              </div>
+            </Reveal>
+            <div>
+              <Reveal as="h2" className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+                Dietro ogni immobile,
+                <br />
+                una persona. Non un call center.
+              </Reveal>
+              <Reveal as="p" delay={100} className="mt-6 max-w-xl text-lg text-muted">
+                Sono Ivano, fondatore di Oasi Properties. Gestisco affitti brevi
+                da 5 anni tra Torino e la Riviera ligure: oltre 7.000
+                prenotazioni, un metodo costruito ospite dopo ospite e
+                proprietari che mi affidano il loro immobile da anni.
+              </Reveal>
+              <Reveal as="p" delay={160} className="mt-4 max-w-xl text-lg text-muted">
+                Ogni proprietario lavora direttamente con me e con il mio team:
+                conosco ogni immobile che gestiamo, e rispondo personalmente dei
+                risultati.
+              </Reveal>
+              <Reveal delay={220} className="mt-8">
+                <a href="#valutazione" className="btn btn-primary">
+                  Parliamo del tuo immobile <IconArrow className="h-4 w-4" />
+                </a>
+              </Reveal>
+            </div>
+          </div>
+        </section>
+
         {/* ══════════════════ CTA + FORM ══════════════════ */}
         <section
           id="valutazione"
@@ -696,15 +794,12 @@ export default function Home() {
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-0 h-40"
-            style={{ background: "linear-gradient(180deg, var(--color-stone), transparent)" }}
+            style={{ background: "linear-gradient(180deg, var(--color-paper), transparent)" }}
           />
           <div className="glow" style={{ background: "rgba(198,161,91,0.14)", width: 400, height: 400, top: -60, right: -40 }} />
           <div className="shell relative grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div>
-              <Reveal as="p" className="eyebrow text-brass">Scopri il potenziale del tuo immobile</Reveal>
-              <Reveal as="h2" delay={80} className="font-display mt-4 text-[clamp(2.2rem,4.6vw,3.4rem)] font-semibold">
-                Lascia i tuoi dati.
-                <br />
+              <Reveal as="h2" className="font-display text-[clamp(2.2rem,4.6vw,3.4rem)] font-semibold">
                 Ricevi una valutazione personalizzata.
               </Reveal>
               <Reveal as="p" delay={140} className="mt-6 max-w-md text-lg text-paper/70">
