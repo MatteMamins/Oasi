@@ -25,7 +25,7 @@
   --color-brass-2: #b58e45;
   --color-brass-ink: #8a6a2c; /* per testo su fondo chiaro (contrasto) */
 
-  --font-display: var(--font-display), Georgia, serif;
+  --font-display: var(--font-display), "Helvetica Neue", Arial, sans-serif;
   --font-body: var(--font-body), system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, monospace;
 }
@@ -63,7 +63,7 @@ body {
   font-family: var(--font-display);
   font-optical-sizing: auto;
   letter-spacing: -0.02em;
-  line-height: 1.02;
+  line-height: 1.08;
 }
 
 .eyebrow {

@@ -27,10 +27,10 @@ const AIRBNB_URL = "https://www.airbnb.it/users/profile/1463443137810883322?prev
 
 /* ── Dati reali (profilo host) ──────────────────────────────────────── */
 const trust = [
-  { value: "10", label: "immobili in gestione" },
-  { value: "358", label: "recensioni ospiti" },
+  { value: "7.000+", label: "prenotazioni gestite" },
+  { value: "15+", label: "proprietari soddisfatti" },
   { value: "4,56", label: "valutazione media" },
-  { value: "3 anni", label: "di esperienza" },
+  { value: "5 anni", label: "di esperienza" },
 ];
 
 /* Annunci reali dal profilo host: foto, città e valutazione */
@@ -176,7 +176,7 @@ export default function Home() {
             <div>
               <Reveal as="p" className="eyebrow inline-flex items-center gap-2 text-brass">
                 <span className="h-px w-8 bg-brass/60" />
-                Gestione immobiliare a 360°
+                Gestione affitti brevi a 360°
               </Reveal>
               <Reveal
                 as="h1"
@@ -188,7 +188,13 @@ export default function Home() {
                 gestito come un{" "}
                 <em className="not-italic text-brass">asset.</em>
               </Reveal>
-              <Reveal as="p" delay={160} className="mt-6 max-w-md text-lg text-paper/70">
+              <Reveal as="p" delay={140} className="mt-5 text-xl font-semibold text-paper sm:text-2xl">
+                Specialisti in{" "}
+                <span className="rounded-md bg-brass px-2 py-0.5 text-forest-3">
+                  affitti brevi
+                </span>
+              </Reveal>
+              <Reveal as="p" delay={190} className="mt-5 max-w-md text-lg text-paper/70">
                 Ospiti, burocrazia e fiscalità: pensiamo a tutto noi. Tu
                 mantieni visibilità, controllo e risultati.
               </Reveal>
@@ -733,7 +739,7 @@ export default function Home() {
             <div className="max-w-sm">
               <Logo tone="light" />
               <p className="mt-4 text-sm text-paper/55">
-                Gestione immobiliare a 360°. Redditività e qualità in un&apos;unica
+                Gestione affitti brevi a 360°. Redditività e qualità in un&apos;unica
                 gestione, con la precisione dei grandi modelli e la cura di una
                 gestione dedicata.
               </p>

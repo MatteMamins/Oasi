@@ -1,10 +1,12 @@
+import Image from "next/image";
+
 type LogoProps = {
   className?: string;
   tone?: "dark" | "light";
 };
 
 /* Mark: una "O" di Oasi che racchiude una foglia e una linea di riflesso,
-   l'oasi come luogo protetto e curato. */
+   usata come segno compatto nei mock UI. */
 export function OasiMark({ className }: { className?: string }) {
   return (
     <svg
@@ -35,20 +37,18 @@ export function OasiMark({ className }: { className?: string }) {
   );
 }
 
+/* Logo ufficiale Oasi Properties (palma + wordmark).
+   Verde su fondo chiaro, bianco su fondo scuro. */
 export function Logo({ className = "", tone = "dark" }: LogoProps) {
-  const color = tone === "light" ? "text-paper" : "text-forest";
+  const src = tone === "light" ? "/logo-oasi-white.png" : "/logo-oasi.png";
   return (
-    <span
-      className={`inline-flex items-center gap-2.5 ${color} ${className}`}
-      aria-label="Oasi Properties"
-    >
-      <OasiMark className="h-7 w-7 shrink-0" />
-      <span className="font-display text-[1.15rem] font-semibold tracking-tight">
-        Oasi{" "}
-        <span className={tone === "light" ? "text-brass" : "text-brass-ink"}>
-          Properties
-        </span>
-      </span>
-    </span>
+    <Image
+      src={src}
+      alt="Oasi Properties"
+      width={202}
+      height={100}
+      priority
+      className={`h-9 w-auto ${className}`}
+    />
   );
 }

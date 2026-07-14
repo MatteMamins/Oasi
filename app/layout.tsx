@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Fraunces, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { Montserrat, Instrument_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
+// Font del brand (dal logo Oasi Properties): geometrico, usato per i titoli
+const montserrat = Montserrat({
   subsets: ["latin"],
   variable: "--font-display",
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
@@ -52,7 +54,7 @@ export default function RootLayout({
   return (
     <html lang="it">
       <body
-        className={`${fraunces.variable} ${instrument.variable} ${mono.variable} antialiased`}
+        className={`${montserrat.variable} ${instrument.variable} ${mono.variable} antialiased`}
       >
         {children}
       </body>
