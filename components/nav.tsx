@@ -5,7 +5,6 @@ import { Logo } from "./logo";
 import { IconMenu, IconClose } from "./icons";
 
 const links = [
-  { href: "#metodo", label: "Il metodo" },
   { href: "#servizi", label: "Servizi" },
   { href: "#come-funziona", label: "Come funziona" },
   { href: "#recensioni", label: "Recensioni" },

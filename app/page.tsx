@@ -11,7 +11,6 @@ import {
   IconGuests,
   IconTax,
   IconUserCheck,
-  IconChart,
   IconCamera,
   IconCalendar,
   IconArrow,
@@ -29,7 +28,7 @@ const AIRBNB_URL = "https://www.airbnb.it/users/profile/1463443137810883322?prev
 const trust = [
   { value: "7.000+", label: "prenotazioni gestite" },
   { value: "15+", label: "proprietari soddisfatti" },
-  { value: "4,56", label: "valutazione media" },
+  { value: "10", label: "annunci attivi" },
   { value: "5 anni", label: "di esperienza" },
 ];
 
@@ -67,23 +66,6 @@ const whyShortTerm = [
   },
 ];
 
-/* ── I due pilastri ─────────────────────────────────────────────────── */
-const pillarQuality = [
-  "Referente locale selezionato e formato sugli standard Oasi",
-  "Controlli periodici documentati con foto e video",
-  "Manutenzione e segnalazioni tempestive",
-  "Standard costanti nel tempo, non solo al primo mese",
-];
-
-const pillarRevenue = [
-  "Tariffe aggiornate su domanda, stagionalità e occupazione",
-  "Calendario ottimizzato, non semplicemente pieno",
-  "Distribuzione curata su un ecosistema di canali",
-  "Report mensili chiari su ricavi e performance",
-];
-
-const formula = ["Prezzo corretto", "Calendario ottimizzato", "Qualità dell'asset"];
-
 const steps = [
   {
     n: "01",
@@ -113,44 +95,21 @@ const services = [
     icon: IconGuests,
     title: "Ospiti seguiti come in hotel",
     text: "Selezione, comunicazioni, accoglienza e assistenza 7 giorni su 7, prima, durante e dopo ogni soggiorno.",
-    chips: ["Gestione ospiti", "Check-in", "Customer care 7/7"],
   },
   {
     icon: IconTrend,
     title: "Un calendario che rende",
     text: "Tariffe aggiornate su domanda e stagionalità, annunci curati e distribuzione sui canali giusti.",
-    chips: ["Pricing dinamico", "Marketing", "Distribuzione"],
   },
   {
     icon: IconTax,
     title: "Zero burocrazia per te",
     text: "Pratiche, comunicazioni obbligatorie, scadenze e versamenti delle imposte: gestiti interamente per tuo conto.",
-    chips: ["Adempimenti", "Fiscalità", "Versamenti"],
   },
   {
     icon: IconUserCheck,
     title: "Un immobile sempre curato",
     text: "Un referente locale dedicato vicino al tuo immobile, controlli documentati e report mensili chiari.",
-    chips: ["Referente locale", "Controlli qualità", "Report"],
-  },
-];
-
-/* ── Trasparenza: cosa vede il proprietario ─────────────────────────── */
-const visibility = [
-  {
-    icon: IconCamera,
-    title: "Controlli qualità documentati",
-    text: "Check periodici con foto e video, segnalazioni e interventi sempre tracciati.",
-  },
-  {
-    icon: IconChart,
-    title: "Report economico e qualitativo",
-    text: "Ricavi, occupazione e stato dell'immobile, ogni mese, senza doverli chiedere.",
-  },
-  {
-    icon: IconTax,
-    title: "Fiscalità e versamenti gestiti",
-    text: "Scadenze calcolate e imposte versate per tuo conto: nessun calcolo, nessun F24 da ricordare.",
   },
 ];
 
@@ -217,8 +176,8 @@ export default function Home() {
                 <a href="#valutazione" className="btn btn-brass">
                   Richiedi una valutazione <IconArrow className="h-4 w-4" />
                 </a>
-                <a href="#metodo" className="btn btn-on-dark">
-                  Scopri il metodo
+                <a href="#servizi" className="btn btn-on-dark">
+                  Scopri come lavoriamo
                 </a>
               </Reveal>
               <Reveal delay={280} className="mt-8 flex items-center gap-3 text-sm text-paper/60">
@@ -307,8 +266,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ══════════════════ IL METODO — i due pilastri + la formula ══════════════════ */}
-        <section id="metodo" className="bg-stone py-24 lg:py-32">
+        {/* ══════════════════ COSA GESTIAMO ══════════════════ */}
+        <section id="servizi" className="bg-stone py-24 lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
@@ -318,103 +277,10 @@ export default function Home() {
               </h2>
               <p className="mt-5 text-lg text-muted">
                 Abbiamo conosciuto dall&apos;interno i processi delle principali realtà
-                del settore. Ne abbiamo preso la solidità operativa e aggiunto ciò
-                che spesso manca nei modelli standardizzati: attenzione al singolo
-                immobile, controllo diretto e qualità costante.
-              </p>
-            </Reveal>
-
-            {/* I due pilastri: verde = protezione, ottone = rendimento */}
-            <div className="mt-14 grid gap-6 lg:grid-cols-2">
-              <Reveal className="relative overflow-hidden rounded-2xl bg-forest p-8 text-paper sm:p-10">
-                <div
-                  className="glow"
-                  style={{ background: "rgba(111,140,123,0.25)", width: 260, height: 260, top: -80, right: -60 }}
-                />
-                <div className="relative">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 text-paper">
-                    <IconShield className="h-6 w-6" />
-                  </span>
-                  <p className="eyebrow mt-6 text-paper/50">Primo pilastro</p>
-                  <h3 className="font-display mt-3 text-2xl font-semibold sm:text-3xl">
-                    Qualità dell&apos;immobile
-                  </h3>
-                  <p className="mt-3 max-w-md text-paper/70">
-                    Un asset da proteggere nel tempo, non solo un annuncio da
-                    pubblicare.
-                  </p>
-                  <ul className="mt-7 space-y-3">
-                    {pillarQuality.map((x) => (
-                      <li key={x} className="flex items-start gap-3 text-[0.95rem] text-paper/85">
-                        <IconCheck className="mt-1 h-4 w-4 shrink-0 text-sage" />
-                        {x}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-
-              <Reveal delay={120} className="relative overflow-hidden rounded-2xl border border-brass/35 bg-paper p-8 sm:p-10">
-                <div
-                  className="glow"
-                  style={{ background: "rgba(198,161,91,0.16)", width: 260, height: 260, top: -80, right: -60 }}
-                />
-                <div className="relative">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-brass/15 text-brass-ink">
-                    <IconTrend className="h-6 w-6" />
-                  </span>
-                  <p className="eyebrow mt-6 text-brass-ink/70">Secondo pilastro</p>
-                  <h3 className="font-display mt-3 text-2xl font-semibold text-ink sm:text-3xl">
-                    Redditività dell&apos;immobile
-                  </h3>
-                  <p className="mt-3 max-w-md text-muted">
-                    Un processo strutturato, non una promessa generica di maggiori
-                    ricavi.
-                  </p>
-                  <ul className="mt-7 space-y-3">
-                    {pillarRevenue.map((x) => (
-                      <li key={x} className="flex items-start gap-3 text-[0.95rem] text-ink/85">
-                        <IconCheck className="mt-1 h-4 w-4 shrink-0 text-brass-ink" />
-                        {x}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Reveal>
-            </div>
-
-            {/* La formula */}
-            <Reveal delay={100} className="mt-6 rounded-2xl bg-forest-2 px-6 py-8 text-center sm:px-10">
-              <p className="eyebrow text-brass">La formula</p>
-              <p className="mt-4 flex flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
-                {formula.map((term, i) => (
-                  <span key={term} className="flex flex-col items-center gap-2 sm:flex-row sm:gap-4">
-                    {i > 0 && <span className="tnum text-lg text-brass" aria-hidden>×</span>}
-                    <span className="font-display text-xl font-semibold text-paper sm:text-2xl">{term}</span>
-                  </span>
-                ))}
-              </p>
-              <p className="mx-auto mt-4 max-w-lg text-sm text-paper/60">
-                Ogni decisione viene presa per migliorare il rendimento del tuo
-                immobile senza comprometterne il valore e la qualità.{" "}
-                <a href="#valutazione" className="text-brass underline-offset-4 hover:underline">
-                  Scopri quanto può rendere il tuo →
-                </a>
-              </p>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ══════════════════ COSA GESTIAMO ══════════════════ */}
-        <section id="servizi" className="bg-paper py-24 lg:py-32">
-          <div className="shell">
-            <Reveal className="max-w-2xl">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
-                Una gestione completa. Nessun carico operativo per te.
-              </h2>
-              <p className="mt-5 text-lg text-muted">
-                Dall&apos;accoglienza degli ospiti alla fiscalità: prendiamo in carico
-                l&apos;intero ciclo, lasciandoti visibilità e risultati.
+                del settore: ne abbiamo preso la solidità operativa, aggiungendo
+                l&apos;attenzione al singolo immobile che manca nei modelli
+                standardizzati. Dall&apos;accoglienza degli ospiti alla fiscalità,
+                prendiamo in carico l&apos;intero ciclo.
               </p>
             </Reveal>
 
@@ -432,16 +298,6 @@ export default function Home() {
                     {s.title}
                   </h3>
                   <p className="mt-3 max-w-md text-muted">{s.text}</p>
-                  <div className="mt-6 flex flex-wrap gap-2">
-                    {s.chips.map((c) => (
-                      <span
-                        key={c}
-                        className="rounded-full border border-line bg-stone px-3 py-1 text-xs font-medium text-muted"
-                      >
-                        {c}
-                      </span>
-                    ))}
-                  </div>
                 </Reveal>
               ))}
             </div>
@@ -464,7 +320,7 @@ export default function Home() {
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-0 h-32"
-            style={{ background: "linear-gradient(180deg, var(--color-paper), transparent)" }}
+            style={{ background: "linear-gradient(180deg, var(--color-stone), transparent)" }}
           />
           <div
             className="glow"
@@ -517,19 +373,6 @@ export default function Home() {
                 Delegare non significa perdere il controllo. Dalla tua area
                 dedicata segui prenotazioni, ricavi, controlli qualità e
                 adempimenti fiscali — in ogni momento, da qualsiasi dispositivo.
-              </Reveal>
-              <Reveal delay={200} className="mt-9 space-y-6">
-                {visibility.map((v) => (
-                  <div key={v.title} className="flex gap-4">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-mist text-forest">
-                      <v.icon className="h-5 w-5" />
-                    </span>
-                    <div>
-                      <h3 className="text-base font-semibold text-ink">{v.title}</h3>
-                      <p className="mt-1 max-w-md text-sm text-muted">{v.text}</p>
-                    </div>
-                  </div>
-                ))}
               </Reveal>
             </div>
 
@@ -842,7 +685,6 @@ export default function Home() {
             <div className="flex gap-14">
               <nav className="flex flex-col gap-2.5 text-sm">
                 <span className="eyebrow mb-1 text-paper/40">Sito</span>
-                <a href="#metodo" className="hover:text-brass">Il metodo</a>
                 <a href="#servizi" className="hover:text-brass">Servizi</a>
                 <a href="#come-funziona" className="hover:text-brass">Come funziona</a>
                 <a href="#recensioni" className="hover:text-brass">Recensioni</a>

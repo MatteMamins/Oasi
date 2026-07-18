@@ -58,6 +58,10 @@ const steps: Step[] = [
 
 const CONTACT_STEP = steps.length; // ultimo passo: i dati di contatto
 
+/* Le risposte restano salvate nella sessione: chi abbandona a metà percorso
+   e torna sulla pagina riparte da dove era rimasto. */
+const STORAGE_KEY = "oasi-lead-form";
+
 const UTM_KEYS = [
   "utm_source",
   "utm_medium",
@@ -77,7 +81,11 @@ export function LeadForm() {
   const [answers, setAnswers] = useState<Record<string, string | string[]>>({});
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [stepError, setStepError] = useState("");
   const utm = useRef<Record<string, string>>({});
+  const questionRef = useRef<HTMLElement | null>(null);
+  const prevStep = useRef(0);
+  const restoredStep = useRef(false);
 
   // Cattura i parametri della campagna al primo caricamento
   useEffect(() => {
@@ -92,12 +100,67 @@ export function LeadForm() {
     utm.current = captured;
   }, []);
 
+  // Riprende un percorso lasciato a metà nella stessa sessione
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(STORAGE_KEY);
+      if (!saved) return;
+      const parsed = JSON.parse(saved) as {
+        step?: number;
+        answers?: Record<string, string | string[]>;
+      };
+      if (parsed.answers && typeof parsed.answers === "object") {
+        // Il ripristino può avvenire solo dopo il mount: con SSR lo stato
+        // iniziale deve combaciare con l'HTML del server (percorso da zero).
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setAnswers(parsed.answers);
+      }
+      if (
+        typeof parsed.step === "number" &&
+        parsed.step > 0 &&
+        parsed.step <= CONTACT_STEP
+      ) {
+        restoredStep.current = true;
+        setStep(parsed.step);
+      }
+    } catch {
+      // storage non disponibile o dati corrotti: si riparte dall'inizio
+    }
+  }, []);
+
+  useEffect(() => {
+    if (step === 0 && Object.keys(answers).length === 0) return;
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ step, answers }));
+    } catch {
+      // storage non disponibile: pazienza, il form funziona comunque
+    }
+  }, [step, answers]);
+
+  // Al cambio di passo porta il focus sulla nuova domanda, così anche
+  // chi usa screen reader o tastiera sa che il contenuto è cambiato.
+  useEffect(() => {
+    if (prevStep.current === step) return;
+    prevStep.current = step;
+    if (restoredStep.current) {
+      restoredStep.current = false; // ripristino al load: niente furto di focus
+      return;
+    }
+    questionRef.current?.focus();
+  }, [step]);
+
   const current = steps[step];
   const progress = Math.round((step / (steps.length + 1)) * 100);
 
   function pick(value: string) {
     setAnswers((a) => ({ ...a, [current.key]: value }));
+    setStepError("");
     setStep((s) => s + 1);
+  }
+
+  function goBack() {
+    setStepError("");
+    setStep((s) => s - 1);
   }
 
   function toggleMulti(value: string) {
@@ -114,7 +177,10 @@ export function LeadForm() {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
     const v = String(fd.get(current.key) ?? "").trim();
-    if (!v) return;
+    if (!v) {
+      setStepError("Scrivi una risposta per continuare.");
+      return;
+    }
     pick(v);
   }
 
@@ -153,6 +219,9 @@ export function LeadForm() {
         setStatus("error");
         return;
       }
+      try {
+        sessionStorage.removeItem(STORAGE_KEY);
+      } catch {}
       setStatus("done");
     } catch {
       setErrors({ form: "Connessione non riuscita. Riprova tra poco." });
@@ -198,7 +267,14 @@ export function LeadForm() {
       {/* passi del percorso */}
       {!isContact && current.placeholder && (
         <form onSubmit={submitText} className="mt-7">
-          <label htmlFor={current.key} className="block text-lg font-semibold">
+          <label
+            htmlFor={current.key}
+            ref={(el) => {
+              questionRef.current = el;
+            }}
+            tabIndex={-1}
+            className="block text-lg font-semibold outline-none"
+          >
             {current.question}
           </label>
           <input
@@ -208,17 +284,25 @@ export function LeadForm() {
             placeholder={current.placeholder}
             defaultValue={String(answers[current.key] ?? "")}
             autoComplete="off"
+            aria-invalid={Boolean(stepError)}
+            onChange={() => stepError && setStepError("")}
           />
-          <NavRow
-            onBack={step > 0 ? () => setStep((s) => s - 1) : undefined}
-            nextLabel="Continua"
-          />
+          {stepError && <FieldError>{stepError}</FieldError>}
+          <NavRow onBack={step > 0 ? goBack : undefined} nextLabel="Continua" />
         </form>
       )}
 
       {!isContact && current.options && !current.multi && (
         <div className="mt-7">
-          <p className="text-lg font-semibold">{current.question}</p>
+          <p
+            ref={(el) => {
+              questionRef.current = el;
+            }}
+            tabIndex={-1}
+            className="text-lg font-semibold outline-none"
+          >
+            {current.question}
+          </p>
           <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
             {current.options.map((o) => (
               <button
@@ -238,7 +322,7 @@ export function LeadForm() {
           {step > 0 && (
             <button
               type="button"
-              onClick={() => setStep((s) => s - 1)}
+              onClick={goBack}
               className="mt-5 text-sm text-muted underline-offset-4 hover:text-forest hover:underline"
             >
               ← Indietro
@@ -249,7 +333,15 @@ export function LeadForm() {
 
       {!isContact && current.options && current.multi && (
         <div className="mt-7">
-          <p className="text-lg font-semibold">{current.question}</p>
+          <p
+            ref={(el) => {
+              questionRef.current = el;
+            }}
+            tabIndex={-1}
+            className="text-lg font-semibold outline-none"
+          >
+            {current.question}
+          </p>
           <p className="mt-1 text-sm text-muted">
             Seleziona tutte le voci che vuoi, poi continua.
           </p>
@@ -276,7 +368,7 @@ export function LeadForm() {
             })}
           </div>
           <NavRow
-            onBack={() => setStep((s) => s - 1)}
+            onBack={goBack}
             onNext={() => setStep((s) => s + 1)}
             nextLabel="Continua"
           />
@@ -294,7 +386,13 @@ export function LeadForm() {
             </label>
           </div>
 
-          <p className="text-lg font-semibold">
+          <p
+            ref={(el) => {
+              questionRef.current = el;
+            }}
+            tabIndex={-1}
+            className="text-lg font-semibold outline-none"
+          >
             Ultimo passo: dove ti inviamo la valutazione?
           </p>
 
@@ -303,7 +401,13 @@ export function LeadForm() {
               <label htmlFor="nome" className={labelCls}>
                 Nome e cognome
               </label>
-              <input id="nome" name="nome" className={field} placeholder="Mario Rossi" />
+              <input
+                id="nome"
+                name="nome"
+                className={field}
+                placeholder="Mario Rossi"
+                autoComplete="name"
+              />
               {errors.nome && <FieldError>{errors.nome}</FieldError>}
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
@@ -316,6 +420,7 @@ export function LeadForm() {
                   name="email"
                   type="email"
                   inputMode="email"
+                  autoComplete="email"
                   className={field}
                   placeholder="mario@email.it"
                 />
@@ -330,6 +435,7 @@ export function LeadForm() {
                   name="telefono"
                   type="tel"
                   inputMode="tel"
+                  autoComplete="tel"
                   className={field}
                   placeholder="+39 333 123 4567"
                 />
@@ -369,7 +475,7 @@ export function LeadForm() {
           <div className="mt-4 flex items-center justify-between">
             <button
               type="button"
-              onClick={() => setStep((s) => s - 1)}
+              onClick={goBack}
               className="text-sm text-muted underline-offset-4 hover:text-forest hover:underline"
             >
               ← Indietro
