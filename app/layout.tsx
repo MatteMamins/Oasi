@@ -52,7 +52,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="it">
+    <html lang="it" data-scroll-behavior="smooth">
       <body
         className={`${montserrat.variable} ${instrument.variable} ${mono.variable} antialiased`}
       >

@@ -203,6 +203,61 @@ textarea:focus-visible,
   }
 }
 
+/* ============================================================
+   Flip proprietari ⇄ partner — la pagina gira come una carta.
+   L'attributo data-flip su <html> è impostato da lib/flip.ts al
+   click; la view transition (Next experimental.viewTransition)
+   fa il resto. Senza attributo resta il cross-fade di default.
+   ============================================================ */
+html[data-flip]::view-transition-image-pair(root) {
+  perspective: 1600px;
+  transform-style: preserve-3d;
+}
+
+/* verso il lato partner: la carta gira a sinistra */
+html[data-flip="partner"]::view-transition-old(root) {
+  animation: flip-away-left 0.32s cubic-bezier(0.55, 0, 0.85, 0.4) both;
+  backface-visibility: hidden;
+}
+html[data-flip="partner"]::view-transition-new(root) {
+  animation: flip-in-right 0.36s cubic-bezier(0.15, 0.6, 0.35, 1) 0.32s both;
+  backface-visibility: hidden;
+}
+
+/* ritorno al lato proprietari: la carta gira a destra */
+html[data-flip="owner"]::view-transition-old(root) {
+  animation: flip-away-right 0.32s cubic-bezier(0.55, 0, 0.85, 0.4) both;
+  backface-visibility: hidden;
+}
+html[data-flip="owner"]::view-transition-new(root) {
+  animation: flip-in-left 0.36s cubic-bezier(0.15, 0.6, 0.35, 1) 0.32s both;
+  backface-visibility: hidden;
+}
+
+@keyframes flip-away-left {
+  to { transform: rotateY(-90deg); }
+}
+@keyframes flip-in-right {
+  from { transform: rotateY(90deg); }
+  to { transform: rotateY(0deg); }
+}
+@keyframes flip-away-right {
+  to { transform: rotateY(90deg); }
+}
+@keyframes flip-in-left {
+  from { transform: rotateY(-90deg); }
+  to { transform: rotateY(0deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
 /* ---- Ambient blob per sezioni scure ---- */
 .glow {
   position: absolute;

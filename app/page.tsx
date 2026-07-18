@@ -1,6 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import { Nav } from "@/components/nav";
+import { PageTransition } from "@/components/page-transition";
+import { AudienceSwitch } from "@/components/audience-switch";
 import { Reveal } from "@/components/reveal";
 import { Journey } from "@/components/journey";
 import { LeadForm } from "@/components/lead-form";
@@ -119,7 +120,7 @@ const reviews = [
 
 export default function Home() {
   return (
-    <>
+    <PageTransition>
       <Nav />
       <main id="top">
         {/* ══════════════════ HERO ══════════════════ */}
@@ -140,8 +141,12 @@ export default function Home() {
           />
           <div className="shell relative grid items-center gap-12 lg:grid-cols-[1fr_0.92fr] lg:gap-16">
             <div>
+              <Reveal className="mb-8">
+                <AudienceSwitch active="owner" />
+              </Reveal>
               <Reveal
                 as="h1"
+                delay={60}
                 className="font-display text-[clamp(2.6rem,5vw,4rem)] font-semibold text-paper"
               >
                 Il tuo immobile,
@@ -205,22 +210,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ══════════════════ SMISTAMENTO — proprietario o operatore ══════════════════ */}
-        <section className="border-t border-white/10 bg-forest-3 py-10">
-          <div className="shell flex flex-col items-center justify-between gap-6 text-center lg:flex-row lg:text-left">
-            <p className="font-display text-xl font-semibold text-paper sm:text-2xl">
-              Sei il proprietario di un immobile o lavori nel settore?
-            </p>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <a href="#perche" className="btn btn-brass">
-                Sono un proprietario
-              </a>
-              <Link href="/partner" className="btn btn-on-dark">
-                Property manager o agenzia
-              </Link>
-            </div>
-          </div>
-        </section>
 
         {/* ══════════════════ PERCHÉ L'AFFITTO BREVE ══════════════════ */}
         <section id="perche" className="bg-paper py-24 lg:py-32">
@@ -622,6 +611,6 @@ export default function Home() {
       </main>
 
       <Footer />
-    </>
+    </PageTransition>
   );
 }

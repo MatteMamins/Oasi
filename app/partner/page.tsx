@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Nav } from "@/components/nav";
+import { PageTransition } from "@/components/page-transition";
+import { AudienceSwitch } from "@/components/audience-switch";
 import { Reveal } from "@/components/reveal";
 import { Journey } from "@/components/journey";
 import { Footer } from "@/components/footer";
@@ -199,8 +201,9 @@ const faq = [
 
 export default function Partner() {
   return (
-    <>
+    <PageTransition>
       <Nav
+        tone="dark"
         links={[
           { href: "#partnership", label: "La partnership" },
           { href: "#confronto", label: "Cosa cambia" },
@@ -227,8 +230,12 @@ export default function Partner() {
             style={{ background: "rgba(111,140,123,0.22)", width: 360, height: 360, bottom: -120, left: -60 }}
           />
           <div className="shell relative max-w-4xl">
+            <Reveal className="mb-8">
+              <AudienceSwitch active="partner" />
+            </Reveal>
             <Reveal
               as="h1"
+              delay={60}
               className="font-display text-[clamp(2.4rem,4.8vw,3.8rem)] font-semibold text-paper"
             >
               Il tuo portfolio, gestito con la cura
@@ -268,15 +275,15 @@ export default function Partner() {
         </section>
 
         {/* ══════════════════ METODO + LE TRE CURE ══════════════════ */}
-        <section className="bg-paper py-24 lg:py-32">
+        <section className="bg-forest-3 py-24 text-paper lg:py-32">
           <div className="shell">
             <Reveal className="max-w-3xl">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
                 Un metodo nato sul campo,
                 <br />
                 non in teoria.
               </h2>
-              <p className="mt-5 text-lg text-muted">
+              <p className="mt-5 text-lg text-paper/70">
                 Il metodo Oasi nasce da anni di affiancamento diretto a realtà
                 già strutturate degli affitti brevi: abbiamo assorbito processi
                 ed errori che un grande operatore impara solo dopo anni, e li
@@ -288,13 +295,13 @@ export default function Partner() {
             <div className="mt-14 grid gap-10 sm:grid-cols-3 sm:gap-8">
               {cure.map((c, i) => (
                 <Reveal key={c.title} delay={i * 90}>
-                  <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-mist text-forest">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 text-brass">
                     <c.icon className="h-6 w-6" />
                   </span>
-                  <h3 className="font-display mt-5 text-xl font-semibold text-ink">
+                  <h3 className="font-display mt-5 text-xl font-semibold">
                     {c.title}
                   </h3>
-                  <p className="mt-2.5 text-[0.95rem] text-muted">{c.text}</p>
+                  <p className="mt-2.5 text-[0.95rem] text-paper/65">{c.text}</p>
                 </Reveal>
               ))}
             </div>
@@ -302,15 +309,15 @@ export default function Partner() {
         </section>
 
         {/* ══════════════════ DUE PERCORSI ══════════════════ */}
-        <section id="partnership" className="bg-stone py-24 lg:py-32">
+        <section id="partnership" className="bg-forest-2 py-24 text-paper lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
                 Non conta da dove parti,
                 <br />
                 conta dove arrivi.
               </h2>
-              <p className="mt-5 text-lg text-muted">
+              <p className="mt-5 text-lg text-paper/70">
                 La partnership è pensata per chi ha già immobili da
                 valorizzare, che tu li gestisca in autonomia o tramite
                 un&apos;agenzia.
@@ -322,15 +329,15 @@ export default function Partner() {
                 <Reveal
                   key={p.title}
                   delay={i * 100}
-                  className="rounded-2xl border border-line bg-paper p-8 sm:p-10"
+                  className="rounded-2xl border border-white/10 bg-white/5 p-8 sm:p-10"
                 >
-                  <h3 className="font-display text-2xl font-semibold text-ink">
+                  <h3 className="font-display text-2xl font-semibold">
                     {p.title}
                   </h3>
-                  <p className="mt-3 max-w-md text-muted">{p.text}</p>
+                  <p className="mt-3 max-w-md text-paper/65">{p.text}</p>
                   <a
                     href="#call"
-                    className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-forest underline-offset-4 hover:underline"
+                    className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-brass underline-offset-4 hover:underline"
                   >
                     Parliamone in una call <IconArrow className="h-4 w-4" />
                   </a>
@@ -343,13 +350,8 @@ export default function Partner() {
         {/* ══════════════════ DIETRO LE QUINTE + INFRASTRUTTURA ══════════════════ */}
         <section
           className="relative overflow-hidden py-24 text-paper lg:py-32"
-          style={{ background: "linear-gradient(180deg,#082019,#0b2a21 26%,#0e3529 60%,#0b2a21)" }}
+          style={{ background: "linear-gradient(180deg,#0b2a21,#0e3529 55%,#0b2a21)" }}
         >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-32"
-            style={{ background: "linear-gradient(180deg, var(--color-stone), transparent)" }}
-          />
           <div
             className="glow"
             style={{ background: "rgba(198,161,91,0.10)", width: 360, height: 360, top: 120, right: -80 }}
@@ -403,23 +405,18 @@ export default function Partner() {
               ))}
             </div>
           </div>
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-32"
-            style={{ background: "linear-gradient(180deg, transparent, var(--color-paper))" }}
-          />
         </section>
 
         {/* ══════════════════ CONFRONTO ══════════════════ */}
-        <section id="confronto" className="bg-paper py-24 lg:py-32">
+        <section id="confronto" className="bg-forest-3 py-24 text-paper lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
                 Cosa cambia, in pratica.
               </h2>
             </Reveal>
 
-            <Reveal delay={100} className="mt-12 overflow-hidden rounded-2xl border border-line">
+            <Reveal delay={100} className="mt-12 overflow-hidden rounded-2xl bg-paper text-ink shadow-[0_50px_90px_-55px_rgba(0,0,0,0.8)]">
               <div className="hidden grid-cols-[170px_1fr_1fr] gap-x-8 border-b border-line bg-stone/60 px-6 py-3 text-xs text-muted md:grid lg:px-8">
                 <span>Ambito</span>
                 <span>Da solo</span>
@@ -446,11 +443,11 @@ export default function Partner() {
             </Reveal>
 
             {/* Il team dietro ogni fase */}
-            <Reveal delay={120} className="mt-6 rounded-2xl bg-forest-2 px-6 py-9 text-center sm:px-10">
-              <p className="font-display text-xl font-semibold text-paper sm:text-2xl">
+            <Reveal delay={120} className="mt-6 rounded-2xl bg-brass px-6 py-9 text-center text-forest-3 sm:px-10">
+              <p className="font-display text-xl font-semibold sm:text-2xl">
                 Non lavori con un fornitore. Lavori con un team.
               </p>
-              <p className="mx-auto mt-3 max-w-xl text-sm text-paper/60">
+              <p className="mx-auto mt-3 max-w-xl text-sm text-forest-2/80">
                 Ogni fase ha un referente dedicato, non un centralino — e ogni
                 immobile una persona vicina, formata sugli standard Oasi.
               </p>
@@ -458,7 +455,7 @@ export default function Partner() {
                 {team.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full border border-white/15 px-4 py-1.5 text-sm text-paper/80"
+                    className="rounded-full border border-forest-3/30 px-4 py-1.5 text-sm font-medium text-forest-2"
                   >
                     {t}
                   </span>
@@ -474,11 +471,6 @@ export default function Partner() {
           className="relative overflow-hidden py-24 text-paper lg:py-32"
           style={{ background: "linear-gradient(180deg,#082019,#0b2a21 26%,#0e3529 60%,#0b2a21)" }}
         >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-32"
-            style={{ background: "linear-gradient(180deg, var(--color-paper), transparent)" }}
-          />
           <div
             className="glow"
             style={{ background: "rgba(198,161,91,0.10)", width: 360, height: 360, top: 120, right: -80 }}
@@ -510,26 +502,26 @@ export default function Partner() {
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 bottom-0 h-32"
-            style={{ background: "linear-gradient(180deg, transparent, var(--color-paper))" }}
+            style={{ background: "linear-gradient(180deg, transparent, var(--color-forest-3))" }}
           />
         </section>
 
         {/* ══════════════════ FAQ ══════════════════ */}
-        <section id="faq" className="bg-paper py-24 lg:py-32">
+        <section id="faq" className="bg-forest-3 py-24 text-paper lg:py-32">
           <div className="shell max-w-3xl">
             <Reveal>
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
                 Le domande che ci fanno più spesso.
               </h2>
             </Reveal>
-            <Reveal delay={100} className="mt-10 border-t border-line">
+            <Reveal delay={100} className="mt-10 border-t border-white/10">
               {faq.map((f) => (
-                <details key={f.q} className="group border-b border-line">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-base font-semibold text-ink [&::-webkit-details-marker]:hidden">
+                <details key={f.q} className="group border-b border-white/10">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 text-base font-semibold [&::-webkit-details-marker]:hidden">
                     {f.q}
-                    <IconChevronDown className="h-4 w-4 shrink-0 text-muted transition-transform duration-300 group-open:rotate-180" />
+                    <IconChevronDown className="h-4 w-4 shrink-0 text-paper/50 transition-transform duration-300 group-open:rotate-180" />
                   </summary>
-                  <p className="max-w-2xl pb-6 text-muted">{f.a}</p>
+                  <p className="max-w-2xl pb-6 text-paper/65">{f.a}</p>
                 </details>
               ))}
             </Reveal>
@@ -545,7 +537,7 @@ export default function Partner() {
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-0 h-40"
-            style={{ background: "linear-gradient(180deg, var(--color-paper), transparent)" }}
+            style={{ background: "linear-gradient(180deg, var(--color-forest-3), transparent)" }}
           />
           <div className="glow" style={{ background: "rgba(198,161,91,0.14)", width: 400, height: 400, top: -60, right: -40 }} />
           <div className="shell relative grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
@@ -581,6 +573,6 @@ export default function Partner() {
       </main>
 
       <Footer />
-    </>
+    </PageTransition>
   );
 }
