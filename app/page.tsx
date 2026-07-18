@@ -8,7 +8,6 @@ import { Logo, OasiMark } from "@/components/logo";
 import {
   IconShield,
   IconTrend,
-  IconGuests,
   IconTax,
   IconUserCheck,
   IconCamera,
@@ -42,27 +41,29 @@ const listings = [
   { src: "/immobili/torino-3.jpg", place: "Torino", rating: "4,52" },
 ];
 
-/* ── Perché l'affitto breve batte il lungo termine ──────────────────── */
+/* ── Perché l'affitto breve batte il lungo termine ────────────────────
+   Solo icone e titoli parlanti, dentro "archi" architettonici:
+   niente card di testo, il messaggio sta tutto nel titolo. */
 const whyShortTerm = [
   {
     icon: IconTrend,
-    title: "Guadagni superiori",
-    text: "Le tariffe per notte seguono il mercato, non un canone fisso deciso anni fa. Il tuo immobile rende quanto vale davvero.",
+    title: "Tariffe di mercato, non un canone fermo da anni",
+    tile: "bg-forest text-brass",
   },
   {
     icon: IconShield,
-    title: "Nessun rischio morosità",
-    text: "Gli ospiti pagano prima di entrare. Niente canoni arretrati, niente sfratti, niente inquilini che non se ne vanno.",
+    title: "Gli ospiti pagano prima: niente morosità, niente sfratti",
+    tile: "bg-mist text-forest",
   },
   {
     icon: IconCalendar,
-    title: "Occupazione massima",
-    text: "Prezzi e calendario ottimizzati ogni giorno su domanda e stagionalità: l'immobile lavora tutto l'anno.",
+    title: "Un calendario che lavora tutto l'anno",
+    tile: "bg-brass text-forest-3",
   },
   {
     icon: IconUserCheck,
-    title: "Nessun impegno operativo",
-    text: "Ospiti, pulizie, burocrazia e fiscalità: tutto gestito da noi. Tu incassi e resti libero di riprenderti l'immobile quando vuoi.",
+    title: "Ospiti, pulizie, fiscalità: tutto gestito da noi",
+    tile: "bg-forest text-brass",
   },
 ];
 
@@ -86,30 +87,6 @@ const steps = [
     n: "04",
     title: "Guadagni e report trasparenti",
     text: "Ogni mese incassi i tuoi guadagni e vedi ricavi, occupazione e stato dell'immobile in un report chiaro, sempre a portata di mano.",
-  },
-];
-
-/* Quattro promesse, non otto voci: ogni card riassume un'area completa */
-const services = [
-  {
-    icon: IconGuests,
-    title: "Ospiti seguiti come in hotel",
-    text: "Selezione, comunicazioni, accoglienza e assistenza 7 giorni su 7, prima, durante e dopo ogni soggiorno.",
-  },
-  {
-    icon: IconTrend,
-    title: "Un calendario che rende",
-    text: "Tariffe aggiornate su domanda e stagionalità, annunci curati e distribuzione sui canali giusti.",
-  },
-  {
-    icon: IconTax,
-    title: "Zero burocrazia per te",
-    text: "Pratiche, comunicazioni obbligatorie, scadenze e versamenti delle imposte: gestiti interamente per tuo conto.",
-  },
-  {
-    icon: IconUserCheck,
-    title: "Un immobile sempre curato",
-    text: "Un referente locale dedicato vicino al tuo immobile, controlli documentati e report mensili chiari.",
   },
 ];
 
@@ -176,8 +153,8 @@ export default function Home() {
                 <a href="#valutazione" className="btn btn-brass">
                   Richiedi una valutazione <IconArrow className="h-4 w-4" />
                 </a>
-                <a href="#servizi" className="btn btn-on-dark">
-                  Scopri come lavoriamo
+                <a href="#come-funziona" className="btn btn-on-dark">
+                  Scopri come funziona
                 </a>
               </Reveal>
               <Reveal delay={280} className="mt-8 flex items-center gap-3 text-sm text-paper/60">
@@ -233,76 +210,28 @@ export default function Home() {
               </h2>
             </Reveal>
 
-            {/* Quattro pilastri, presenza piena: card scure su fondo chiaro */}
-            <div className="mt-14 grid gap-5 sm:grid-cols-2">
+            {/* Archi: icona dentro, titolo sotto. I dispari scendono di un
+                gradino su desktop, per un ritmo da porticato. */}
+            <div className="mt-16 grid grid-cols-2 gap-x-5 gap-y-12 lg:grid-cols-4 lg:gap-x-8">
               {whyShortTerm.map((w, i) => (
                 <Reveal
                   key={w.title}
-                  delay={(i % 2) * 90}
-                  className="relative overflow-hidden rounded-2xl bg-forest p-8 text-paper sm:p-10"
+                  delay={i * 90}
+                  className={`group ${i % 2 === 1 ? "lg:translate-y-10" : ""}`}
                 >
                   <div
-                    className="glow"
-                    style={{
-                      background: "rgba(198,161,91,0.16)",
-                      width: 240,
-                      height: 240,
-                      top: -90,
-                      right: -70,
-                    }}
-                  />
-                  <div className="relative">
-                    <span className="flex h-13 w-13 items-center justify-center rounded-full bg-brass p-3 text-forest-3">
-                      <w.icon className="h-7 w-7" />
-                    </span>
-                    <h3 className="font-display mt-6 text-2xl font-semibold sm:text-[1.7rem]">
-                      {w.title}
-                    </h3>
-                    <p className="mt-3 max-w-md text-paper/70">{w.text}</p>
+                    className={`flex aspect-[4/5] items-center justify-center rounded-t-full rounded-b-2xl transition-transform duration-500 group-hover:-translate-y-2 ${w.tile}`}
+                  >
+                    <w.icon className="h-11 w-11 transition-transform duration-500 group-hover:scale-110 sm:h-14 sm:w-14" />
                   </div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ══════════════════ COSA GESTIAMO ══════════════════ */}
-        <section id="servizi" className="bg-stone py-24 lg:py-32">
-          <div className="shell">
-            <Reveal className="max-w-2xl">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
-                La precisione dei grandi operatori.
-                <br />
-                La cura di una gestione dedicata.
-              </h2>
-              <p className="mt-5 text-lg text-muted">
-                Abbiamo conosciuto dall&apos;interno i processi delle principali realtà
-                del settore: ne abbiamo preso la solidità operativa, aggiungendo
-                l&apos;attenzione al singolo immobile che manca nei modelli
-                standardizzati. Dall&apos;accoglienza degli ospiti alla fiscalità,
-                prendiamo in carico l&apos;intero ciclo.
-              </p>
-            </Reveal>
-
-            <div className="mt-14 grid gap-6 sm:grid-cols-2">
-              {services.map((s, i) => (
-                <Reveal
-                  key={s.title}
-                  delay={(i % 2) * 80}
-                  className="group rounded-2xl border border-line bg-paper p-8 transition-all hover:border-forest/30 hover:shadow-[0_35px_60px_-45px_rgba(16,61,48,0.45)] sm:p-9"
-                >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-mist text-forest transition-colors group-hover:bg-forest group-hover:text-paper">
-                    <s.icon className="h-6 w-6" />
-                  </span>
-                  <h3 className="font-display mt-6 text-2xl font-semibold text-ink">
-                    {s.title}
+                  <h3 className="font-display mx-auto mt-5 max-w-[16rem] text-center text-lg font-semibold leading-snug text-ink sm:text-xl">
+                    {w.title}
                   </h3>
-                  <p className="mt-3 max-w-md text-muted">{s.text}</p>
                 </Reveal>
               ))}
             </div>
 
-            <Reveal delay={120} className="mt-10 flex justify-center">
+            <Reveal delay={120} className="mt-16 flex justify-center lg:mt-24">
               <a href="#valutazione" className="btn btn-primary">
                 Scopri quanto può rendere il tuo immobile <IconArrow className="h-4 w-4" />
               </a>
@@ -320,7 +249,7 @@ export default function Home() {
           <div
             aria-hidden
             className="pointer-events-none absolute inset-x-0 top-0 h-32"
-            style={{ background: "linear-gradient(180deg, var(--color-stone), transparent)" }}
+            style={{ background: "linear-gradient(180deg, var(--color-paper), transparent)" }}
           />
           <div
             className="glow"
@@ -685,9 +614,9 @@ export default function Home() {
             <div className="flex gap-14">
               <nav className="flex flex-col gap-2.5 text-sm">
                 <span className="eyebrow mb-1 text-paper/40">Sito</span>
-                <a href="#servizi" className="hover:text-brass">Servizi</a>
                 <a href="#come-funziona" className="hover:text-brass">Come funziona</a>
                 <a href="#recensioni" className="hover:text-brass">Recensioni</a>
+                <a href="#chi-sono" className="hover:text-brass">Chi c&apos;è dietro</a>
               </nav>
               <div className="flex flex-col gap-2.5 text-sm">
                 <span className="eyebrow mb-1 text-paper/40">Contatti</span>

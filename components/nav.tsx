@@ -5,9 +5,9 @@ import { Logo } from "./logo";
 import { IconMenu, IconClose } from "./icons";
 
 const links = [
-  { href: "#servizi", label: "Servizi" },
   { href: "#come-funziona", label: "Come funziona" },
   { href: "#recensioni", label: "Recensioni" },
+  { href: "#chi-sono", label: "Chi c'è dietro" },
 ];
 
 export function Nav() {
