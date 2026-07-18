@@ -42,28 +42,32 @@ const listings = [
 ];
 
 /* ── Perché l'affitto breve batte il lungo termine ────────────────────
-   Solo icone e titoli parlanti, dentro "archi" architettonici:
-   niente card di testo, il messaggio sta tutto nel titolo. */
+   Manifesto tipografico: quattro titoli enormi che si leggono in uno
+   sguardo (Più / Zero in ottone), con una micro-spiegazione accanto. */
 const whyShortTerm = [
   {
     icon: IconTrend,
-    title: "Tariffe di mercato, non un canone fermo da anni",
-    tile: "bg-forest text-brass",
+    lead: "Più",
+    word: "guadagni",
+    text: "Tariffe che seguono il mercato, non un canone fermo da anni.",
   },
   {
     icon: IconShield,
-    title: "Gli ospiti pagano prima: niente morosità, niente sfratti",
-    tile: "bg-mist text-forest",
+    lead: "Zero",
+    word: "morosità",
+    text: "Gli ospiti pagano sempre prima di entrare.",
   },
   {
     icon: IconCalendar,
-    title: "Un calendario che lavora tutto l'anno",
-    tile: "bg-brass text-forest-3",
+    lead: "Zero",
+    word: "vuoti",
+    text: "Prezzi e calendario ottimizzati ogni giorno, tutto l'anno.",
   },
   {
     icon: IconUserCheck,
-    title: "Ospiti, pulizie, fiscalità: tutto gestito da noi",
-    tile: "bg-forest text-brass",
+    lead: "Zero",
+    word: "pensieri",
+    text: "Ospiti, pulizie e fiscalità: ce ne occupiamo noi.",
   },
 ];
 
@@ -210,28 +214,27 @@ export default function Home() {
               </h2>
             </Reveal>
 
-            {/* Archi: icona dentro, titolo sotto. I dispari scendono di un
-                gradino su desktop, per un ritmo da porticato. */}
-            <div className="mt-16 grid grid-cols-2 gap-x-5 gap-y-12 lg:grid-cols-4 lg:gap-x-8">
+            <div className="mt-12 border-t border-line lg:mt-14">
               {whyShortTerm.map((w, i) => (
                 <Reveal
-                  key={w.title}
-                  delay={i * 90}
-                  className={`group ${i % 2 === 1 ? "lg:translate-y-10" : ""}`}
+                  key={w.word}
+                  delay={i * 80}
+                  className="group flex flex-col gap-4 border-b border-line py-7 sm:py-9 lg:flex-row lg:items-center lg:justify-between lg:gap-10"
                 >
-                  <div
-                    className={`flex aspect-[4/5] items-center justify-center rounded-t-full rounded-b-2xl transition-transform duration-500 group-hover:-translate-y-2 ${w.tile}`}
-                  >
-                    <w.icon className="h-11 w-11 transition-transform duration-500 group-hover:scale-110 sm:h-14 sm:w-14" />
-                  </div>
-                  <h3 className="font-display mx-auto mt-5 max-w-[16rem] text-center text-lg font-semibold leading-snug text-ink sm:text-xl">
-                    {w.title}
+                  <h3 className="font-display text-[clamp(2.2rem,5.5vw,3.6rem)] font-semibold leading-none text-ink transition-transform duration-300 lg:group-hover:translate-x-2">
+                    <span className="text-brass">{w.lead}</span> {w.word}
                   </h3>
+                  <p className="flex items-center gap-4 text-muted lg:max-w-sm lg:justify-end lg:text-right">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mist text-forest transition-colors duration-300 group-hover:bg-forest group-hover:text-paper lg:order-2">
+                      <w.icon className="h-5 w-5" />
+                    </span>
+                    <span className="lg:order-1">{w.text}</span>
+                  </p>
                 </Reveal>
               ))}
             </div>
 
-            <Reveal delay={120} className="mt-16 flex justify-center lg:mt-24">
+            <Reveal delay={120} className="mt-14 flex justify-center">
               <a href="#valutazione" className="btn btn-primary">
                 Scopri quanto può rendere il tuo immobile <IconArrow className="h-4 w-4" />
               </a>
