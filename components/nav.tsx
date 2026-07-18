@@ -4,13 +4,24 @@ import { useEffect, useState } from "react";
 import { Logo } from "./logo";
 import { IconMenu, IconClose } from "./icons";
 
-const links = [
+type NavLink = { href: string; label: string };
+
+const defaultLinks: NavLink[] = [
   { href: "#come-funziona", label: "Come funziona" },
   { href: "#recensioni", label: "Recensioni" },
   { href: "#chi-sono", label: "Chi c'è dietro" },
+  { href: "/partner", label: "Partner" },
 ];
 
-export function Nav() {
+const defaultCta: NavLink = { href: "#valutazione", label: "Richiedi una valutazione" };
+
+export function Nav({
+  links = defaultLinks,
+  cta = defaultCta,
+}: {
+  links?: NavLink[];
+  cta?: NavLink;
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -63,10 +74,10 @@ export function Nav() {
 
         <div className="hidden items-center gap-3 lg:flex">
           <a
-            href="#valutazione"
+            href={cta.href}
             className={`btn ${dark ? "btn-brass" : "btn-primary"}`}
           >
-            Richiedi una valutazione
+            {cta.label}
           </a>
         </div>
 
@@ -99,11 +110,11 @@ export function Nav() {
             ))}
             <li className="pt-3">
               <a
-                href="#valutazione"
+                href={cta.href}
                 onClick={() => setOpen(false)}
                 className="btn btn-primary w-full"
               >
-                Richiedi una valutazione
+                {cta.label}
               </a>
             </li>
           </ul>

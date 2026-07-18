@@ -3,16 +3,21 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 
 type LeadPayload = {
+  // "proprietario" (default) o "partner"
+  tipo?: string;
   nome?: string;
   email?: string;
   telefono?: string;
-  // risposte del percorso di valutazione
+  // risposte del percorso di valutazione (proprietari)
   localita?: string;
   tipologia?: string;
   metratura?: string;
   posti_letto?: string;
   spazi_esterni?: string;
   caratteristiche?: string;
+  // risposte del percorso partner
+  ruolo?: string;
+  portfolio?: string;
   privacy?: boolean;
   // honeypot anti-spam
   website?: string;
@@ -48,6 +53,9 @@ export async function POST(request: Request) {
 
   const lead = {
     receivedAt: new Date().toISOString(),
+    tipo: body.tipo === "partner" ? "partner" : "proprietario",
+    ruolo: body.ruolo || null,
+    portfolio: body.portfolio || null,
     nome: body.nome?.trim(),
     email: body.email?.trim(),
     telefono: body.telefono?.trim(),

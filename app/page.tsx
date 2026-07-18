@@ -1,10 +1,12 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Nav } from "@/components/nav";
 import { Reveal } from "@/components/reveal";
 import { Journey } from "@/components/journey";
 import { LeadForm } from "@/components/lead-form";
 import { Showcase } from "@/components/showcase";
-import { Logo, OasiMark } from "@/components/logo";
+import { Footer } from "@/components/footer";
+import { OasiMark } from "@/components/logo";
 import {
   IconShield,
   IconTrend,
@@ -200,6 +202,23 @@ export default function Home() {
             >
               <IconChevronDown className="h-5 w-5" />
             </a>
+          </div>
+        </section>
+
+        {/* ══════════════════ SMISTAMENTO — proprietario o operatore ══════════════════ */}
+        <section className="border-t border-white/10 bg-forest-3 py-10">
+          <div className="shell flex flex-col items-center justify-between gap-6 text-center lg:flex-row lg:text-left">
+            <p className="font-display text-xl font-semibold text-paper sm:text-2xl">
+              Sei il proprietario di un immobile o lavori nel settore?
+            </p>
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <a href="#perche" className="btn btn-brass">
+                Sono un proprietario
+              </a>
+              <Link href="/partner" className="btn btn-on-dark">
+                Property manager o agenzia
+              </Link>
+            </div>
           </div>
         </section>
 
@@ -602,38 +621,7 @@ export default function Home() {
         </section>
       </main>
 
-      {/* ══════════════════ FOOTER ══════════════════ */}
-      <footer className="bg-forest-3 py-14 text-paper/60">
-        <div className="shell">
-          <div className="flex flex-col justify-between gap-8 border-b border-white/10 pb-10 md:flex-row">
-            <div className="max-w-sm">
-              <Logo tone="light" />
-              <p className="mt-4 text-sm text-paper/55">
-                Gestione affitti brevi a 360°. Redditività e qualità in un&apos;unica
-                gestione, con la precisione dei grandi modelli e la cura di una
-                gestione dedicata.
-              </p>
-            </div>
-            <div className="flex gap-14">
-              <nav className="flex flex-col gap-2.5 text-sm">
-                <span className="eyebrow mb-1 text-paper/40">Sito</span>
-                <a href="#come-funziona" className="hover:text-brass">Come funziona</a>
-                <a href="#recensioni" className="hover:text-brass">Recensioni</a>
-                <a href="#chi-sono" className="hover:text-brass">Chi c&apos;è dietro</a>
-              </nav>
-              <div className="flex flex-col gap-2.5 text-sm">
-                <span className="eyebrow mb-1 text-paper/40">Contatti</span>
-                <a href="#valutazione" className="hover:text-brass">Richiedi una valutazione</a>
-                <span>Torino e Nord Italia</span>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col justify-between gap-3 pt-8 text-xs text-paper/40 sm:flex-row">
-            <p>© {new Date().getFullYear()} Oasi Properties. Tutti i diritti riservati.</p>
-            <p>Dati e recensioni dal profilo host verificato.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
