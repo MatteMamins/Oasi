@@ -1,9 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Le navigazioni via <Link> vengono avvolte in document.startViewTransition:
-  // serve per la rotazione "a carta" tra landing proprietari e pagina Partner.
-  experimental: { viewTransition: true },
+  // Next.js 16.3 integra le View Transitions nell'App Router senza flag.
 };
 
 export default nextConfig;

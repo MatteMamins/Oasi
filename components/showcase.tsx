@@ -16,17 +16,29 @@ export type Slide = {
    si ferma e resta la navigazione manuale. */
 export function Showcase({ slides }: { slides: Slide[] }) {
   const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (paused || window.matchMedia("(prefers-reduced-motion: reduce)").matches)
+      return;
     const t = setInterval(() => {
       setActive((v) => (v + 1) % slides.length);
     }, 4500);
     return () => clearInterval(t);
-  }, [slides.length]);
+  }, [paused, slides.length]);
 
   return (
-    <div className="relative">
+    <div
+      className="relative"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocusCapture={() => setPaused(true)}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false);
+      }}
+      aria-roledescription="carosello"
+      aria-label="Immobili in gestione"
+    >
       {/* cornice ottone sfalsata, per profondità */}
       <div
         aria-hidden
@@ -55,7 +67,11 @@ export function Showcase({ slides }: { slides: Slide[] }) {
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
           <div className="text-paper">
             <p className="eyebrow text-paper/60">In gestione</p>
-            <p className="mt-1 flex items-center gap-2 font-display text-lg font-semibold">
+            <p
+              className="mt-1 flex items-center gap-2 font-display text-lg font-semibold"
+              aria-live="polite"
+              aria-atomic="true"
+            >
               {slides[active].place}
               <span className="flex items-center gap-1 text-sm font-normal text-brass">
                 {slides[active].rating ? (
@@ -77,10 +93,17 @@ export function Showcase({ slides }: { slides: Slide[] }) {
                 onClick={() => setActive(i)}
                 aria-label={`Mostra immobile a ${s.place}`}
                 aria-current={i === active}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === active ? "w-6 bg-brass" : "w-1.5 bg-white/40 hover:bg-white/70"
-                }`}
-              />
+                className="group flex h-11 min-w-8 items-center justify-center rounded-sm"
+              >
+                <span
+                  aria-hidden
+                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                    i === active
+                      ? "w-6 bg-brass"
+                      : "w-1.5 bg-white/40 group-hover:bg-white/70"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </div>

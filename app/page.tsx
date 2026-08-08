@@ -122,7 +122,7 @@ export default function Home() {
   return (
     <PageTransition>
       <Nav />
-      <main id="top">
+      <main id="top" tabIndex={-1}>
         {/* ══════════════════ HERO ══════════════════ */}
         <section
           className="relative overflow-hidden pt-32 pb-16 sm:pt-36 lg:pb-20"
@@ -162,7 +162,7 @@ export default function Home() {
               </Reveal>
               <Reveal delay={200} className="mt-9 flex flex-wrap items-center gap-4">
                 <a href="#valutazione" className="btn btn-brass">
-                  Richiedi una valutazione <IconArrow className="h-4 w-4" />
+                  Richiedi la valutazione gratuita <IconArrow className="h-4 w-4" />
                 </a>
                 <a href="#come-funziona" className="btn btn-on-dark">
                   Scopri come funziona
@@ -175,7 +175,8 @@ export default function Home() {
                   ))}
                 </span>
                 <span>
-                  <span className="tnum text-paper">4,56</span> su 358 recensioni ospiti
+                  358 recensioni verificate ·{" "}
+                  <span className="tnum text-paper">4,56/5</span>
                 </span>
               </Reveal>
             </div>
@@ -569,7 +570,6 @@ export default function Home() {
 
         {/* ══════════════════ CTA + FORM ══════════════════ */}
         <section
-          id="valutazione"
           className="relative overflow-hidden py-24 text-paper lg:py-32"
           style={{ background: "radial-gradient(120% 90% at 15% 10%, #14493a, #0b2a21 55%, #082019)" }}
         >
@@ -603,7 +603,7 @@ export default function Home() {
               </Reveal>
             </div>
 
-            <Reveal delay={160}>
+            <Reveal id="valutazione" delay={160}>
               <LeadForm />
             </Reveal>
           </div>

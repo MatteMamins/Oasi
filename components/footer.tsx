@@ -16,7 +16,7 @@ export function Footer() {
               gestione dedicata.
             </p>
           </div>
-          <div className="flex gap-14">
+          <div className="flex flex-col gap-8 sm:flex-row sm:gap-14">
             <nav className="flex flex-col gap-2.5 text-sm">
               <span className="eyebrow mb-1 text-paper/40">Sito</span>
               <Link href="/#come-funziona" className="hover:text-brass">Come funziona</Link>
@@ -26,7 +26,7 @@ export function Footer() {
             </nav>
             <div className="flex flex-col gap-2.5 text-sm">
               <span className="eyebrow mb-1 text-paper/40">Contatti</span>
-              <Link href="/#valutazione" className="hover:text-brass">Richiedi una valutazione</Link>
+              <Link href="/#valutazione" className="hover:text-brass">Valutazione gratuita</Link>
               <Link href="/partner#call" className="hover:text-brass">Prenota una call partner</Link>
               <span>Torino e Nord Italia</span>
             </div>

@@ -2,7 +2,8 @@
 
 import * as React from "react";
 
-/* React chiama document.startViewTransition solo se nell'albero c'è un
+/* Next.js 16.3 supporta le View Transitions senza flag di configurazione.
+   React chiama document.startViewTransition solo se nell'albero c'è un
    <ViewTransition> coinvolto nella navigazione: questo wrapper (animazione
    propria disattivata) serve ad attivare la transizione, mentre il flip
    vero è definito in globals.css sul root via html[data-flip].

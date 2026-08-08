@@ -32,19 +32,11 @@ const steps: Step[] = [
     options: ["Meno di 50 m²", "50–80 m²", "80–120 m²", "Oltre 120 m²"],
   },
   {
-    key: "posti_letto",
-    question: "Quanti posti letto?",
-    options: ["1–2", "3–4", "5–6", "7 o più"],
-  },
-  {
-    key: "spazi_esterni",
-    question: "Ha spazi esterni?",
-    options: ["Nessuno", "Balcone o terrazzo", "Giardino", "Terrazzo e giardino"],
-  },
-  {
     key: "caratteristiche",
-    question: "Ha qualcosa che lo rende speciale?",
+    question: "Quali caratteristiche ha?",
     options: [
+      "Balcone o terrazzo",
+      "Giardino",
       "Vista panoramica",
       "Parcheggio privato",
       "Aria condizionata",
@@ -57,6 +49,8 @@ const steps: Step[] = [
 ];
 
 const CONTACT_STEP = steps.length; // ultimo passo: i dati di contatto
+
+const OUTDOOR_FEATURES = new Set(["Balcone o terrazzo", "Giardino"]);
 
 /* Le risposte restano salvate nella sessione: chi abbandona a metà percorso
    e torna sulla pagina riparte da dove era rimasto. */
@@ -84,6 +78,7 @@ export function LeadForm() {
   const [stepError, setStepError] = useState("");
   const utm = useRef<Record<string, string>>({});
   const questionRef = useRef<HTMLElement | null>(null);
+  const resultRef = useRef<HTMLDivElement | null>(null);
   const prevStep = useRef(0);
   const restoredStep = useRef(false);
 
@@ -149,8 +144,14 @@ export function LeadForm() {
     questionRef.current?.focus();
   }, [step]);
 
+  useEffect(() => {
+    if (status !== "done") return;
+    resultRef.current?.scrollIntoView({ block: "center" });
+    resultRef.current?.focus();
+  }, [status]);
+
   const current = steps[step];
-  const progress = Math.round((step / (steps.length + 1)) * 100);
+  const progress = Math.round(((step + 1) / (steps.length + 1)) * 100);
 
   function pick(value: string) {
     setAnswers((a) => ({ ...a, [current.key]: value }));
@@ -190,6 +191,9 @@ export function LeadForm() {
     setErrors({});
     const fd = new FormData(e.currentTarget);
     const caratteristiche = answers.caratteristiche;
+    const selectedFeatures = Array.isArray(caratteristiche)
+      ? caratteristiche
+      : [];
     const payload = {
       nome: String(fd.get("nome") ?? ""),
       email: String(fd.get("email") ?? ""),
@@ -197,11 +201,13 @@ export function LeadForm() {
       localita: String(answers.localita ?? ""),
       tipologia: String(answers.tipologia ?? ""),
       metratura: String(answers.metratura ?? ""),
-      posti_letto: String(answers.posti_letto ?? ""),
-      spazi_esterni: String(answers.spazi_esterni ?? ""),
-      caratteristiche: Array.isArray(caratteristiche)
-        ? caratteristiche.join(", ")
-        : "",
+      posti_letto: "",
+      spazi_esterni: selectedFeatures
+        .filter((feature) => OUTDOOR_FEATURES.has(feature))
+        .join(", "),
+      caratteristiche: selectedFeatures
+        .filter((feature) => !OUTDOOR_FEATURES.has(feature))
+        .join(", "),
       privacy: fd.get("privacy") === "on",
       website: String(fd.get("website") ?? ""),
       utm: utm.current,
@@ -247,15 +253,24 @@ export function LeadForm() {
 
   if (status === "done") {
     return (
-      <div className="flex flex-col items-center rounded-xl border border-line bg-paper px-6 py-14 text-center">
+      <div
+        ref={resultRef}
+        role="status"
+        aria-live="polite"
+        tabIndex={-1}
+        className="flex flex-col items-center rounded-xl border border-line bg-paper px-6 py-14 text-center"
+      >
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-forest text-paper">
           <IconCheck className="h-7 w-7" />
         </span>
         <h3 className="mt-5 font-display text-2xl text-ink">Richiesta ricevuta</h3>
         <p className="mt-2 max-w-sm text-muted">
-          Stiamo preparando la tua valutazione: ti ricontatteremo a breve con
-          una stima personalizzata di quanto può rendere il tuo immobile.
+          Ti ricontatteremo usando i recapiti indicati per preparare insieme una
+          stima personalizzata del potenziale del tuo immobile.
         </p>
+        <a href="#come-funziona" className="btn btn-ghost mt-6">
+          Scopri il metodo Oasi <IconArrow className="h-4 w-4" />
+        </a>
       </div>
     );
   }
@@ -269,10 +284,17 @@ export function LeadForm() {
         Scopri quanto potresti guadagnare con il tuo immobile
       </p>
       <div className="mt-5 flex items-center gap-3">
-        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-stone">
+        <div
+          className="h-1.5 flex-1 overflow-hidden rounded-full bg-stone"
+          role="progressbar"
+          aria-label="Avanzamento della valutazione"
+          aria-valuemin={1}
+          aria-valuemax={steps.length + 1}
+          aria-valuenow={Math.min(step + 1, steps.length + 1)}
+        >
           <div
             className="h-full rounded-full bg-brass transition-all duration-500"
-            style={{ width: `${isContact ? 92 : Math.max(progress, 6)}%` }}
+            style={{ width: `${progress}%` }}
           />
         </div>
         <span className="tnum shrink-0 text-xs text-muted">
@@ -300,10 +322,14 @@ export function LeadForm() {
             placeholder={current.placeholder}
             defaultValue={String(answers[current.key] ?? "")}
             autoComplete="off"
+            required
             aria-invalid={Boolean(stepError)}
+            aria-describedby={stepError ? `${current.key}-error` : undefined}
             onChange={() => stepError && setStepError("")}
           />
-          {stepError && <FieldError>{stepError}</FieldError>}
+          {stepError && (
+            <FieldError id={`${current.key}-error`}>{stepError}</FieldError>
+          )}
           <NavRow onBack={step > 0 ? goBack : undefined} nextLabel="Continua" />
         </form>
       )}
@@ -393,7 +419,12 @@ export function LeadForm() {
 
       {/* passo finale: contatto */}
       {isContact && (
-        <form onSubmit={onSubmit} noValidate className="mt-7">
+        <form
+          onSubmit={onSubmit}
+          noValidate
+          className="mt-7"
+          aria-busy={status === "sending"}
+        >
           {/* honeypot: nascosto agli umani */}
           <div aria-hidden className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
             <label>
@@ -409,7 +440,7 @@ export function LeadForm() {
             tabIndex={-1}
             className="text-lg font-semibold outline-none"
           >
-            Ultimo passo: dove ti inviamo la valutazione?
+            Ultimo passo: dove ti ricontattiamo per prepararla?
           </p>
 
           <div className="mt-4 grid gap-4">
@@ -423,8 +454,11 @@ export function LeadForm() {
                 className={field}
                 placeholder="Mario Rossi"
                 autoComplete="name"
+                required
+                aria-invalid={Boolean(errors.nome)}
+                aria-describedby={errors.nome ? "nome-error" : undefined}
               />
-              {errors.nome && <FieldError>{errors.nome}</FieldError>}
+              {errors.nome && <FieldError id="nome-error">{errors.nome}</FieldError>}
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
@@ -439,8 +473,11 @@ export function LeadForm() {
                   autoComplete="email"
                   className={field}
                   placeholder="mario@email.it"
+                  required
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? "email-error" : undefined}
                 />
-                {errors.email && <FieldError>{errors.email}</FieldError>}
+                {errors.email && <FieldError id="email-error">{errors.email}</FieldError>}
               </div>
               <div>
                 <label htmlFor="telefono" className={labelCls}>
@@ -454,8 +491,13 @@ export function LeadForm() {
                   autoComplete="tel"
                   className={field}
                   placeholder="+39 333 123 4567"
+                  required
+                  aria-invalid={Boolean(errors.telefono)}
+                  aria-describedby={errors.telefono ? "telefono-error" : undefined}
                 />
-                {errors.telefono && <FieldError>{errors.telefono}</FieldError>}
+                {errors.telefono && (
+                  <FieldError id="telefono-error">{errors.telefono}</FieldError>
+                )}
               </div>
             </div>
           </div>
@@ -464,6 +506,9 @@ export function LeadForm() {
             <input
               type="checkbox"
               name="privacy"
+              required
+              aria-invalid={Boolean(errors.privacy)}
+              aria-describedby={errors.privacy ? "privacy-error" : undefined}
               className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-forest)]"
             />
             <span>
@@ -471,10 +516,15 @@ export function LeadForm() {
               secondo l&apos;informativa privacy.
             </span>
           </label>
-          {errors.privacy && <FieldError>{errors.privacy}</FieldError>}
+          {errors.privacy && (
+            <FieldError id="privacy-error">{errors.privacy}</FieldError>
+          )}
 
           {errors.form && (
-            <p className="mt-4 rounded-sm bg-red-50 px-4 py-2.5 text-sm text-red-700">
+            <p
+              role="alert"
+              className="mt-4 rounded-sm bg-red-50 px-4 py-2.5 text-sm text-red-700"
+            >
               {errors.form}
             </p>
           )}
@@ -484,7 +534,9 @@ export function LeadForm() {
             disabled={status === "sending"}
             className="btn btn-brass mt-6 w-full disabled:opacity-70"
           >
-            {status === "sending" ? "Invio in corso…" : "Ricevi la valutazione"}
+            {status === "sending"
+              ? "Invio in corso…"
+              : "Richiedi la valutazione gratuita"}
             {status !== "sending" && <IconArrow className="h-4 w-4" />}
           </button>
 
@@ -539,6 +591,10 @@ function NavRow({
   );
 }
 
-function FieldError({ children }: { children: React.ReactNode }) {
-  return <p className="mt-1.5 text-sm text-red-600">{children}</p>;
+function FieldError({ children, id }: { children: React.ReactNode; id?: string }) {
+  return (
+    <p id={id} role="alert" className="mt-1.5 text-sm text-red-600">
+      {children}
+    </p>
+  );
 }

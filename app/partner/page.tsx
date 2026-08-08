@@ -212,7 +212,7 @@ export default function Partner() {
         ]}
         cta={{ href: "#call", label: "Prenota una call" }}
       />
-      <main id="top">
+      <main id="top" tabIndex={-1}>
         {/* ══════════════════ HERO ══════════════════ */}
         <section
           className="relative overflow-hidden pt-32 pb-16 sm:pt-36 lg:pb-20"
@@ -530,7 +530,6 @@ export default function Partner() {
 
         {/* ══════════════════ CTA + FORM ══════════════════ */}
         <section
-          id="call"
           className="relative overflow-hidden py-24 text-paper lg:py-32"
           style={{ background: "radial-gradient(120% 90% at 15% 10%, #14493a, #0b2a21 55%, #082019)" }}
         >
@@ -565,7 +564,7 @@ export default function Partner() {
               </Reveal>
             </div>
 
-            <Reveal delay={160}>
+            <Reveal id="call" delay={160}>
               <PartnerForm />
             </Reveal>
           </div>

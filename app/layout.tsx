@@ -56,6 +56,9 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} ${instrument.variable} ${mono.variable} antialiased`}
       >
+        <a href="#top" className="skip-link">
+          Vai al contenuto
+        </a>
         {children}
       </body>
     </html>

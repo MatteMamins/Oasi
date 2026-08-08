@@ -62,6 +62,7 @@ export function PartnerForm() {
   const [stepError, setStepError] = useState("");
   const utm = useRef<Record<string, string>>({});
   const questionRef = useRef<HTMLElement | null>(null);
+  const resultRef = useRef<HTMLDivElement | null>(null);
   const prevStep = useRef(0);
   const restoredStep = useRef(false);
 
@@ -125,8 +126,14 @@ export function PartnerForm() {
     questionRef.current?.focus();
   }, [step]);
 
+  useEffect(() => {
+    if (status !== "done") return;
+    resultRef.current?.scrollIntoView({ block: "center" });
+    resultRef.current?.focus();
+  }, [status]);
+
   const current = steps[step];
-  const progress = Math.round((step / (steps.length + 1)) * 100);
+  const progress = Math.round(((step + 1) / (steps.length + 1)) * 100);
 
   function pick(value: string) {
     setAnswers((a) => ({ ...a, [current.key]: value }));
@@ -208,15 +215,24 @@ export function PartnerForm() {
 
   if (status === "done") {
     return (
-      <div className="flex flex-col items-center rounded-xl border border-line bg-paper px-6 py-14 text-center">
+      <div
+        ref={resultRef}
+        role="status"
+        aria-live="polite"
+        tabIndex={-1}
+        className="flex flex-col items-center rounded-xl border border-line bg-paper px-6 py-14 text-center"
+      >
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-forest text-paper">
           <IconCheck className="h-7 w-7" />
         </span>
         <h3 className="mt-5 font-display text-2xl text-ink">Richiesta ricevuta</h3>
         <p className="mt-2 max-w-sm text-muted">
-          Ti ricontattiamo a breve per fissare la prima call conoscitiva e
-          capire insieme come valorizzare il tuo portfolio.
+          Ti ricontatteremo usando i recapiti indicati per fissare la prima call
+          e capire insieme come valorizzare il tuo portfolio.
         </p>
+        <a href="#partnership" className="btn btn-ghost mt-6">
+          Rivedi la partnership <IconArrow className="h-4 w-4" />
+        </a>
       </div>
     );
   }
@@ -229,10 +245,17 @@ export function PartnerForm() {
         Prenota una prima call conoscitiva
       </p>
       <div className="mt-5 flex items-center gap-3">
-        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-stone">
+        <div
+          className="h-1.5 flex-1 overflow-hidden rounded-full bg-stone"
+          role="progressbar"
+          aria-label="Avanzamento della richiesta partner"
+          aria-valuemin={1}
+          aria-valuemax={steps.length + 1}
+          aria-valuenow={Math.min(step + 1, steps.length + 1)}
+        >
           <div
             className="h-full rounded-full bg-brass transition-all duration-500"
-            style={{ width: `${isContact ? 92 : Math.max(progress, 6)}%` }}
+            style={{ width: `${progress}%` }}
           />
         </div>
         <span className="tnum shrink-0 text-xs text-muted">
@@ -259,10 +282,14 @@ export function PartnerForm() {
             placeholder={current.placeholder}
             defaultValue={String(answers[current.key] ?? "")}
             autoComplete="off"
+            required
             aria-invalid={Boolean(stepError)}
+            aria-describedby={stepError ? `${current.key}-error` : undefined}
             onChange={() => stepError && setStepError("")}
           />
-          {stepError && <FieldError>{stepError}</FieldError>}
+          {stepError && (
+            <FieldError id={`${current.key}-error`}>{stepError}</FieldError>
+          )}
           <div className="mt-6 flex items-center justify-between gap-4">
             {step > 0 ? (
               <button
@@ -322,7 +349,12 @@ export function PartnerForm() {
       )}
 
       {isContact && (
-        <form onSubmit={onSubmit} noValidate className="mt-7">
+        <form
+          onSubmit={onSubmit}
+          noValidate
+          className="mt-7"
+          aria-busy={status === "sending"}
+        >
           {/* honeypot: nascosto agli umani */}
           <div aria-hidden className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
             <label>
@@ -352,8 +384,13 @@ export function PartnerForm() {
                 className={field}
                 placeholder="Mario Rossi"
                 autoComplete="name"
+                required
+                aria-invalid={Boolean(errors.nome)}
+                aria-describedby={errors.nome ? "partner-nome-error" : undefined}
               />
-              {errors.nome && <FieldError>{errors.nome}</FieldError>}
+              {errors.nome && (
+                <FieldError id="partner-nome-error">{errors.nome}</FieldError>
+              )}
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
@@ -368,8 +405,13 @@ export function PartnerForm() {
                   autoComplete="email"
                   className={field}
                   placeholder="mario@email.it"
+                  required
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? "partner-email-error" : undefined}
                 />
-                {errors.email && <FieldError>{errors.email}</FieldError>}
+                {errors.email && (
+                  <FieldError id="partner-email-error">{errors.email}</FieldError>
+                )}
               </div>
               <div>
                 <label htmlFor="telefono" className={labelCls}>
@@ -383,8 +425,13 @@ export function PartnerForm() {
                   autoComplete="tel"
                   className={field}
                   placeholder="+39 333 123 4567"
+                  required
+                  aria-invalid={Boolean(errors.telefono)}
+                  aria-describedby={errors.telefono ? "partner-telefono-error" : undefined}
                 />
-                {errors.telefono && <FieldError>{errors.telefono}</FieldError>}
+                {errors.telefono && (
+                  <FieldError id="partner-telefono-error">{errors.telefono}</FieldError>
+                )}
               </div>
             </div>
           </div>
@@ -393,6 +440,9 @@ export function PartnerForm() {
             <input
               type="checkbox"
               name="privacy"
+              required
+              aria-invalid={Boolean(errors.privacy)}
+              aria-describedby={errors.privacy ? "partner-privacy-error" : undefined}
               className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-forest)]"
             />
             <span>
@@ -400,10 +450,15 @@ export function PartnerForm() {
               secondo l&apos;informativa privacy.
             </span>
           </label>
-          {errors.privacy && <FieldError>{errors.privacy}</FieldError>}
+          {errors.privacy && (
+            <FieldError id="partner-privacy-error">{errors.privacy}</FieldError>
+          )}
 
           {errors.form && (
-            <p className="mt-4 rounded-sm bg-red-50 px-4 py-2.5 text-sm text-red-700">
+            <p
+              role="alert"
+              className="mt-4 rounded-sm bg-red-50 px-4 py-2.5 text-sm text-red-700"
+            >
               {errors.form}
             </p>
           )}
@@ -433,6 +488,10 @@ export function PartnerForm() {
   );
 }
 
-function FieldError({ children }: { children: React.ReactNode }) {
-  return <p className="mt-1.5 text-sm text-red-600">{children}</p>;
+function FieldError({ children, id }: { children: React.ReactNode; id?: string }) {
+  return (
+    <p id={id} role="alert" className="mt-1.5 text-sm text-red-600">
+      {children}
+    </p>
+  );
 }

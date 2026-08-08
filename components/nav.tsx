@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { Logo } from "./logo";
 import { IconMenu, IconClose } from "./icons";
@@ -15,7 +15,10 @@ const defaultLinks: NavLink[] = [
   { href: "/partner", label: "Partner" },
 ];
 
-const defaultCta: NavLink = { href: "#valutazione", label: "Richiedi una valutazione" };
+const defaultCta: NavLink = {
+  href: "#valutazione",
+  label: "Valutazione gratuita",
+};
 
 /* I link verso l'altra faccia del sito girano la carta */
 const isRoute = (href: string) => href.startsWith("/") && !href.startsWith("/#");
@@ -34,6 +37,8 @@ export function Nav({
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const menuId = useId();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -47,6 +52,17 @@ export function Nav({
     return () => {
       document.body.style.overflow = "";
     };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
   const solid = scrolled || open;
@@ -112,6 +128,7 @@ export function Nav({
         </div>
 
         <button
+          ref={menuButtonRef}
           type="button"
           onClick={() => setOpen((v) => !v)}
           className={`flex h-11 w-11 items-center justify-center rounded-sm border lg:hidden ${
@@ -119,6 +136,7 @@ export function Nav({
           }`}
           aria-label={open ? "Chiudi menu" : "Apri menu"}
           aria-expanded={open}
+          aria-controls={menuId}
         >
           {open ? <IconClose className="h-6 w-6" /> : <IconMenu className="h-6 w-6" />}
         </button>
@@ -126,26 +144,47 @@ export function Nav({
 
       {open && (
         <div
-          className={`lg:hidden ${
+          id={menuId}
+          className={`min-h-[calc(100dvh-76px)] overflow-y-auto lg:hidden ${
             tone === "dark"
               ? "border-t border-white/10 bg-forest-3"
               : "border-t border-line bg-paper"
           }`}
         >
-          <ul className="shell flex flex-col gap-1 py-4">
-            {links.map((l) => (
-              <li key={l.href}>{renderLink(l, true)}</li>
-            ))}
-            <li className="pt-3">
-              <a
-                href={cta.href}
-                onClick={() => setOpen(false)}
-                className={`btn w-full ${tone === "dark" ? "btn-brass" : "btn-primary"}`}
-              >
-                {cta.label}
-              </a>
-            </li>
-          </ul>
+          <div className="shell py-5">
+            <p
+              className={`eyebrow pb-3 ${
+                tone === "dark" ? "text-paper/40" : "text-muted"
+              }`}
+            >
+              Menu {tone === "dark" ? "partner" : "proprietari"}
+            </p>
+            <ul
+              className={`flex flex-col border-t ${
+                tone === "dark" ? "border-white/10" : "border-line"
+              }`}
+            >
+              {links.map((l) => (
+                <li
+                  key={l.href}
+                  className={`border-b ${
+                    tone === "dark" ? "border-white/10" : "border-line"
+                  }`}
+                >
+                  {renderLink(l, true)}
+                </li>
+              ))}
+              <li className="pt-5">
+                <a
+                  href={cta.href}
+                  onClick={() => setOpen(false)}
+                  className={`btn w-full ${tone === "dark" ? "btn-brass" : "btn-primary"}`}
+                >
+                  {cta.label}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       )}
     </header>
