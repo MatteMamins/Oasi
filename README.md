@@ -22,15 +22,19 @@ npm start
 Il form invia i dati a `POST /api/lead` (`app/api/lead/route.ts`). Oggi ogni lead
 viene **registrato nei log del server** e, se impostata, inoltrato a un webhook.
 
-Per collegarlo al tuo canale, imposta una variabile d'ambiente:
+Per collegarlo al tuo canale, imposta le variabili d'ambiente (vedi `.env.example`):
 
 ```bash
 # .env.local
 LEAD_WEBHOOK_URL="https://..."   # es. Zapier, Make, endpoint CRM, Google Sheet
+
+# Rate limit (5 submit / 10 min per IP). Obbligatorio in produzione.
+UPSTASH_REDIS_REST_URL="https://..."
+UPSTASH_REDIS_REST_TOKEN="..."
 ```
 
-In alternativa puoi sostituire il blocco commentato dentro `route.ts` con un invio
-email (es. Resend), una write su Notion/Airtable o una chiamata al CRM.
+I log server non contengono PII (nome/email/telefono): solo eventi ops
+(`accepted`, `rate_limited`, …). Il payload completo va solo al webhook.
 
 ### Tracciamento campagne (UTM)
 

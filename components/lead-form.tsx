@@ -213,9 +213,25 @@ export function LeadForm() {
         headers: { "content-type": "application/json" },
         body: JSON.stringify(payload),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        setErrors(data.errors ?? { form: "Si è verificato un errore. Riprova." });
+        if (res.status === 429) {
+          setErrors({
+            form:
+              typeof data.error === "string"
+                ? data.error
+                : "Troppe richieste. Riprova tra qualche minuto.",
+          });
+        } else {
+          setErrors(
+            data.errors ?? {
+              form:
+                typeof data.error === "string"
+                  ? data.error
+                  : "Si è verificato un errore. Riprova.",
+            },
+          );
+        }
         setStatus("error");
         return;
       }
