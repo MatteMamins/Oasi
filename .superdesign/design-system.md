@@ -85,7 +85,8 @@ Dark sections use layered forest gradients and translucent paper/white borders. 
 ### Guided forms
 
 - Owner flow: short property qualification followed by contacts.
-- Partner flow: role, portfolio, geography, then contacts.
+- Partner flow: profile selection followed by one compact form with role, geography and contacts visible together.
+- Partner responsibilities use one compact `Tu porti / Oasi gestisce` split inside the profile section.
 - Show one question at a time, auto-advance only for unambiguous single-choice answers.
 - Always show progress, Back where applicable, inline errors, sending state, and a specific success message.
 - Persist incomplete responses within the session and restore without unexpected focus theft.
@@ -107,6 +108,7 @@ Dark sections use layered forest gradients and translucent paper/white borders. 
 - Use visible brass focus rings with 3px offset.
 - Do not rely on color alone for selected/current/error states.
 - Keep form labels persistent and errors programmatically associated.
+- Link privacy notices visibly from every data-collection form and phrase the required checkbox as acknowledgement of reading.
 - Announce carousel changes sparingly and form status via appropriate live regions.
 - Ensure all decorative glows, frames, and rules are hidden from assistive technology.
 - Maintain keyboard parity for menus, carousels, audience switching, and forms.
@@ -125,6 +127,7 @@ Dark sections use layered forest gradients and translucent paper/white borders. 
 - Lead with user outcomes: profitability, time saved, protection, visibility.
 - Avoid inflated claims and unexplained jargon.
 - Match CTA promise to fulfillment: “Richiedi” when a human follow-up is required, not language implying an instant result.
+- Partner CTAs stay inclusive of portfolio holders, agents, introducers, and other professionals: prefer “Valutiamo una collaborazione”.
 - Confirmation states should set a realistic expectation for contact timing once operations define it.
 
 ## Implementation notes

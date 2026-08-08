@@ -169,10 +169,19 @@ export default function Home() {
                 </a>
               </Reveal>
               <Reveal delay={280} className="mt-8 flex items-center gap-3 text-sm text-paper/60">
-                <span className="flex text-brass">
-                  {Array.from({ length: 5 }).map((_, i) => (
+                <span
+                  className="flex text-brass"
+                  aria-label="Valutazione media 4,56 su 5"
+                >
+                  {Array.from({ length: 4 }).map((_, i) => (
                     <IconStar key={i} className="h-4 w-4" />
                   ))}
+                  <span className="relative inline-flex h-4 w-4 text-paper/20">
+                    <IconStar className="absolute inset-0 h-4 w-4" />
+                    <span className="absolute inset-y-0 left-0 w-[56%] overflow-hidden text-brass">
+                      <IconStar className="h-4 w-4 min-w-4" />
+                    </span>
+                  </span>
                 </span>
                 <span>
                   358 recensioni verificate ·{" "}

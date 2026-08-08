@@ -78,16 +78,13 @@ Entry point: `app/partner/page.tsx`
 
 ### Page structure
 
-1. Hero: audience switch, partner positioning, CTAs, audience qualifier, and trust metrics.
-2. Method section: field-tested operating method and three areas of care.
-3. `#partnership`: two entry paths—existing property managers and real-estate agencies.
-4. Responsibility/infrastructure section: operational risks followed by the five Oasi infrastructure capabilities.
-5. `#confronto`: responsive comparison of solo operations versus Oasi.
-6. Team strip: functions available through the partnership.
-7. `#percorso`: four-step animated partner journey.
-8. `#faq`: native disclosure-based FAQ list.
-9. `#call`: guided multi-step partner lead form.
-10. Shared footer.
+1. Hero: audience switch, concise partner proposition, one primary CTA, and one trust point.
+2. `#percorsi`: four professional profiles that preselect the matching form role, followed by a compact `Tu porti / Oasi gestisce` responsibility split.
+3. `#benefici`: three open editorial benefit columns.
+4. `#processo`: three-step collaboration path.
+5. `#faq`: three essential native disclosure questions.
+6. `#contatti`: compact partner form with all fields visible at once; `#call` remains as a compatibility anchor on the form.
+7. Shared footer.
 
 ### Complete local dependency tree
 
@@ -104,7 +101,8 @@ app/partner/page.tsx
 ├── components/audience-switch.tsx
 │   └── lib/flip.ts
 ├── components/reveal.tsx
-├── components/journey.tsx
+├── components/partner-role-link.tsx
+│   └── components/icons.tsx
 ├── components/partner-form.tsx
 │   ├── components/icons.tsx
 │   └── POST /api/lead
@@ -113,7 +111,7 @@ app/partner/page.tsx
 └── components/icons.tsx (inline SVG icon set used directly in the page)
 ```
 
-Behavioral boundaries: the route exports partner-specific metadata and otherwise renders primarily as a Server Component. The shared animated/navigation components and `PartnerForm` provide the client behavior. The form persists its draft in `sessionStorage`, captures campaign parameters, validates the partner answers and contact details, and submits to the same lead API with `tipo: "partner"`.
+Behavioral boundaries: the route exports partner-specific metadata and otherwise renders primarily as a Server Component. `PartnerRoleLink` stores and broadcasts the selected profile before moving focus to the compact `PartnerForm`. The form persists its draft in `sessionStorage`, captures campaign parameters, validates role, geography and contact details, and submits to the same lead API with `tipo: "partner"`.
 
 ## Shared lead API dependency tree
 
@@ -126,4 +124,20 @@ app/api/lead/route.ts
     └── @upstash/redis
 ```
 
-`POST /api/lead` accepts owner or partner payloads, enforces a 20 KB body limit, checks the honeypot, validates required contact/privacy fields, clips bounded fields, sanitizes UTM data, and returns JSON. Upstash is optional in local development; webhook forwarding is enabled only when `LEAD_WEBHOOK_URL` exists.
+`POST /api/lead` accepts owner or partner payloads, enforces a 20 KB body limit, checks the honeypot, validates required contact fields and privacy-notice acknowledgement, clips bounded fields, sanitizes UTM data, and returns JSON. Upstash is optional in local development; webhook forwarding is enabled only when `LEAD_WEBHOOK_URL` exists.
+
+## `/privacy` — shared privacy notice
+
+Entry point: `app/privacy/page.tsx`
+
+The route is a static Server Component with route-specific metadata. It explains the controller identity, collected data, purpose and legal basis, recipients, retention criteria, and user rights. Both lead forms and the shared footer link here.
+
+```text
+app/privacy/page.tsx
+├── app/layout.tsx (App Router parent)
+│   └── app/globals.css
+├── components/nav.tsx
+├── components/page-transition.tsx
+├── components/footer.tsx
+└── next/link
+```

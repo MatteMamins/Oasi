@@ -27,7 +27,7 @@ export function Footer() {
             <div className="flex flex-col gap-2.5 text-sm">
               <span className="eyebrow mb-1 text-paper/40">Contatti</span>
               <Link href="/#valutazione" className="hover:text-brass">Valutazione gratuita</Link>
-              <Link href="/partner#call" className="hover:text-brass">Prenota una call partner</Link>
+              <Link href="/partner#call" className="hover:text-brass">Valuta una collaborazione</Link>
               <span>Torino e Nord Italia</span>
             </div>
           </div>
@@ -37,7 +37,12 @@ export function Footer() {
             © {new Date().getFullYear()} Oasi Properties Srl — Strada
             Sant&apos;Anselmo 13, 10024 Moncalieri (TO) — P.IVA 13480230013
           </p>
-          <p>Dati e recensioni dal profilo host verificato.</p>
+          <div className="flex flex-wrap gap-x-4 gap-y-2">
+            <Link href="/privacy" className="hover:text-brass">
+              Informativa privacy
+            </Link>
+            <p>Dati e recensioni dal profilo host verificato.</p>
+          </div>
         </div>
       </div>
     </footer>

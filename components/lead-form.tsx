@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
+import Link from "next/link";
 import { IconCheck, IconArrow } from "./icons";
 
 /* ── Percorso multi-step: prima il valore percepito, poi il contatto ──
@@ -281,8 +282,9 @@ export function LeadForm() {
     <div className="rounded-xl border border-line bg-paper p-6 text-ink sm:p-8">
       {/* header + progresso */}
       <p className="font-display text-xl font-semibold sm:text-2xl">
-        Scopri quanto potresti guadagnare con il tuo immobile
+        Prepariamo la valutazione del tuo immobile
       </p>
+      <p className="mt-2 text-sm text-muted">5 passaggi · nessun impegno</p>
       <div className="mt-5 flex items-center gap-3">
         <div
           className="h-1.5 flex-1 overflow-hidden rounded-full bg-stone"
@@ -512,8 +514,16 @@ export function LeadForm() {
               className="mt-1 h-4 w-4 shrink-0 accent-[var(--color-forest)]"
             />
             <span>
-              Acconsento al trattamento dei dati per essere ricontattato,
-              secondo l&apos;informativa privacy.
+              Ho letto l&apos;{" "}
+              <Link
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-forest underline underline-offset-2 hover:text-brass-ink"
+              >
+                informativa privacy
+              </Link>
+              .
             </span>
           </label>
           {errors.privacy && (

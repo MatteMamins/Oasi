@@ -31,14 +31,16 @@ Catalog of stable, reusable UI patterns found in the current product. Runtime fi
 - `Journey` — animated vertical process timeline whose brass fill and nodes activate on scroll.
 - `Showcase` — autoplay property carousel with image caption, rating state, manual pagination, pause on hover/focus, and reduced-motion support.
 - `ReviewCard` — guest quote, author, location, and rating/proof treatment.
-- `ComparisonTable` — partner “alone vs Oasi” structured comparison.
+- `PartnerRoleLink` — professional profile card that persists and broadcasts the chosen role before focusing the partner form.
+- `ResponsibilitySplit` — compact two-column `Tu porti / Oasi gestisce` list that clarifies collaboration boundaries without adding another dense section.
 - `AppMockup` — illustrative owner dashboard/report visual; clearly non-live data.
 - `CTASection` — closing conversion block with dark background, concise promise, and primary action.
 
 ## Forms and feedback
 
 - `LeadForm` — owner qualification wizard: one question per step, auto-advance options, multi-select support, back navigation, session recovery, progress, contact capture, validation, and success state.
-- `PartnerForm` — shorter partner qualification wizard using the same interaction language and feedback states.
+- `PartnerForm` — compact partner form with role, geography and contact fields visible at once, session recovery, validation, API feedback, and success state.
+- `PrivacyAcknowledgement` — required read-confirmation with a visible link to the shared notice; never phrase it as generic processing consent when the form is requested precontractual contact.
 - `ProgressBar` — brass fill on stone track with semantic progressbar attributes and human-readable step count.
 - `OptionButton` — large bordered answer tile with hover/focus/selected treatment.
 - `Field` — paper input with line border, compact label, placeholder, error association, and forest focus border.

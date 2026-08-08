@@ -145,7 +145,8 @@ export async function POST(request: Request) {
   if (!email || !emailRe.test(email)) errors.email = "Inserisci un'email valida.";
   if (!telefono || telefono.replace(/\D/g, "").length < 6)
     errors.telefono = "Inserisci un numero di telefono.";
-  if (!body.privacy) errors.privacy = "È necessario accettare l'informativa.";
+  if (!body.privacy)
+    errors.privacy = "Conferma di aver letto l'informativa privacy.";
 
   if (Object.keys(errors).length > 0) {
     logLeadEvent("validation_failed", {
