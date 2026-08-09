@@ -1,12 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Nav } from "@/components/nav";
-import { PageTransition } from "@/components/page-transition";
-import { Reveal } from "@/components/reveal";
-import { Journey } from "@/components/journey";
-import { LeadForm } from "@/components/lead-form";
-import { Footer } from "@/components/footer";
-import { OasiMark } from "@/components/logo";
+import { Nav } from "@/components/layout/nav";
+import { PageTransition } from "@/components/layout/page-transition";
+import { Reveal } from "@/components/motion/reveal";
+import { Journey } from "@/components/ui/journey";
+import { LeadForm } from "@/components/forms/lead-form";
+import { MobileCta } from "@/components/layout/mobile-cta";
+import { Footer } from "@/components/layout/footer";
+import { OasiMark } from "@/components/ui/logo";
 import {
   IconShield,
   IconTrend,
@@ -20,7 +21,7 @@ import {
   IconPin,
   IconExternal,
   IconChevronDown,
-} from "@/components/icons";
+} from "@/components/ui/icons";
 
 // TODO: sostituire con l'URL reale del profilo host su Airbnb
 const AIRBNB_URL = "https://www.airbnb.it/users/profile/1463443137810883322?previous_page_name=PdpHomeMarketplace";
@@ -122,43 +123,47 @@ export default function Home() {
               "radial-gradient(120% 90% at 80% -10%, #14493a 0%, #0b2a21 45%, #082019 100%)",
           }}
         >
-          <div className="shell relative grid items-center gap-14 lg:grid-cols-[1fr_0.8fr] lg:gap-20">
+          {/* Niente <Reveal> qui sopra: l'hero deve essere leggibile al primo
+              paint, non dopo l'hydration. L'entrata è la classe CSS .rise. */}
+          <div className="shell relative grid items-center gap-10 sm:gap-14 lg:grid-cols-[1fr_0.8fr] lg:gap-20">
             <div>
-              <Reveal
-                as="h1"
-                className="font-display text-[clamp(2.6rem,5vw,4rem)] font-semibold text-paper"
-              >
+              <h1 className="rise font-display text-[clamp(2.6rem,5vw,4rem)] font-semibold text-paper">
                 Il tuo immobile,
-                <br />
+                <br className="hidden sm:inline" />{" "}
                 gestito come un{" "}
                 <em className="not-italic text-brass">asset.</em>
-              </Reveal>
-              <Reveal
-                as="p"
-                delay={80}
-                className="mt-6 max-w-lg text-xl text-paper/80"
+              </h1>
+              <p
+                className="rise mt-6 max-w-lg text-xl text-paper/80"
+                style={{ "--rise-delay": "80ms" } as React.CSSProperties}
               >
                 Gestione professionale di affitti brevi, dai prezzi alla cura
                 degli ospiti.
-              </Reveal>
-              <Reveal delay={140} className="mt-10">
+              </p>
+              <div
+                className="rise mt-10"
+                style={{ "--rise-delay": "140ms" } as React.CSSProperties}
+              >
                 <a href="#valutazione" className="btn btn-brass">
                   Richiedi la valutazione gratuita <IconArrow className="h-4 w-4" />
                 </a>
-              </Reveal>
-              <Reveal
-                delay={200}
-                className="mt-8 flex items-center gap-2 text-sm text-paper/60"
+              </div>
+              <div
+                className="rise mt-8 flex items-center gap-2 text-sm text-paper/60"
+                style={{ "--rise-delay": "200ms" } as React.CSSProperties}
               >
                 <IconStar className="h-3.5 w-3.5 shrink-0 text-brass" />
                 <span aria-label="Valutazione media 4,56 su 5, basata su 358 recensioni verificate">
                   <span className="tnum text-paper">4,56/5</span> su 358
                   recensioni verificate
                 </span>
-              </Reveal>
+              </div>
             </div>
 
-            <Reveal delay={120}>
+            <div
+              className="rise"
+              style={{ "--rise-delay": "120ms" } as React.CSSProperties}
+            >
               <div className="overflow-hidden rounded-xl">
                 <Image
                   src="/immobili/torino-1.jpg"
@@ -170,7 +175,7 @@ export default function Home() {
                   className="aspect-[4/3] w-full object-cover"
                 />
               </div>
-            </Reveal>
+            </div>
           </div>
         </section>
 
@@ -184,7 +189,7 @@ export default function Home() {
             </p>
             <Link
               href="/partner"
-              className="flex items-center gap-1.5 text-sm font-medium text-forest transition-colors hover:text-brass-ink"
+              className="flex min-h-11 items-center gap-1.5 text-sm font-medium text-forest transition-colors hover:text-brass-ink sm:min-h-0"
             >
               Scopri il percorso Partner
               <IconArrow className="h-3.5 w-3.5" />
@@ -193,12 +198,14 @@ export default function Home() {
         </nav>
 
         {/* ══════════════════ PERCHÉ L'AFFITTO BREVE ══════════════════ */}
-        <section id="perche" className="bg-paper py-24 lg:py-32">
+        <section id="perche" className="bg-paper py-16 sm:py-24 lg:py-32">
           <div className="shell">
             <Reveal className="max-w-3xl">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              {/* Sotto `sm` l'a capo forzato spezzerebbe righe che il browser
+                  manda già a capo da sole: meglio lasciarle bilanciare. */}
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-balance text-ink">
                 Molto più redditizio
-                <br />
+                <br className="hidden sm:inline" />{" "}
                 dell&apos;affitto a lungo termine.
               </h2>
             </Reveal>
@@ -234,7 +241,7 @@ export default function Home() {
         {/* ══════════════════ COME FUNZIONA — Il percorso ══════════════════ */}
         <section
           id="come-funziona"
-          className="relative overflow-hidden py-24 text-paper lg:py-32"
+          className="relative overflow-hidden py-16 text-paper sm:py-24 lg:py-32"
           style={{ background: "linear-gradient(180deg,#082019,#0b2a21 26%,#0e3529 60%,#0b2a21)" }}
         >
           {/* seam: entra dal chiaro della sezione precedente */}
@@ -282,12 +289,15 @@ export default function Home() {
         </section>
 
         {/* ══════════════════ TRASPARENZA — tu vedi tutto ══════════════════ */}
-        <section id="trasparenza" className="bg-paper py-24 lg:py-32">
+        <section id="trasparenza" className="bg-paper py-16 sm:py-24 lg:py-32">
           <div className="shell grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
             <div>
-              <Reveal as="h2" className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              <Reveal
+                as="h2"
+                className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-balance text-ink"
+              >
                 Noi ci occupiamo di tutto.
-                <br />
+                <br className="hidden sm:inline" />{" "}
                 Tu vedi tutto.
               </Reveal>
               <Reveal as="p" delay={140} className="mt-5 max-w-lg text-lg text-muted">
@@ -360,7 +370,7 @@ export default function Home() {
         </section>
 
         {/* ══════════════════ RECENSIONI — anteprima profilo Airbnb ══════════════════ */}
-        <section id="recensioni" className="bg-stone py-24 lg:py-32">
+        <section id="recensioni" className="bg-stone py-16 sm:py-24 lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
@@ -380,7 +390,7 @@ export default function Home() {
                     <div className="relative">
                       <span className="block h-24 w-24 overflow-hidden rounded-full ring-1 ring-line">
                         <Image
-                          src="/immobili/avatar.jpg"
+                          src="/persone/avatar.jpg"
                           alt="Avatar del profilo host Oasi Properties"
                           width={96}
                           height={96}
@@ -462,7 +472,9 @@ export default function Home() {
                       10 annunci attivi · Torino, Moncalieri e Riviera ligure
                     </p>
                   </div>
-                  <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-6">
+                  {/* 6 colonne già da `sm` rendevano le miniature più piccole
+                      (75px) che su telefono (92px): si passa da 4. */}
+                  <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
                     {listings.map((l) => (
                       <a
                         key={l.src}
@@ -477,6 +489,9 @@ export default function Home() {
                             alt={`Annuncio a ${l.place}`}
                             width={220}
                             height={220}
+                            /* Senza `sizes` verrebbero scaricate sei immagini
+                               da 640px per riquadri da 92px. */
+                            sizes="(min-width: 1024px) 170px, (min-width: 640px) 130px, 30vw"
                             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         </span>
@@ -503,13 +518,13 @@ export default function Home() {
         </section>
 
         {/* ══════════════════ CHI C'È DIETRO ══════════════════ */}
-        <section id="chi-sono" className="bg-paper py-24 lg:py-32">
+        <section id="chi-sono" className="bg-paper py-16 sm:py-24 lg:py-32">
           <div className="shell grid items-center gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
             <Reveal>
               <div className="relative mx-auto w-full max-w-xs">
                 <span className="block overflow-hidden rounded-2xl shadow-[0_45px_80px_-50px_rgba(16,61,48,0.6)]">
                   <Image
-                    src="/ivano.jpg"
+                    src="/persone/ivano.jpg"
                     alt="Ivano, fondatore di Oasi Properties"
                     width={480}
                     height={480}
@@ -523,9 +538,12 @@ export default function Home() {
               </div>
             </Reveal>
             <div>
-              <Reveal as="h2" className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
+              <Reveal
+                as="h2"
+                className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-balance text-ink"
+              >
                 Dietro ogni immobile,
-                <br />
+                <br className="hidden sm:inline" />{" "}
                 una persona. Non un call center.
               </Reveal>
               <Reveal as="p" delay={100} className="mt-6 max-w-xl text-lg text-muted">
@@ -550,7 +568,7 @@ export default function Home() {
 
         {/* ══════════════════ CTA + FORM ══════════════════ */}
         <section
-          className="relative overflow-hidden py-24 text-paper lg:py-32"
+          className="relative overflow-hidden py-16 text-paper sm:py-24 lg:py-32"
           style={{ background: "radial-gradient(120% 90% at 15% 10%, #14493a, #0b2a21 55%, #082019)" }}
         >
           {/* seam: entra dal chiaro della sezione precedente */}
@@ -583,14 +601,22 @@ export default function Home() {
               </Reveal>
             </div>
 
-            <Reveal id="valutazione" delay={160}>
+            {/* Il modulo non passa da <Reveal>: è il bersaglio di ogni CTA e
+                atterrarci sopra mentre è ancora invisibile è il peggior
+                arrivo possibile. */}
+            <div id="valutazione">
               <LeadForm />
-            </Reveal>
+            </div>
           </div>
         </section>
       </main>
 
       <Footer />
+      <MobileCta
+        href="#valutazione"
+        label="Richiedi la valutazione gratuita"
+        targetId="valutazione"
+      />
     </PageTransition>
   );
 }

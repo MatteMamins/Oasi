@@ -40,7 +40,7 @@ export function OasiMark({ className }: { className?: string }) {
 /* Logo ufficiale Oasi Properties (palma + wordmark).
    Verde su fondo chiaro, bianco su fondo scuro. */
 export function Logo({ className = "", tone = "dark" }: LogoProps) {
-  const src = tone === "light" ? "/logo-oasi-white.png" : "/logo-oasi.png";
+  const src = tone === "light" ? "/brand/logo-oasi-white.png" : "/brand/logo-oasi.png";
   return (
     <Image
       src={src}
@@ -48,6 +48,9 @@ export function Logo({ className = "", tone = "dark" }: LogoProps) {
       width={202}
       height={100}
       priority
+      /* Reso a 36px di altezza: senza `sizes` Next preloaderebbe la variante
+         da 640px, in competizione con l'LCP su mobile. */
+      sizes="73px"
       className={`h-9 w-auto ${className}`}
     />
   );

@@ -1,14 +1,21 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
-import { Footer } from "@/components/footer";
-import { Nav } from "@/components/nav";
-import { PageTransition } from "@/components/page-transition";
+import { Footer } from "@/components/layout/footer";
+import { Nav } from "@/components/layout/nav";
+import { PageTransition } from "@/components/layout/page-transition";
 
 export const metadata: Metadata = {
   title: "Informativa privacy — Oasi Properties",
   description:
     "Informazioni sul trattamento dei dati inviati tramite i moduli di Oasi Properties.",
   robots: { index: true, follow: true },
+};
+
+/* Qui la pagina è chiara fin dall'alto: la barra del browser deve seguirla,
+   non restare verde come sulle pagine con hero scuro. */
+export const viewport: Viewport = {
+  themeColor: "#fafbf8",
+  colorScheme: "light",
 };
 
 const sections = [
@@ -87,8 +94,11 @@ const sections = [
 export default function PrivacyPage() {
   return (
     <PageTransition>
+      {/* Pagina chiara fin dall'alto: barra sempre piena, altrimenti il logo
+          bianco resterebbe invisibile sopra il fondo paper. */}
       <Nav
-        tone="dark"
+        tone="light"
+        alwaysSolid
         links={[
           { href: "/#come-funziona", label: "Come funziona" },
           { href: "/#recensioni", label: "Recensioni" },

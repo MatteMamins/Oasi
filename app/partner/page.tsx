@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/nav";
-import { PageTransition } from "@/components/page-transition";
-import { AudienceSwitch } from "@/components/audience-switch";
-import { Reveal } from "@/components/reveal";
-import { Footer } from "@/components/footer";
-import { PartnerForm } from "@/components/partner-form";
-import { PartnerRoleLink } from "@/components/partner-role-link";
+import { Nav } from "@/components/layout/nav";
+import { PageTransition } from "@/components/layout/page-transition";
+import { Reveal } from "@/components/motion/reveal";
+import { Footer } from "@/components/layout/footer";
+import { MobileCta } from "@/components/layout/mobile-cta";
+import { PartnerForm } from "@/components/forms/partner-form";
+import { PartnerRoleLink } from "@/components/forms/partner-role-link";
 import {
   IconArrow,
   IconCheck,
   IconChevronDown,
-} from "@/components/icons";
+} from "@/components/ui/icons";
 
 export const metadata: Metadata = {
   title: "Oasi Properties — Partnership per professionisti immobiliari",
@@ -123,7 +123,7 @@ export default function Partner() {
 
       <main id="top" tabIndex={-1}>
         <section
-          className="relative overflow-hidden pt-32 pb-24 sm:pt-44 lg:pb-36"
+          className="relative overflow-hidden pt-32 pb-16 sm:pt-44 sm:pb-24 lg:pb-36"
           style={{
             background:
               "radial-gradient(120% 90% at 80% -10%, #14493a 0%, #0b2a21 45%, #082019 100%)",
@@ -140,30 +140,23 @@ export default function Partner() {
               right: 40,
             }}
           />
+          {/* Come nella home: l'hero entra via CSS, non aspetta l'hydration. */}
           <div className="shell relative max-w-4xl">
-            <Reveal className="mb-8">
-              <AudienceSwitch active="partner" />
-            </Reveal>
-            <Reveal
-              as="h1"
-              delay={60}
-              className="font-display text-[clamp(2.4rem,5vw,4.2rem)] font-semibold text-paper"
-            >
+            <h1 className="rise font-display text-[clamp(2.4rem,5vw,4.2rem)] font-semibold text-balance text-paper">
               Porta immobili a Oasi.
-              <br />
+              <br className="hidden sm:inline" />{" "}
               Costruiamo valore insieme.
-            </Reveal>
-            <Reveal
-              as="p"
-              delay={120}
-              className="mt-6 max-w-2xl text-lg text-paper/70 sm:text-xl"
+            </h1>
+            <p
+              className="rise mt-6 max-w-2xl text-lg text-paper/70 sm:text-xl"
+              style={{ "--rise-delay": "80ms" } as React.CSSProperties}
             >
               Tu porti l&apos;opportunità o il portfolio. Oasi gestisce prezzi,
               fiscalità, operatività e ospiti.
-            </Reveal>
-            <Reveal
-              delay={200}
-              className="mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6"
+            </p>
+            <div
+              className="rise mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6"
+              style={{ "--rise-delay": "140ms" } as React.CSSProperties}
             >
               <a href="#contatti" className="btn btn-brass">
                 Valutiamo una collaborazione
@@ -173,11 +166,11 @@ export default function Partner() {
                 <IconCheck className="h-4 w-4 shrink-0 text-brass" />
                 <span className="tnum">7.000+ prenotazioni gestite</span>
               </p>
-            </Reveal>
+            </div>
           </div>
         </section>
 
-        <section id="percorsi" className="bg-paper py-24 lg:py-32">
+        <section id="percorsi" className="bg-paper py-16 sm:py-24 lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
@@ -234,7 +227,7 @@ export default function Partner() {
 
         <section
           id="benefici"
-          className="relative overflow-hidden bg-forest-3 py-24 text-paper lg:py-32"
+          className="relative overflow-hidden bg-forest-3 py-16 text-paper sm:py-24 lg:py-32"
         >
           <div
             aria-hidden
@@ -272,7 +265,7 @@ export default function Partner() {
           </div>
         </section>
 
-        <section id="processo" className="bg-paper py-24 lg:py-32">
+        <section id="processo" className="bg-paper py-16 sm:py-24 lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
@@ -300,7 +293,7 @@ export default function Partner() {
           </div>
         </section>
 
-        <section id="faq" className="bg-stone py-24 lg:py-28">
+        <section id="faq" className="bg-stone py-16 sm:py-24 lg:py-28">
           <div className="shell max-w-3xl">
             <Reveal>
               <h2 className="font-display text-[clamp(2rem,4vw,2.7rem)] font-semibold">
@@ -321,7 +314,7 @@ export default function Partner() {
           </div>
         </section>
 
-        <section id="contatti" className="bg-paper py-24 lg:py-32">
+        <section id="contatti" className="bg-paper py-16 sm:py-24 lg:py-32">
           <div className="shell grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
             <div>
               <Reveal
@@ -348,14 +341,21 @@ export default function Partner() {
               </Reveal>
             </div>
 
-            <Reveal id="call" delay={120}>
+            {/* Come nella home: il modulo è il bersaglio delle CTA, quindi non
+                passa da <Reveal> e non dipende dall'hydration. */}
+            <div id="call">
               <PartnerForm />
-            </Reveal>
+            </div>
           </div>
         </section>
       </main>
 
       <Footer />
+      <MobileCta
+        href="#contatti"
+        label="Valutiamo una collaborazione"
+        targetId="contatti"
+      />
     </PageTransition>
   );
 }

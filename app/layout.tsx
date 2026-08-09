@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Montserrat, Instrument_Sans, JetBrains_Mono } from "next/font/google";
+import { SmartAnchors } from "@/components/motion/smart-anchors";
 import "./globals.css";
 
 // Font del brand (dal logo Oasi Properties): geometrico, usato per i titoli
@@ -48,6 +49,13 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+/* Su mobile la barra del browser prende questo colore: senza, resterebbe
+   bianca sopra l'hero verde scuro. Le pagine chiare lo sovrascrivono. */
+export const viewport: Viewport = {
+  themeColor: "#0b2a21",
+  colorScheme: "light",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -59,6 +67,7 @@ export default function RootLayout({
         <a href="#top" className="skip-link">
           Vai al contenuto
         </a>
+        <SmartAnchors />
         {children}
       </body>
     </html>

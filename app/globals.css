@@ -32,6 +32,9 @@
 
 :root {
   --edge: clamp(1.25rem, 5vw, 6rem);
+  /* Altezza reale della barra: py-4 (2rem) + hamburger h-11 (2.75rem).
+     Unica fonte di verità per scroll-padding, ancore e menu mobile. */
+  --nav-h: 4.75rem;
 }
 
 * {
@@ -40,8 +43,11 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: calc(var(--nav-h) + 1.25rem);
   -webkit-text-size-adjust: 100%;
+  /* `clip` invece di `hidden`: blocca l'overflow orizzontale senza creare
+     un contenitore di scroll, quindi non rompe position: sticky. */
+  overflow-x: clip;
 }
 
 body {
@@ -50,8 +56,7 @@ body {
   font-family: var(--font-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 ::selection {
@@ -100,7 +105,7 @@ body {
 }
 
 [id] {
-  scroll-margin-top: 6rem;
+  scroll-margin-top: calc(var(--nav-h) + 1.25rem);
 }
 
 /* ---- Divider ---- */
@@ -189,7 +194,26 @@ textarea:focus-visible,
   border-radius: 2px;
 }
 
-/* ---- Scroll reveal ---- */
+/* ---- Entrata above-the-fold: solo CSS ----
+   L'hero non passa da <Reveal>: se dipendesse dal JS resterebbe invisibile
+   fino all'hydration e l'LCP slitterebbe di secondi sul mobile. Qui parte
+   al primo paint, senza JavaScript. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: var(--rise-delay, 0ms);
+}
+
+/* ---- Scroll reveal (sotto la piega) ---- */
 [data-reveal] {
   opacity: 0;
   transform: translateY(22px);
@@ -203,6 +227,14 @@ textarea:focus-visible,
   transform: none;
 }
 
+/* Senza JavaScript il contenuto deve restare leggibile, non sparire. */
+@media (scripting: none) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -211,6 +243,9 @@ textarea:focus-visible,
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .rise {
+    animation: none;
   }
   .btn:hover {
     transform: none;

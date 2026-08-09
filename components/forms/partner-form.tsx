@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
-import { IconArrow, IconCheck } from "./icons";
+import { IconArrow, IconCheck } from "@/components/ui/icons";
 
 const STORAGE_KEY = "oasi-partner-form";
 
@@ -16,8 +16,10 @@ const UTM_KEYS = [
   "fbclid",
 ];
 
+/* 16px sotto `sm` non è estetica: sotto quella soglia Safari iOS zooma la
+   pagina al focus del campo e non torna più indietro. */
 const field =
-  "w-full rounded-sm border border-line bg-paper px-4 py-3 text-[0.95rem] text-ink placeholder:text-muted/60 outline-none transition-colors focus:border-forest";
+  "w-full rounded-sm border border-line bg-paper px-4 py-3 text-base text-ink placeholder:text-muted/60 outline-none transition-colors focus:border-forest sm:text-[0.95rem]";
 const labelCls = "mb-1.5 block text-sm font-medium text-ink";
 
 export function PartnerForm() {

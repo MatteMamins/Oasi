@@ -1,6 +1,6 @@
 "use client";
 
-import { IconArrow } from "./icons";
+import { IconArrow } from "@/components/ui/icons";
 
 const STORAGE_KEY = "oasi-partner-form";
 
