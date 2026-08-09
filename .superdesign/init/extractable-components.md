@@ -8,7 +8,7 @@ Catalog of stable, reusable UI patterns found in the current product. Runtime fi
 - `PageTransition` — route wrapper for the owner/partner card-flip transition.
 - `Nav` — fixed responsive navigation with logo, section links, audience switch CTA, full-screen mobile overlay, focus return, and Escape handling.
 - `Footer` — shared brand footer, navigation groups, contact/legal area.
-- `SectionHeader` — eyebrow, display heading, optional supporting paragraph and CTA; used repeatedly across both landing pages.
+- `SectionHeader` — display heading with optional supporting paragraph and CTA; no decorative eyebrow label.
 - `DarkSection` — forest gradient section with optional blurred ambient `glow` layers.
 - `OasisRule` — subtle horizontal gradient divider.
 
@@ -17,15 +17,14 @@ Catalog of stable, reusable UI patterns found in the current product. Runtime fi
 - `OasiMark` / `Logo` — brand mark and lockup variants.
 - `AudienceSwitch` — segmented owner/industry audience selector; active side uses brass fill and route changes prime the page flip.
 - `Button` — shared `.btn` base with `primary`, `brass`, `ghost`, and `on-dark` variants; 44px minimum target.
-- `Eyebrow` — uppercase mono micro-label with wide tracking.
 - `Tnum` — tabular numeral treatment for ratings, metrics, and steps.
 - `Icon` set — consistent outline icons from `components/icons.tsx`.
 - `Reveal` — intersection-based entrance treatment with stagger delay and reduced-motion fallback.
 
 ## Content patterns
 
-- `Hero` — dark botanical gradient, audience selector, large display headline, CTA pair, proof line, and optional visual/card.
-- `TrustStrip` — 2-column mobile / 4-column desktop metric grid on translucent dark panels.
+- `OwnerHero` — restrained dark botanical gradient, large display headline, one CTA, one quiet proof line, and one static property image.
+- `PartnerHero` — dark botanical gradient, audience selector, partner proposition, one CTA, and one trust point.
 - `FeatureRow` — oversized benefit statement, circular icon, short explanation, divider, and restrained hover movement.
 - `ServiceCard` — bordered/paper card with icon, title, copy, and brass hover accent.
 - `Journey` — animated vertical process timeline whose brass fill and nodes activate on scroll.

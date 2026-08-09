@@ -18,14 +18,14 @@ export function Footer() {
           </div>
           <div className="flex flex-col gap-8 sm:flex-row sm:gap-14">
             <nav className="flex flex-col gap-2.5 text-sm">
-              <span className="eyebrow mb-1 text-paper/40">Sito</span>
+              <span className="mb-1 font-semibold text-paper/70">Sito</span>
               <Link href="/#come-funziona" className="hover:text-brass">Come funziona</Link>
               <Link href="/#recensioni" className="hover:text-brass">Recensioni</Link>
               <Link href="/#chi-sono" className="hover:text-brass">Chi c&apos;è dietro</Link>
               <Link href="/partner" className="hover:text-brass">Programma Partner</Link>
             </nav>
             <div className="flex flex-col gap-2.5 text-sm">
-              <span className="eyebrow mb-1 text-paper/40">Contatti</span>
+              <span className="mb-1 font-semibold text-paper/70">Contatti</span>
               <Link href="/#valutazione" className="hover:text-brass">Valutazione gratuita</Link>
               <Link href="/partner#call" className="hover:text-brass">Valuta una collaborazione</Link>
               <span>Torino e Nord Italia</span>

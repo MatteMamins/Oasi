@@ -66,7 +66,7 @@ export function Showcase({ slides }: { slides: Slide[] }) {
         />
         <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5">
           <div className="text-paper">
-            <p className="eyebrow text-paper/60">In gestione</p>
+            <p className="text-xs font-medium text-paper/60">In gestione</p>
             <p
               className="mt-1 flex items-center gap-2 font-display text-lg font-semibold"
               aria-live="polite"

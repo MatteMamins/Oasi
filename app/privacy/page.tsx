@@ -100,8 +100,7 @@ export default function PrivacyPage() {
       <main id="top" tabIndex={-1} className="bg-paper pt-28 sm:pt-32">
         <section className="shell pb-20 pt-10 lg:pb-28 lg:pt-16">
           <div className="max-w-3xl">
-            <p className="eyebrow text-brass-ink">Trasparenza</p>
-            <h1 className="font-display mt-4 text-[clamp(2.3rem,5vw,4rem)] font-semibold text-ink">
+            <h1 className="font-display text-[clamp(2.3rem,5vw,4rem)] font-semibold text-ink">
               Informativa privacy
             </h1>
             <p className="mt-5 max-w-2xl text-lg text-muted">

@@ -1,11 +1,9 @@
 import Image from "next/image";
 import { Nav } from "@/components/nav";
 import { PageTransition } from "@/components/page-transition";
-import { AudienceSwitch } from "@/components/audience-switch";
 import { Reveal } from "@/components/reveal";
 import { Journey } from "@/components/journey";
 import { LeadForm } from "@/components/lead-form";
-import { Showcase } from "@/components/showcase";
 import { Footer } from "@/components/footer";
 import { OasiMark } from "@/components/logo";
 import {
@@ -25,14 +23,6 @@ import {
 
 // TODO: sostituire con l'URL reale del profilo host su Airbnb
 const AIRBNB_URL = "https://www.airbnb.it/users/profile/1463443137810883322?previous_page_name=PdpHomeMarketplace";
-
-/* ── Dati reali (profilo host) ──────────────────────────────────────── */
-const trust = [
-  { value: "7.000+", label: "prenotazioni gestite" },
-  { value: "15+", label: "proprietari soddisfatti" },
-  { value: "10", label: "annunci attivi" },
-  { value: "5 anni", label: "di esperienza" },
-];
 
 /* Annunci reali dal profilo host: foto, città e valutazione */
 const listings = [
@@ -125,28 +115,16 @@ export default function Home() {
       <main id="top" tabIndex={-1}>
         {/* ══════════════════ HERO ══════════════════ */}
         <section
-          className="relative overflow-hidden pt-32 pb-16 sm:pt-36 lg:pb-20"
+          className="relative overflow-hidden pt-32 pb-20 sm:pt-40 lg:pb-28"
           style={{
             background:
               "radial-gradient(120% 90% at 80% -10%, #14493a 0%, #0b2a21 45%, #082019 100%)",
           }}
         >
-          <div
-            className="glow"
-            style={{ background: "rgba(198,161,91,0.14)", width: 420, height: 420, top: -80, right: 40 }}
-          />
-          <div
-            className="glow"
-            style={{ background: "rgba(111,140,123,0.22)", width: 360, height: 360, bottom: -120, left: -60 }}
-          />
-          <div className="shell relative grid items-center gap-12 lg:grid-cols-[1fr_0.92fr] lg:gap-16">
+          <div className="shell relative grid items-center gap-14 lg:grid-cols-[1fr_0.8fr] lg:gap-20">
             <div>
-              <Reveal className="mb-8">
-                <AudienceSwitch active="owner" />
-              </Reveal>
               <Reveal
                 as="h1"
-                delay={60}
                 className="font-display text-[clamp(2.6rem,5vw,4rem)] font-semibold text-paper"
               >
                 Il tuo immobile,
@@ -154,69 +132,44 @@ export default function Home() {
                 gestito come un{" "}
                 <em className="not-italic text-brass">asset.</em>
               </Reveal>
-              <Reveal as="p" delay={120} className="mt-6 text-xl font-semibold text-paper sm:text-2xl">
-                Specialisti in{" "}
-                <span className="rounded-md bg-brass px-2 py-0.5 text-forest-3">
-                  affitti brevi
-                </span>
+              <Reveal
+                as="p"
+                delay={80}
+                className="mt-6 max-w-lg text-xl text-paper/80"
+              >
+                Gestione professionale di affitti brevi, dai prezzi alla cura
+                degli ospiti.
               </Reveal>
-              <Reveal delay={200} className="mt-9 flex flex-wrap items-center gap-4">
+              <Reveal delay={140} className="mt-10">
                 <a href="#valutazione" className="btn btn-brass">
                   Richiedi la valutazione gratuita <IconArrow className="h-4 w-4" />
                 </a>
-                <a href="#come-funziona" className="btn btn-on-dark">
-                  Scopri come funziona
-                </a>
               </Reveal>
-              <Reveal delay={280} className="mt-8 flex items-center gap-3 text-sm text-paper/60">
-                <span
-                  className="flex text-brass"
-                  aria-label="Valutazione media 4,56 su 5"
-                >
-                  {Array.from({ length: 4 }).map((_, i) => (
-                    <IconStar key={i} className="h-4 w-4" />
-                  ))}
-                  <span className="relative inline-flex h-4 w-4 text-paper/20">
-                    <IconStar className="absolute inset-0 h-4 w-4" />
-                    <span className="absolute inset-y-0 left-0 w-[56%] overflow-hidden text-brass">
-                      <IconStar className="h-4 w-4 min-w-4" />
-                    </span>
-                  </span>
-                </span>
-                <span>
-                  358 recensioni verificate ·{" "}
-                  <span className="tnum text-paper">4,56/5</span>
+              <Reveal
+                delay={200}
+                className="mt-8 flex items-center gap-2 text-sm text-paper/60"
+              >
+                <IconStar className="h-3.5 w-3.5 shrink-0 text-brass" />
+                <span aria-label="Valutazione media 4,56 su 5, basata su 358 recensioni verificate">
+                  <span className="tnum text-paper">4,56/5</span> su 358
+                  recensioni verificate
                 </span>
               </Reveal>
             </div>
 
-            {/* Gli immobili in gestione, a rotazione automatica */}
-            <Reveal delay={200}>
-              <Showcase slides={listings.slice(0, 5)} />
+            <Reveal delay={120}>
+              <div className="overflow-hidden rounded-xl">
+                <Image
+                  src="/immobili/torino-1.jpg"
+                  alt="Soggiorno di un immobile gestito da Oasi a Torino"
+                  width={1200}
+                  height={900}
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  className="aspect-[4/3] w-full object-cover"
+                />
+              </div>
             </Reveal>
-          </div>
-
-          {/* trust strip */}
-          <div className="shell relative mt-16 lg:mt-20">
-            <div className="grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/5 sm:grid-cols-4">
-              {trust.map((t) => (
-                <div key={t.label} className="bg-forest-2/40 px-6 py-6 text-center backdrop-blur-sm">
-                  <p className="font-display text-3xl font-semibold text-paper">{t.value}</p>
-                  <p className="mt-1 text-xs text-paper/55">{t.label}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* cue: continua */}
-          <div className="shell relative mt-12 flex justify-center">
-            <a
-              href="#perche"
-              className="scroll-cue group inline-flex flex-col items-center gap-2 text-paper/45 transition-colors hover:text-brass"
-              aria-label="Continua a leggere"
-            >
-              <IconChevronDown className="h-5 w-5" />
-            </a>
           </div>
         </section>
 
@@ -343,7 +296,7 @@ export default function Home() {
                   </div>
 
                   <div className="px-6 pt-5">
-                    <p className="eyebrow text-paper/45">Ricavi del mese</p>
+                    <p className="text-xs font-medium text-paper/45">Ricavi del mese</p>
                     <p className="mt-1 flex items-baseline gap-2">
                       <span className="font-display tnum text-3xl font-semibold">€ 2.480</span>
                       <span className="text-xs text-paper/50">occupazione 84%</span>
@@ -486,7 +439,7 @@ export default function Home() {
                 {/* gli annunci, con le foto reali */}
                 <div className="border-t border-line bg-stone/50 px-6 py-6 sm:px-8">
                   <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <p className="eyebrow text-muted/70">Gli annunci in gestione</p>
+                    <p className="text-sm font-medium text-muted/70">Gli annunci in gestione</p>
                     <p className="text-xs text-muted">
                       10 annunci attivi · Torino, Moncalieri e Riviera ligure
                     </p>

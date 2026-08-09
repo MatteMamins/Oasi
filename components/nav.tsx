@@ -118,7 +118,13 @@ export function Nav({
           ))}
         </ul>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div
+          className={`hidden items-center gap-3 transition-opacity duration-200 lg:flex ${
+            tone === "light" && !solid
+              ? "invisible opacity-0"
+              : "visible opacity-100"
+          }`}
+        >
           <a
             href={cta.href}
             className={`btn ${dark ? "btn-brass" : "btn-primary"}`}
@@ -153,7 +159,7 @@ export function Nav({
         >
           <div className="shell py-5">
             <p
-              className={`eyebrow pb-3 ${
+              className={`pb-3 text-sm font-semibold ${
                 tone === "dark" ? "text-paper/40" : "text-muted"
               }`}
             >

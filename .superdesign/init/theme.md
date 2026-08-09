@@ -7,7 +7,7 @@
 - **Text:** `ink #16221c`, `muted #566158`, `line #dde2d8`.
 - **Greens:** `forest #103d30`, `forest-2 #0b2a21`, `forest-3 #082019`, `sage #6f8c7b`.
 - **Brass:** `brass #c6a15b`, `brass-2 #b58e45`, `brass-ink #8a6a2c`.
-- **Type:** Montserrat display, Instrument Sans body, JetBrains Mono data/eyebrow.
+- **Type:** Montserrat display, Instrument Sans body, JetBrains Mono data and step labels.
 - **Layout:** 1200px shell; fluid edge `clamp(1.25rem, 5vw, 6rem)`; 6rem anchor offset.
 - **Shape:** 2px action-control radius, rounded-xl/2xl content surfaces, circular icons/nodes.
 - **Motion:** 180–700ms purposeful transitions; full reduced-motion fallback.
@@ -82,14 +82,6 @@ body {
   font-optical-sizing: auto;
   letter-spacing: -0.02em;
   line-height: 1.08;
-}
-
-.eyebrow {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
 }
 
 .tnum {

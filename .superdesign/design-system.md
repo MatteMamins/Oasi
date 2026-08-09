@@ -11,7 +11,7 @@ Oasi presents property management as a calm, precise, premium service. The visua
 3. **Premium through restraint** — brass is an accent for value and progression, never a dominant background everywhere.
 4. **One decision at a time** — qualification forms reveal one lightweight question per step.
 5. **Visible control** — progress, back navigation, focus, errors, saved state, and next steps are explicit.
-6. **Motion with purpose** — reveals, carousel transitions, journey activation, and route flip reinforce structure; all yield to reduced-motion preferences.
+6. **Motion with purpose** — reveals, journey activation, and route flip reinforce structure; all yield to reduced-motion preferences.
 
 ## Foundations
 
@@ -39,7 +39,7 @@ Dark sections use layered forest gradients and translucent paper/white borders. 
 
 - Display: Montserrat 500/600/700; geometric, compact, line-height `1.08`, tracking `-0.02em`.
 - Body: Instrument Sans; default line-height `1.6`.
-- Mono/data: JetBrains Mono 400/500; eyebrows, step labels, ratings, tabular metrics.
+- Mono/data: JetBrains Mono 400/500; step labels, ratings, and tabular metrics.
 - Hero display: fluid `clamp(2.6rem, 5vw, 4rem)`.
 - Section display: commonly `clamp(2rem, 4vw, 3rem)`.
 - Body copy: generally `0.95–1.25rem`; keep paragraph measures around `34–60ch`.
@@ -82,6 +82,11 @@ Dark sections use layered forest gradients and translucent paper/white borders. 
 - Social proof includes context (rating scale and review volume), not an isolated score.
 - Clearly distinguish real metrics/listings from illustrative dashboard data.
 
+### Section headers
+
+- Start directly with the heading; do not use decorative eyebrow labels.
+- Functional labels inside navigation, forms, and product mockups use normal sentence case and body typography.
+
 ### Guided forms
 
 - Owner flow: short property qualification followed by contacts.
@@ -109,9 +114,9 @@ Dark sections use layered forest gradients and translucent paper/white borders. 
 - Do not rely on color alone for selected/current/error states.
 - Keep form labels persistent and errors programmatically associated.
 - Link privacy notices visibly from every data-collection form and phrase the required checkbox as acknowledgement of reading.
-- Announce carousel changes sparingly and form status via appropriate live regions.
+- Announce form status via appropriate live regions.
 - Ensure all decorative glows, frames, and rules are hidden from assistive technology.
-- Maintain keyboard parity for menus, carousels, audience switching, and forms.
+- Maintain keyboard parity for menus, audience switching, and forms.
 
 ## Responsive behavior
 
@@ -134,5 +139,5 @@ Dark sections use layered forest gradients and translucent paper/white borders. 
 
 - Next.js 16.3 / React 19 / Tailwind CSS 4.
 - Tokens live in `app/globals.css` under `@theme`; fonts are supplied as CSS variables by `next/font`.
-- Reuse `.shell`, `.btn*`, `.font-display`, `.eyebrow`, `.tnum`, and accessibility helpers before adding one-off abstractions.
+- Reuse `.shell`, `.btn*`, `.font-display`, `.tnum`, and accessibility helpers before adding one-off abstractions.
 - Read the installed Next.js documentation before framework-level changes; this project’s version may differ from conventional Next.js assumptions.

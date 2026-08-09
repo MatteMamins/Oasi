@@ -20,7 +20,7 @@ Entry point: `app/page.tsx`
 
 ### Page structure
 
-1. Hero: audience switch, owner value proposition, primary/secondary CTAs, social proof, rotating property showcase, and trust metrics.
+1. Hero: owner value proposition, one primary CTA, one compact proof line, and one static real-property image.
 2. `#perche`: four benefits of short-term rental management.
 3. `#come-funziona`: sticky introduction plus four-step animated journey.
 4. `#trasparenza`: reporting/app mockup and operational-control message.
@@ -41,21 +41,11 @@ app/page.tsx
 │   ├── components/icons.tsx
 │   └── lib/flip.ts
 ├── components/page-transition.tsx
-├── components/audience-switch.tsx
-│   └── lib/flip.ts
 ├── components/reveal.tsx
 ├── components/journey.tsx
 ├── components/lead-form.tsx
 │   ├── components/icons.tsx
 │   └── POST /api/lead
-├── components/showcase.tsx
-│   ├── components/icons.tsx
-│   └── public/immobili/
-│       ├── torino-1.jpg
-│       ├── moncalieri-1.jpg
-│       ├── bordighera-1.jpg
-│       ├── torino-2.jpg
-│       └── diano-marina-1.jpg
 ├── components/footer.tsx
 │   └── components/logo.tsx
 ├── components/logo.tsx (OasiMark used directly in the page)
@@ -70,7 +60,7 @@ app/page.tsx
 └── public/ivano.jpg
 ```
 
-Behavioral boundaries: the page itself is a Server Component. `Nav`, `AudienceSwitch`, `Reveal`, `Journey`, `LeadForm`, `Showcase`, and `PageTransition` encapsulate client-side interaction or animation. The form persists draft state in `sessionStorage`, gathers campaign parameters, validates fields, and submits to the shared lead API.
+Behavioral boundaries: the page itself is a Server Component. `Nav`, `Reveal`, `Journey`, `LeadForm`, and `PageTransition` encapsulate client-side interaction or animation. The hero uses one optimized static `next/image`; the form persists draft state in `sessionStorage`, gathers campaign parameters, validates fields, and submits to the shared lead API.
 
 ## `/partner` — partner landing and call funnel
 

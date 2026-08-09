@@ -180,8 +180,7 @@ export default function Partner() {
         <section id="percorsi" className="bg-paper py-24 lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
-              <p className="eyebrow text-brass-ink">Percorsi dedicati</p>
-              <h2 className="font-display mt-4 text-[clamp(2rem,4vw,3rem)] font-semibold">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
                 Parti dal profilo che ti rappresenta.
               </h2>
               <p className="mt-4 text-lg text-muted">
@@ -217,7 +216,7 @@ export default function Partner() {
                         : ""
                     }`}
                   >
-                    <p className="eyebrow text-brass-ink">{group.title}</p>
+                    <p className="text-sm font-semibold text-forest">{group.title}</p>
                     <ul className="mt-4 space-y-3">
                       {group.items.map((item) => (
                         <li key={item} className="flex items-start gap-3 text-muted">
@@ -250,8 +249,7 @@ export default function Partner() {
           />
           <div className="shell relative">
             <Reveal className="max-w-3xl">
-              <p className="eyebrow text-paper/40">Vantaggi operativi</p>
-              <h2 className="font-display mt-4 text-[clamp(2rem,4vw,3rem)] font-semibold">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
                 Tre cose che non devi più costruire da solo.
               </h2>
             </Reveal>
@@ -277,8 +275,7 @@ export default function Partner() {
         <section id="processo" className="bg-paper py-24 lg:py-32">
           <div className="shell">
             <Reveal className="max-w-2xl">
-              <p className="eyebrow text-brass-ink">Come funziona</p>
-              <h2 className="font-display mt-4 text-[clamp(2rem,4vw,3rem)] font-semibold">
+              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
                 Dal primo confronto all&apos;operatività, in tre passaggi.
               </h2>
             </Reveal>
@@ -306,8 +303,7 @@ export default function Partner() {
         <section id="faq" className="bg-stone py-24 lg:py-28">
           <div className="shell max-w-3xl">
             <Reveal>
-              <p className="eyebrow text-brass-ink">Prima della call</p>
-              <h2 className="font-display mt-4 text-[clamp(2rem,4vw,2.7rem)] font-semibold">
+              <h2 className="font-display text-[clamp(2rem,4vw,2.7rem)] font-semibold">
                 Le tre domande essenziali.
               </h2>
             </Reveal>

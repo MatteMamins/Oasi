@@ -33,7 +33,7 @@ Oasi uses the Next.js App Router. The shared root shell is `app/layout.tsx`; it 
 
 ## Cross-route navigation
 
-- `AudienceSwitch` links `/` and `/partner`, priming the shared page-flip transition before navigation.
+- `AudienceSwitch` on the Partner hero links back to `/`; the owner route remains reachable from shared navigation.
 - `Nav` and `Footer` expose route-aware links and in-page anchors.
 - Both forms and the shared footer link to `/privacy`.
 - Both forms submit JSON to `/api/lead`.
