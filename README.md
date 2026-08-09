@@ -160,13 +160,17 @@ app/
   partner/page.tsx        Landing partner
   globals.css             Design system
   api/lead/route.ts       Endpoint lead (validazione, rate limit, webhook)
+  privacy/page.tsx        Informativa privacy
 components/
   lead-form.tsx           Percorso multi-step proprietari + UTM
   partner-form.tsx        Percorso multi-step partner + UTM
-  nav.tsx, footer.tsx, showcase.tsx, journey.tsx, …
+  mobile-cta.tsx          Barra d'azione fissa su mobile
+  smart-anchors.tsx       Scroll alle ancore: morbido vicino, istantaneo lontano
+  nav.tsx, footer.tsx, journey.tsx, reveal.tsx, icons.tsx, …
 lib/
   lead-security.ts        Rate limit, limiti campi, log safe
   flip.ts                 Transizione “a carta” proprietari ↔ partner
+  scroll.ts               Regola di scroll condivisa fra nav e ancore
 ```
 
 ## Design

@@ -67,8 +67,10 @@ const UTM_KEYS = [
   "fbclid",
 ];
 
+/* 16px sotto `sm` non è estetica: sotto quella soglia Safari iOS zooma la
+   pagina al focus del campo e non torna più indietro. */
 const field =
-  "w-full rounded-sm border border-line bg-paper px-4 py-3 text-[0.95rem] text-ink placeholder:text-muted/60 outline-none transition-colors focus:border-forest";
+  "w-full rounded-sm border border-line bg-paper px-4 py-3 text-base text-ink placeholder:text-muted/60 outline-none transition-colors focus:border-forest sm:text-[0.95rem]";
 const labelCls = "mb-1.5 block text-sm font-medium text-ink";
 
 export function LeadForm() {
@@ -323,7 +325,8 @@ export function LeadForm() {
             className={`${field} mt-4`}
             placeholder={current.placeholder}
             defaultValue={String(answers[current.key] ?? "")}
-            autoComplete="off"
+            autoComplete="address-level2"
+            enterKeyHint="next"
             required
             aria-invalid={Boolean(stepError)}
             aria-describedby={stepError ? `${current.key}-error` : undefined}
@@ -367,7 +370,7 @@ export function LeadForm() {
             <button
               type="button"
               onClick={goBack}
-              className="mt-5 text-sm text-muted underline-offset-4 hover:text-forest hover:underline"
+              className="mt-3 inline-flex min-h-11 items-center text-sm text-muted underline-offset-4 hover:text-forest hover:underline"
             >
               ← Indietro
             </button>
@@ -400,7 +403,7 @@ export function LeadForm() {
                   type="button"
                   onClick={() => toggleMulti(o)}
                   aria-pressed={sel}
-                  className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
+                  className={`min-h-11 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
                     sel
                       ? "border-forest bg-forest text-paper"
                       : "border-line bg-paper hover:border-forest"
@@ -554,7 +557,7 @@ export function LeadForm() {
             <button
               type="button"
               onClick={goBack}
-              className="text-sm text-muted underline-offset-4 hover:text-forest hover:underline"
+              className="inline-flex min-h-11 items-center text-sm text-muted underline-offset-4 hover:text-forest hover:underline"
             >
               ← Indietro
             </button>

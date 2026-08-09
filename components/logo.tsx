@@ -48,6 +48,9 @@ export function Logo({ className = "", tone = "dark" }: LogoProps) {
       width={202}
       height={100}
       priority
+      /* Reso a 36px di altezza: senza `sizes` Next preloaderebbe la variante
+         da 640px, in competizione con l'LCP su mobile. */
+      sizes="73px"
       className={`h-9 w-auto ${className}`}
     />
   );

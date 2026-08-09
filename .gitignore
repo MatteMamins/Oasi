@@ -37,8 +37,11 @@ yarn-error.log*
 # vercel
 .vercel
 
-# Superdesign temporary component templates
-.superdesign/tmp/
+# Artefatti generati dai plugin/agent: duplicano il sorgente e finirebbero
+# anche nella scansione di Tailwind, che ne emette utility mai usate.
+.superdesign/
+.agents/
+skills-lock.json
 
 # typescript
 *.tsbuildinfo

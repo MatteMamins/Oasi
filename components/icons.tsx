@@ -29,29 +29,8 @@ export const IconTrend = (p: IconProps) => (
   </svg>
 );
 
-export const IconGuests = (p: IconProps) => (
-  <svg {...base(p)}>
-    <path d="M16 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1" />
-    <circle cx="9.5" cy="8" r="3" />
-    <path d="M17 4a3 3 0 0 1 0 6" />
-    <path d="M21 20v-1a4 4 0 0 0-3-3.8" />
-  </svg>
-);
 
-export const IconCare = (p: IconProps) => (
-  <svg {...base(p)}>
-    <path d="M4 13a8 8 0 0 1 16 0v4a2 2 0 0 1-2 2h-1v-6h3" />
-    <path d="M4 13v4a2 2 0 0 0 2 2h1v-6H4" />
-  </svg>
-);
 
-export const IconDoc = (p: IconProps) => (
-  <svg {...base(p)}>
-    <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
-    <path d="M14 3v5h5" />
-    <path d="M9 13h6M9 17h4" />
-  </svg>
-);
 
 export const IconTax = (p: IconProps) => (
   <svg {...base(p)}>
@@ -62,20 +41,7 @@ export const IconTax = (p: IconProps) => (
   </svg>
 );
 
-export const IconMarketing = (p: IconProps) => (
-  <svg {...base(p)}>
-    <path d="M3 11v2a1 1 0 0 0 1 1h3l4 4V6L7 10H4a1 1 0 0 0-1 1z" />
-    <path d="M16 9a3 3 0 0 1 0 6" />
-    <path d="M18.5 6.5a6 6 0 0 1 0 11" />
-  </svg>
-);
 
-export const IconTag = (p: IconProps) => (
-  <svg {...base(p)}>
-    <path d="M4 4h7l9 9-7 7-9-9V4z" />
-    <circle cx="8" cy="8" r="1.4" />
-  </svg>
-);
 
 export const IconUserCheck = (p: IconProps) => (
   <svg {...base(p)}>
@@ -85,19 +51,7 @@ export const IconUserCheck = (p: IconProps) => (
   </svg>
 );
 
-export const IconChart = (p: IconProps) => (
-  <svg {...base(p)}>
-    <path d="M4 4v16h16" />
-    <path d="M8 15v3M12 10v8M16 13v5M20 7v11" />
-  </svg>
-);
 
-export const IconApp = (p: IconProps) => (
-  <svg {...base(p)}>
-    <rect x="7" y="3" width="10" height="18" rx="2.5" />
-    <path d="M11 18h2" />
-  </svg>
-);
 
 export const IconArrow = (p: IconProps) => (
   <svg {...base(p)}>
@@ -165,8 +119,3 @@ export const IconClose = (p: IconProps) => (
   </svg>
 );
 
-export const IconQuote = (p: IconProps) => (
-  <svg {...base({ ...p, fill: "currentColor", stroke: "none" })}>
-    <path d="M10 7H5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3v3H6a1 1 0 0 1 0 0c1.8 0 3-1.5 3-3.5V8a1 1 0 0 0 1-1zm10 0h-5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h3v3h-2c1.8 0 3-1.5 3-3.5V8a1 1 0 0 0 1-1z" />
-  </svg>
-);

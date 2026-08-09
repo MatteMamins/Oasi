@@ -2,9 +2,11 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Logo } from "./logo";
 import { IconMenu, IconClose } from "./icons";
 import { primeFlip } from "@/lib/flip";
+import { scrollToId } from "@/lib/scroll";
 
 type NavLink = { href: string; label: string };
 
@@ -28,17 +30,39 @@ export function Nav({
   links = defaultLinks,
   cta = defaultCta,
   tone = "light",
+  alwaysSolid = false,
 }: {
   links?: NavLink[];
   cta?: NavLink;
   /* "light": barra chiara da scrollata (landing proprietari);
      "dark": barra sempre scura (pagina Partner) */
   tone?: "light" | "dark";
+  /* Per le pagine che non hanno un hero scuro sotto la barra: trasparente
+     su fondo chiaro renderebbe il logo bianco invisibile. */
+  alwaysSolid?: boolean;
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const menuId = useId();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const pathname = usePathname();
+  const onHome = pathname === "/";
+
+  const closeMenu = () => setOpen(false);
+
+  /* Finché il menu è aperto il body è bloccato, e lo sblocco avviene in un
+     effetto: lasciando agire il link, il browser eseguirebbe il salto
+     all'ancora a pagina ancora ferma e non succederebbe nulla. Chiudiamo,
+     lasciamo passare un frame e scrolliamo noi. */
+  const goToHash = (href: string) => (event: React.MouseEvent) => {
+    const target = document.getElementById(href.slice(1));
+    if (!target) return;
+    event.preventDefault();
+    setOpen(false);
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => scrollToId(href.slice(1))),
+    );
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -65,7 +89,7 @@ export function Nav({
     return () => window.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
-  const solid = scrolled || open;
+  const solid = alwaysSolid || scrolled || open;
   const dark = tone === "dark" || !solid; // testo chiaro sopra fondi scuri
   const mobilePartnerLink = links.find((link) => link.href === "/partner");
   const mobileLinks = mobilePartnerLink
@@ -84,7 +108,7 @@ export function Nav({
       <Link
         href={l.href}
         onClick={() => {
-          setOpen(false);
+          closeMenu();
           primeFlip(flipDir(l.href));
         }}
         className={linkCls(mobile)}
@@ -94,7 +118,7 @@ export function Nav({
     ) : (
       <a
         href={l.href}
-        onClick={() => setOpen(false)}
+        onClick={mobile ? goToHash(l.href) : closeMenu}
         className={linkCls(mobile)}
       >
         {l.label}
@@ -112,9 +136,25 @@ export function Nav({
       }`}
     >
       <nav className="shell flex items-center justify-between py-4">
-        <a href="#top" className="shrink-0" aria-label="Torna all'inizio">
-          <Logo tone={dark ? "light" : "dark"} />
-        </a>
+        {/* Fuori dalla home il logo deve riportare al sito, non scrollare in
+            cima alla pagina corrente: su mobile è il gesto di ritorno. */}
+        {onHome ? (
+          <a href="#top" className="shrink-0" aria-label="Torna all'inizio">
+            <Logo tone={dark ? "light" : "dark"} />
+          </a>
+        ) : (
+          <Link
+            href="/"
+            onClick={() => {
+              closeMenu();
+              primeFlip("owner");
+            }}
+            className="shrink-0"
+            aria-label="Oasi Properties — vai alla home"
+          >
+            <Logo tone={dark ? "light" : "dark"} />
+          </Link>
+        )}
 
         <ul className="hidden items-center gap-8 lg:flex">
           {links.map((l) => (
@@ -152,10 +192,14 @@ export function Nav({
         </button>
       </nav>
 
+      {/* `max-height` (non `min-`) è ciò che rende davvero scrollabile il
+          pannello: con `min-height` il contenuto sborda oltre il viewport e in
+          orizzontale il CTA finale diventa irraggiungibile. `svh` tiene conto
+          della barra del browser anche quando è espansa. */}
       {open && (
         <div
           id={menuId}
-          className={`min-h-[calc(100dvh-76px)] overflow-y-auto lg:hidden ${
+          className={`max-h-[calc(100svh-var(--nav-h))] min-h-[calc(100svh-var(--nav-h))] overflow-y-auto overscroll-contain pb-[max(1rem,env(safe-area-inset-bottom))] lg:hidden ${
             tone === "dark"
               ? "border-t border-white/10 bg-forest-3"
               : "border-t border-line bg-paper"
@@ -193,7 +237,7 @@ export function Nav({
                   <Link
                     href={mobilePartnerLink.href}
                     onClick={() => {
-                      setOpen(false);
+                      closeMenu();
                       primeFlip("partner");
                     }}
                     className="group block"
@@ -221,7 +265,9 @@ export function Nav({
               <li className="pt-5">
                 <a
                   href={cta.href}
-                  onClick={() => setOpen(false)}
+                  onClick={
+                    cta.href.startsWith("#") ? goToHash(cta.href) : closeMenu
+                  }
                   className={`btn w-full ${tone === "dark" ? "btn-brass" : "btn-primary"}`}
                 >
                   {cta.label}
