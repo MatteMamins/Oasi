@@ -12,7 +12,7 @@ const defaultLinks: NavLink[] = [
   { href: "#come-funziona", label: "Come funziona" },
   { href: "#recensioni", label: "Recensioni" },
   { href: "#chi-sono", label: "Chi c'è dietro" },
-  { href: "/partner", label: "Partner" },
+  { href: "/partner", label: "Per professionisti" },
 ];
 
 const defaultCta: NavLink = {
@@ -67,6 +67,10 @@ export function Nav({
 
   const solid = scrolled || open;
   const dark = tone === "dark" || !solid; // testo chiaro sopra fondi scuri
+  const mobilePartnerLink = links.find((link) => link.href === "/partner");
+  const mobileLinks = mobilePartnerLink
+    ? links.filter((link) => link !== mobilePartnerLink)
+    : links;
 
   const linkCls = (mobile = false) =>
     mobile
@@ -170,7 +174,7 @@ export function Nav({
                 tone === "dark" ? "border-white/10" : "border-line"
               }`}
             >
-              {links.map((l) => (
+              {mobileLinks.map((l) => (
                 <li
                   key={l.href}
                   className={`border-b ${
@@ -180,6 +184,40 @@ export function Nav({
                   {renderLink(l, true)}
                 </li>
               ))}
+              {mobilePartnerLink ? (
+                <li
+                  className={`border-b py-4 ${
+                    tone === "dark" ? "border-white/10" : "border-line"
+                  }`}
+                >
+                  <Link
+                    href={mobilePartnerLink.href}
+                    onClick={() => {
+                      setOpen(false);
+                      primeFlip("partner");
+                    }}
+                    className="group block"
+                  >
+                    <span
+                      className={`block text-sm ${
+                        tone === "dark" ? "text-paper/50" : "text-muted"
+                      }`}
+                    >
+                      Lavori nel settore?
+                    </span>
+                    <span
+                      className={`mt-1 flex items-center gap-1.5 font-semibold transition-colors ${
+                        tone === "dark"
+                          ? "text-paper group-hover:text-brass"
+                          : "text-forest group-hover:text-brass-ink"
+                      }`}
+                    >
+                      Scopri Oasi Partner
+                      <span aria-hidden>→</span>
+                    </span>
+                  </Link>
+                </li>
+              ) : null}
               <li className="pt-5">
                 <a
                   href={cta.href}

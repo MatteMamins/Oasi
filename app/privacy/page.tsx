@@ -92,7 +92,7 @@ export default function PrivacyPage() {
         links={[
           { href: "/#come-funziona", label: "Come funziona" },
           { href: "/#recensioni", label: "Recensioni" },
-          { href: "/partner", label: "Partner" },
+          { href: "/partner", label: "Per professionisti" },
         ]}
         cta={{ href: "/#valutazione", label: "Valutazione gratuita" }}
       />

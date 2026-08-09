@@ -74,6 +74,9 @@ Dark sections use layered forest gradients and translucent paper/white borders. 
 - Fixed/stable global header with brand, contextual anchors, and audience route.
 - Mobile menu behaves as a full viewport overlay, locks background scroll, closes with Escape, and restores focus.
 - Active route/audience must be visibly and semantically indicated.
+- Name the partner route `Per professionisti` on the owner desktop navigation; avoid the ambiguous single word `Partner`.
+- In the owner mobile menu, separate partner discovery from owner section anchors with the two-line cue `Lavori nel settore? / Scopri Oasi Partner`.
+- A single text-link row may follow the owner hero to expose the professional path. It stays secondary to the valuation CTA: no card, badge, eyebrow, filled button, or additional color.
 
 ### Cards and proof
 

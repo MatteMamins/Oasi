@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Nav } from "@/components/nav";
 import { PageTransition } from "@/components/page-transition";
 import { Reveal } from "@/components/reveal";
@@ -173,6 +174,23 @@ export default function Home() {
           </div>
         </section>
 
+        <nav
+          aria-label="Percorso per professionisti"
+          className="border-b border-line bg-paper"
+        >
+          <div className="shell flex flex-col gap-1.5 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <p className="text-sm text-muted">
+              Sei un professionista immobiliare?
+            </p>
+            <Link
+              href="/partner"
+              className="flex items-center gap-1.5 text-sm font-medium text-forest transition-colors hover:text-brass-ink"
+            >
+              Scopri il percorso Partner
+              <IconArrow className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        </nav>
 
         {/* ══════════════════ PERCHÉ L'AFFITTO BREVE ══════════════════ */}
         <section id="perche" className="bg-paper py-24 lg:py-32">

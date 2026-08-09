@@ -90,7 +90,7 @@ const defaultLinks: NavLink[] = [
   { href: "#come-funziona", label: "Come funziona" },
   { href: "#recensioni", label: "Recensioni" },
   { href: "#chi-sono", label: "Chi c'è dietro" },
-  { href: "/partner", label: "Partner" },
+  { href: "/partner", label: "Per professionisti" },
 ];
 
 const defaultCta: NavLink = {
@@ -145,6 +145,10 @@ export function Nav({
 
   const solid = scrolled || open;
   const dark = tone === "dark" || !solid; // testo chiaro sopra fondi scuri
+  const mobilePartnerLink = links.find((link) => link.href === "/partner");
+  const mobileLinks = mobilePartnerLink
+    ? links.filter((link) => link !== mobilePartnerLink)
+    : links;
 
   const linkCls = (mobile = false) =>
     mobile
@@ -235,20 +239,74 @@ export function Nav({
               : "border-t border-line bg-paper"
           }`}
         >
-          <ul className="shell flex flex-col gap-1 py-4">
-            {links.map((l) => (
-              <li key={l.href}>{renderLink(l, true)}</li>
-            ))}
-            <li className="pt-3">
-              <a
-                href={cta.href}
-                onClick={() => setOpen(false)}
-                className={`btn w-full ${tone === "dark" ? "btn-brass" : "btn-primary"}`}
-              >
-                {cta.label}
-              </a>
-            </li>
-          </ul>
+          <div className="shell py-5">
+            <p
+              className={`pb-3 text-sm font-semibold ${
+                tone === "dark" ? "text-paper/40" : "text-muted"
+              }`}
+            >
+              Menu {tone === "dark" ? "partner" : "proprietari"}
+            </p>
+            <ul
+              className={`flex flex-col border-t ${
+                tone === "dark" ? "border-white/10" : "border-line"
+              }`}
+            >
+              {mobileLinks.map((l) => (
+                <li
+                  key={l.href}
+                  className={`border-b ${
+                    tone === "dark" ? "border-white/10" : "border-line"
+                  }`}
+                >
+                  {renderLink(l, true)}
+                </li>
+              ))}
+              {mobilePartnerLink ? (
+                <li
+                  className={`border-b py-4 ${
+                    tone === "dark" ? "border-white/10" : "border-line"
+                  }`}
+                >
+                  <Link
+                    href={mobilePartnerLink.href}
+                    onClick={() => {
+                      setOpen(false);
+                      primeFlip("partner");
+                    }}
+                    className="group block"
+                  >
+                    <span
+                      className={`block text-sm ${
+                        tone === "dark" ? "text-paper/50" : "text-muted"
+                      }`}
+                    >
+                      Lavori nel settore?
+                    </span>
+                    <span
+                      className={`mt-1 flex items-center gap-1.5 font-semibold transition-colors ${
+                        tone === "dark"
+                          ? "text-paper group-hover:text-brass"
+                          : "text-forest group-hover:text-brass-ink"
+                      }`}
+                    >
+                      Scopri Oasi Partner
+                      <span aria-hidden>→</span>
+                    </span>
+                  </Link>
+                </li>
+              ) : null}
+              <li className="pt-5">
+                <a
+                  href={cta.href}
+                  onClick={() => setOpen(false)}
+                  className={`btn w-full ${tone === "dark" ? "btn-brass" : "btn-primary"}`}
+                >
+                  {cta.label}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       )}
     </header>

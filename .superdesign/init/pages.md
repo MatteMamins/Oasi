@@ -21,18 +21,20 @@ Entry point: `app/page.tsx`
 ### Page structure
 
 1. Hero: owner value proposition, one primary CTA, one compact proof line, and one static real-property image.
-2. `#perche`: four benefits of short-term rental management.
-3. `#come-funziona`: sticky introduction plus four-step animated journey.
-4. `#trasparenza`: reporting/app mockup and operational-control message.
-5. `#recensioni`: host-profile preview, guest reviews, and real listing cards.
-6. `#chi-sono`: founder portrait and personal credibility section.
-7. `#valutazione`: guided multi-step owner lead form.
-8. Shared footer.
+2. Quiet partner-discovery row: one question and one text link to `/partner`, visually secondary to the owner CTA.
+3. `#perche`: four benefits of short-term rental management.
+4. `#come-funziona`: sticky introduction plus four-step animated journey.
+5. `#trasparenza`: reporting/app mockup and operational-control message.
+6. `#recensioni`: host-profile preview, guest reviews, and real listing cards.
+7. `#chi-sono`: founder portrait and personal credibility section.
+8. `#valutazione`: guided multi-step owner lead form.
+9. Shared footer.
 
 ### Complete local dependency tree
 
 ```text
 app/page.tsx
+├── next/link
 ├── app/layout.tsx (App Router parent)
 │   └── app/globals.css
 ├── components/nav.tsx

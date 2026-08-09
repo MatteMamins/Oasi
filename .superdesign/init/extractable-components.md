@@ -6,7 +6,7 @@ Catalog of stable, reusable UI patterns found in the current product. Runtime fi
 
 - `Shell` — centered content container, `max-width: 1200px`, fluid horizontal edge spacing via `--edge`.
 - `PageTransition` — route wrapper for the owner/partner card-flip transition.
-- `Nav` — fixed responsive navigation with logo, section links, audience switch CTA, full-screen mobile overlay, focus return, and Escape handling.
+- `Nav` — fixed responsive navigation with logo, section links, scroll-revealed primary CTA, an explicit `Per professionisti` route, full-screen mobile overlay, focus return, and Escape handling.
 - `Footer` — shared brand footer, navigation groups, contact/legal area.
 - `SectionHeader` — display heading with optional supporting paragraph and CTA; no decorative eyebrow label.
 - `DarkSection` — forest gradient section with optional blurred ambient `glow` layers.
@@ -23,7 +23,7 @@ Catalog of stable, reusable UI patterns found in the current product. Runtime fi
 
 ## Content patterns
 
-- `OwnerHero` — restrained dark botanical gradient, large display headline, one CTA, one quiet proof line, and one static property image.
+- `OwnerHero` — restrained dark botanical gradient, large display headline, one CTA, one quiet proof line, and one static property image; followed by a low-noise partner-discovery text row.
 - `PartnerHero` — dark botanical gradient, audience selector, partner proposition, one CTA, and one trust point.
 - `FeatureRow` — oversized benefit statement, circular icon, short explanation, divider, and restrained hover movement.
 - `ServiceCard` — bordered/paper card with icon, title, copy, and brass hover accent.
