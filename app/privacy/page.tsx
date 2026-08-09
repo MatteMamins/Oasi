@@ -1,8 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
-import { Footer } from "@/components/footer";
-import { Nav } from "@/components/nav";
-import { PageTransition } from "@/components/page-transition";
+import { Footer } from "@/components/layout/footer";
+import { Nav } from "@/components/layout/nav";
+import { PageTransition } from "@/components/layout/page-transition";
 
 export const metadata: Metadata = {
   title: "Informativa privacy — Oasi Properties",

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { Nav } from "@/components/nav";
-import { PageTransition } from "@/components/page-transition";
-import { Reveal } from "@/components/reveal";
-import { Footer } from "@/components/footer";
-import { MobileCta } from "@/components/mobile-cta";
-import { PartnerForm } from "@/components/partner-form";
-import { PartnerRoleLink } from "@/components/partner-role-link";
+import { Nav } from "@/components/layout/nav";
+import { PageTransition } from "@/components/layout/page-transition";
+import { Reveal } from "@/components/motion/reveal";
+import { Footer } from "@/components/layout/footer";
+import { MobileCta } from "@/components/layout/mobile-cta";
+import { PartnerForm } from "@/components/forms/partner-form";
+import { PartnerRoleLink } from "@/components/forms/partner-role-link";
 import {
   IconArrow,
   IconCheck,
   IconChevronDown,
-} from "@/components/icons";
+} from "@/components/ui/icons";
 
 export const metadata: Metadata = {
   title: "Oasi Properties — Partnership per professionisti immobiliari",

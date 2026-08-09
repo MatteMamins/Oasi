@@ -153,24 +153,40 @@ Vedi `.env.example`.
 
 ## Struttura
 
+I componenti sono raggruppati per ruolo, non per pagina: quasi tutto è
+condiviso fra le due facce del sito.
+
 ```
 app/
-  layout.tsx              Font brand + SEO metadata
-  page.tsx                Landing proprietari
-  partner/page.tsx        Landing partner
-  globals.css             Design system
-  api/lead/route.ts       Endpoint lead (validazione, rate limit, webhook)
-  privacy/page.tsx        Informativa privacy
+  layout.tsx                     Font brand, SEO metadata, theme-color
+  globals.css                    Design system
+  page.tsx                       Landing proprietari
+  partner/page.tsx               Landing partner
+  privacy/page.tsx               Informativa privacy
+  api/lead/route.ts              Endpoint lead (validazione, rate limit, webhook)
+
 components/
-  lead-form.tsx           Percorso multi-step proprietari + UTM
-  partner-form.tsx        Percorso multi-step partner + UTM
-  mobile-cta.tsx          Barra d'azione fissa su mobile
-  smart-anchors.tsx       Scroll alle ancore: morbido vicino, istantaneo lontano
-  nav.tsx, footer.tsx, journey.tsx, reveal.tsx, icons.tsx, …
+  layout/    nav.tsx             Barra fissa + menu mobile
+             footer.tsx
+             mobile-cta.tsx      Barra d'azione fissa su mobile
+             page-transition.tsx Wrapper delle View Transitions
+  forms/     lead-form.tsx       Percorso multi-step proprietari + UTM
+             partner-form.tsx    Modulo partner + UTM
+             partner-role-link.tsx
+  ui/        logo.tsx · icons.tsx · journey.tsx
+  motion/    reveal.tsx          Scroll reveal sotto la piega
+             smart-anchors.tsx   Scroll alle ancore: morbido vicino,
+                                 istantaneo lontano
+
 lib/
-  lead-security.ts        Rate limit, limiti campi, log safe
-  flip.ts                 Transizione “a carta” proprietari ↔ partner
-  scroll.ts               Regola di scroll condivisa fra nav e ancore
+  lead-security.ts               Rate limit, limiti campi, log safe
+  flip.ts                        Transizione “a carta” proprietari ↔ partner
+  scroll.ts                      Regola di scroll condivisa fra nav e ancore
+
+public/
+  brand/                         Logo chiaro e scuro
+  immobili/                      Foto degli annunci in gestione
+  persone/                       Foto fondatore e avatar host
 ```
 
 ## Design

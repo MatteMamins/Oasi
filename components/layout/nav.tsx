@@ -3,8 +3,8 @@
 import { useEffect, useId, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Logo } from "./logo";
-import { IconMenu, IconClose } from "./icons";
+import { Logo } from "@/components/ui/logo";
+import { IconMenu, IconClose } from "@/components/ui/icons";
 import { primeFlip } from "@/lib/flip";
 import { scrollToId } from "@/lib/scroll";
 

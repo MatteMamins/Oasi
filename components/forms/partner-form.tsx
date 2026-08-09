@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
-import { IconArrow, IconCheck } from "./icons";
+import { IconArrow, IconCheck } from "@/components/ui/icons";
 
 const STORAGE_KEY = "oasi-partner-form";
 

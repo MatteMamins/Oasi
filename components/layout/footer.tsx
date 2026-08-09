@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Logo } from "./logo";
+import { Logo } from "@/components/ui/logo";
 
 /* Footer condiviso tra la landing proprietari e la pagina Partner.
    I link sono assoluti così funzionano da entrambe le pagine. */

@@ -40,7 +40,7 @@ export function OasiMark({ className }: { className?: string }) {
 /* Logo ufficiale Oasi Properties (palma + wordmark).
    Verde su fondo chiaro, bianco su fondo scuro. */
 export function Logo({ className = "", tone = "dark" }: LogoProps) {
-  const src = tone === "light" ? "/logo-oasi-white.png" : "/logo-oasi.png";
+  const src = tone === "light" ? "/brand/logo-oasi-white.png" : "/brand/logo-oasi.png";
   return (
     <Image
       src={src}

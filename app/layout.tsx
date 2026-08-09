@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Montserrat, Instrument_Sans, JetBrains_Mono } from "next/font/google";
-import { SmartAnchors } from "@/components/smart-anchors";
+import { SmartAnchors } from "@/components/motion/smart-anchors";
 import "./globals.css";
 
 // Font del brand (dal logo Oasi Properties): geometrico, usato per i titoli

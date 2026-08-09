@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Nav } from "@/components/nav";
-import { PageTransition } from "@/components/page-transition";
-import { Reveal } from "@/components/reveal";
-import { Journey } from "@/components/journey";
-import { LeadForm } from "@/components/lead-form";
-import { MobileCta } from "@/components/mobile-cta";
-import { Footer } from "@/components/footer";
-import { OasiMark } from "@/components/logo";
+import { Nav } from "@/components/layout/nav";
+import { PageTransition } from "@/components/layout/page-transition";
+import { Reveal } from "@/components/motion/reveal";
+import { Journey } from "@/components/ui/journey";
+import { LeadForm } from "@/components/forms/lead-form";
+import { MobileCta } from "@/components/layout/mobile-cta";
+import { Footer } from "@/components/layout/footer";
+import { OasiMark } from "@/components/ui/logo";
 import {
   IconShield,
   IconTrend,
@@ -21,7 +21,7 @@ import {
   IconPin,
   IconExternal,
   IconChevronDown,
-} from "@/components/icons";
+} from "@/components/ui/icons";
 
 // TODO: sostituire con l'URL reale del profilo host su Airbnb
 const AIRBNB_URL = "https://www.airbnb.it/users/profile/1463443137810883322?previous_page_name=PdpHomeMarketplace";
@@ -390,7 +390,7 @@ export default function Home() {
                     <div className="relative">
                       <span className="block h-24 w-24 overflow-hidden rounded-full ring-1 ring-line">
                         <Image
-                          src="/immobili/avatar.jpg"
+                          src="/persone/avatar.jpg"
                           alt="Avatar del profilo host Oasi Properties"
                           width={96}
                           height={96}
@@ -524,7 +524,7 @@ export default function Home() {
               <div className="relative mx-auto w-full max-w-xs">
                 <span className="block overflow-hidden rounded-2xl shadow-[0_45px_80px_-50px_rgba(16,61,48,0.6)]">
                   <Image
-                    src="/ivano.jpg"
+                    src="/persone/ivano.jpg"
                     alt="Ivano, fondatore di Oasi Properties"
                     width={480}
                     height={480}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { IconArrow } from "./icons";
+import { IconArrow } from "@/components/ui/icons";
 
 /* Barra d'azione fissa per il mobile: senza, dopo l'hero l'unico modo di
    arrivare al modulo è scorrere tutta la pagina o aprire l'hamburger.

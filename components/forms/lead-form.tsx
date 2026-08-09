@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
-import { IconCheck, IconArrow } from "./icons";
+import { IconCheck, IconArrow } from "@/components/ui/icons";
 
 /* ── Percorso multi-step: prima il valore percepito, poi il contatto ──
    L'utente costruisce la propria valutazione una domanda alla volta;
