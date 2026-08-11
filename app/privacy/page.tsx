@@ -110,25 +110,25 @@ export default function PrivacyPage() {
       <main id="top" tabIndex={-1} className="bg-paper pt-28 sm:pt-32">
         <section className="shell pb-20 pt-10 lg:pb-28 lg:pt-16">
           <div className="max-w-3xl">
-            <h1 className="font-display text-[clamp(2.3rem,5vw,4rem)] font-semibold text-ink">
+            <h1 className="font-display text-[clamp(2.4rem,5.2vw,3.75rem)] font-semibold tracking-tight text-ink">
               Informativa privacy
             </h1>
-            <p className="mt-5 max-w-2xl text-lg text-muted">
+            <p className="mt-5 max-w-2xl text-lg leading-relaxed text-muted">
               Come trattiamo i dati che ci invii tramite i moduli di valutazione
               e collaborazione.
             </p>
-            <p className="tnum mt-4 text-xs text-muted">
+            <p className="tnum mt-4 text-xs tracking-wide text-muted">
               Ultimo aggiornamento: 9 agosto 2026
             </p>
           </div>
 
-          <div className="mt-12 max-w-3xl divide-y divide-line border-y border-line">
+          <div className="mt-14 max-w-3xl divide-y divide-line border-y border-line">
             {sections.map((section) => (
               <section
                 key={section.title}
-                className="py-7 sm:grid sm:grid-cols-[12rem_1fr] sm:gap-10 sm:py-8"
+                className="py-8 sm:grid sm:grid-cols-[13rem_1fr] sm:gap-12 sm:py-9"
               >
-                <h2 className="font-display text-lg font-semibold text-ink">
+                <h2 className="font-display text-lg font-semibold tracking-tight text-ink">
                   {section.title}
                 </h2>
                 <div className="mt-3 leading-7 text-muted sm:mt-0">
@@ -138,7 +138,7 @@ export default function PrivacyPage() {
             ))}
           </div>
 
-          <div className="mt-10">
+          <div className="mt-12">
             <Link href="/" className="btn btn-primary">
               Torna al sito
             </Link>

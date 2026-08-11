@@ -21,6 +21,8 @@ const UTM_KEYS = [
 const field =
   "w-full rounded-sm border border-line bg-paper px-4 py-3 text-base text-ink placeholder:text-muted/60 outline-none transition-colors focus:border-forest sm:text-[0.95rem]";
 const labelCls = "mb-1.5 block text-sm font-medium text-ink";
+const cardChrome =
+  "rounded-sm border border-line bg-stone shadow-[0_24px_48px_-40px_rgba(16,61,48,0.22)] ring-1 ring-forest/5";
 
 export function PartnerForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">(
@@ -163,9 +165,9 @@ export function PartnerForm() {
         role="status"
         aria-live="polite"
         tabIndex={-1}
-        className="flex flex-col items-center rounded-2xl border border-line bg-stone px-6 py-14 text-center"
+        className={`flex flex-col items-center px-6 py-14 text-center ${cardChrome}`}
       >
-        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-forest text-paper">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-forest text-paper ring-1 ring-brass/30">
           <IconCheck className="h-7 w-7" />
         </span>
         <h3 className="font-display mt-5 text-2xl text-ink">
@@ -189,7 +191,7 @@ export function PartnerForm() {
       onSubmit={onSubmit}
       onChange={saveDraft}
       aria-busy={status === "sending"}
-      className="grid gap-5 rounded-2xl border border-line bg-stone p-6 text-ink sm:p-8 lg:p-10"
+      className={`grid gap-5 p-6 text-ink sm:p-8 lg:p-10 ${cardChrome}`}
     >
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
@@ -346,7 +348,7 @@ export function PartnerForm() {
       {errors.form && (
         <p
           role="alert"
-          className="rounded-sm bg-red-50 px-4 py-2.5 text-sm text-red-700"
+          className="rounded-sm border border-red-100 bg-red-50 px-4 py-2.5 text-sm text-red-700"
         >
           {errors.form}
         </p>

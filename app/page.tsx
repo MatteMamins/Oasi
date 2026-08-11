@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Nav } from "@/components/layout/nav";
 import { PageTransition } from "@/components/layout/page-transition";
 import { Reveal } from "@/components/motion/reveal";
+import { HouseCinema } from "@/components/motion/house-cinema";
 import { Journey } from "@/components/ui/journey";
 import { LeadForm } from "@/components/forms/lead-form";
 import { MobileCta } from "@/components/layout/mobile-cta";
@@ -114,47 +115,57 @@ export default function Home() {
   return (
     <PageTransition>
       <Nav />
-      <main id="top" tabIndex={-1}>
-        {/* ══════════════════ HERO ══════════════════ */}
+      <main id="top" tabIndex={-1} className="relative">
+        {/* Elevazione frontale: avanza con lo scroll (stadi 0→4). */}
+        <HouseCinema />
+
+        {/* ══════════════════ HERO — stadio 0 ══════════════════
+            Solid dark, editorial two-column, .rise above-fold. */}
         <section
-          className="relative overflow-hidden pt-32 pb-20 sm:pt-40 lg:pb-28"
-          style={{
-            background:
-              "radial-gradient(120% 90% at 80% -10%, #14493a 0%, #0b2a21 45%, #082019 100%)",
-          }}
+          data-cinema-stage="0"
+          data-cinema-surface="dark"
+          className="cinema-section overflow-hidden pt-36 pb-24 sm:pt-44 sm:pb-28 lg:pb-36"
         >
-          {/* Niente <Reveal> qui sopra: l'hero deve essere leggibile al primo
-              paint, non dopo l'hydration. L'entrata è la classe CSS .rise. */}
-          <div className="shell relative grid items-center gap-10 sm:gap-14 lg:grid-cols-[1fr_0.8fr] lg:gap-20">
-            <div>
-              <h1 className="rise font-display text-[clamp(2.6rem,5vw,4rem)] font-semibold text-paper">
+          <div className="cinema-section-bg bg-forest-2" />
+          <div
+            aria-hidden
+            className="cinema-section-bg opacity-60"
+            style={{
+              background:
+                "radial-gradient(90% 70% at 85% 0%, rgba(20,73,58,0.55) 0%, transparent 55%)",
+            }}
+          />
+          <div className="shell cinema-section-fg grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-24">
+            <div className="max-w-xl">
+              <h1 className="rise font-display text-[clamp(2.75rem,5.4vw,4.25rem)] font-semibold tracking-tight text-paper">
                 Il tuo immobile,
                 <br className="hidden sm:inline" />{" "}
                 gestito come un{" "}
                 <em className="not-italic text-brass">asset.</em>
               </h1>
               <p
-                className="rise mt-6 max-w-lg text-xl text-paper/80"
+                className="rise mt-7 max-w-md text-lg leading-relaxed text-paper/75 sm:text-xl"
                 style={{ "--rise-delay": "80ms" } as React.CSSProperties}
               >
                 Gestione professionale di affitti brevi, dai prezzi alla cura
                 degli ospiti.
               </p>
               <div
-                className="rise mt-10"
+                className="rise mt-11"
                 style={{ "--rise-delay": "140ms" } as React.CSSProperties}
               >
                 <a href="#valutazione" className="btn btn-brass">
-                  Richiedi la valutazione gratuita <IconArrow className="h-4 w-4" />
+                  Richiedi la valutazione gratuita{" "}
+                  <IconArrow className="h-4 w-4" />
                 </a>
               </div>
               <div
-                className="rise mt-8 flex items-center gap-2 text-sm text-paper/60"
+                className="rise mt-9 flex items-center gap-2.5 text-sm text-paper/55"
                 style={{ "--rise-delay": "200ms" } as React.CSSProperties}
               >
                 <IconStar className="h-3.5 w-3.5 shrink-0 text-brass" />
                 <span aria-label="Valutazione media 4,56 su 5, basata su 358 recensioni verificate">
-                  <span className="tnum text-paper">4,56/5</span> su 358
+                  <span className="tnum text-paper/90">4,56/5</span> su 358
                   recensioni verificate
                 </span>
               </div>
@@ -164,26 +175,31 @@ export default function Home() {
               className="rise"
               style={{ "--rise-delay": "120ms" } as React.CSSProperties}
             >
-              <div className="overflow-hidden rounded-xl">
-                <Image
-                  src="/immobili/torino-1.jpg"
-                  alt="Soggiorno di un immobile gestito da Oasi a Torino"
-                  width={1200}
-                  height={900}
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 42vw"
-                  className="aspect-[4/3] w-full object-cover"
-                />
+              <div className="relative">
+                <div className="overflow-hidden rounded-sm ring-1 ring-white/10">
+                  <Image
+                    src="/immobili/torino-1.jpg"
+                    alt="Soggiorno di un immobile gestito da Oasi a Torino"
+                    width={1200}
+                    height={900}
+                    priority
+                    sizes="(max-width: 1024px) 100vw, 44vw"
+                    className="aspect-[4/3] w-full object-cover"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
+        {/* Partner bridge — quiet strip, no stage attrs; cinema layers keep
+            content above fixed HouseCinema (z-1). */}
         <nav
           aria-label="Percorso per professionisti"
-          className="border-b border-line bg-paper"
+          className="cinema-section border-b border-line"
         >
-          <div className="shell flex flex-col gap-1.5 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <p className="text-sm text-muted">
               Sei un professionista immobiliare?
             </p>
@@ -197,171 +213,214 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* ══════════════════ PERCHÉ L'AFFITTO BREVE ══════════════════ */}
-        <section id="perche" className="bg-paper py-16 sm:py-24 lg:py-32">
-          <div className="shell">
+        {/* ══════════════════ PERCHÉ — stadio 1 (manifesto) ══════════════════ */}
+        <section
+          id="perche"
+          data-cinema-stage="1"
+          data-cinema-surface="light"
+          className="cinema-section py-20 sm:py-28 lg:py-36"
+        >
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg">
             <Reveal className="max-w-3xl">
-              {/* Sotto `sm` l'a capo forzato spezzerebbe righe che il browser
-                  manda già a capo da sole: meglio lasciarle bilanciare. */}
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-balance text-ink">
+              <h2 className="font-display text-[clamp(2rem,4vw,3.1rem)] font-semibold text-balance text-ink">
                 Molto più redditizio
                 <br className="hidden sm:inline" />{" "}
                 dell&apos;affitto a lungo termine.
               </h2>
             </Reveal>
 
-            <div className="mt-12 border-t border-line lg:mt-14">
+            <div className="mt-14 border-t border-line lg:mt-16">
               {whyShortTerm.map((w, i) => (
                 <Reveal
                   key={w.word}
-                  delay={i * 80}
-                  className="group flex flex-col gap-4 border-b border-line py-7 sm:py-9 lg:flex-row lg:items-center lg:justify-between lg:gap-10"
+                  delay={i * 70}
+                  className="group grid gap-5 border-b border-line py-8 sm:py-10 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-16"
                 >
-                  <h3 className="font-display text-[clamp(2.2rem,5.5vw,3.6rem)] font-semibold leading-none text-ink transition-transform duration-300 lg:group-hover:translate-x-2">
+                  <h3 className="font-display text-[clamp(2.4rem,6vw,3.85rem)] font-semibold leading-[0.95] tracking-tight text-ink">
                     <span className="text-brass">{w.lead}</span> {w.word}
                   </h3>
-                  <p className="flex items-center gap-4 text-muted lg:max-w-sm lg:justify-end lg:text-right">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-mist text-forest transition-colors duration-300 group-hover:bg-forest group-hover:text-paper lg:order-2">
-                      <w.icon className="h-5 w-5" />
-                    </span>
+                  <p className="flex max-w-md items-start gap-4 text-[0.98rem] leading-relaxed text-muted lg:max-w-xs lg:justify-self-end lg:text-right">
                     <span className="lg:order-1">{w.text}</span>
+                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-mist text-forest transition-colors duration-300 group-hover:bg-forest group-hover:text-paper lg:order-2">
+                      <w.icon className="h-4 w-4" />
+                    </span>
                   </p>
                 </Reveal>
               ))}
             </div>
 
-            <Reveal delay={120} className="mt-14 flex justify-center">
+            <Reveal delay={100} className="mt-16 flex justify-center">
               <a href="#valutazione" className="btn btn-primary">
-                Scopri quanto può rendere il tuo immobile <IconArrow className="h-4 w-4" />
+                Scopri quanto può rendere il tuo immobile{" "}
+                <IconArrow className="h-4 w-4" />
               </a>
             </Reveal>
           </div>
         </section>
 
-        {/* ══════════════════ COME FUNZIONA — Il percorso ══════════════════ */}
+        {/* ══════════════════ COME FUNZIONA — stadio 2 ══════════════════ */}
         <section
           id="come-funziona"
-          className="relative overflow-hidden py-16 text-paper sm:py-24 lg:py-32"
-          style={{ background: "linear-gradient(180deg,#082019,#0b2a21 26%,#0e3529 60%,#0b2a21)" }}
+          data-cinema-stage="2"
+          data-cinema-surface="dark"
+          className="cinema-section overflow-hidden py-20 text-paper sm:py-28 lg:py-36"
         >
-          {/* seam: entra dal chiaro della sezione precedente */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-32"
-            style={{ background: "linear-gradient(180deg, var(--color-paper), transparent)" }}
-          />
-          <div
-            className="glow"
-            style={{ background: "rgba(198,161,91,0.10)", width: 360, height: 360, top: 120, right: -80 }}
-          />
-          <div className="shell relative grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="cinema-section-bg bg-forest-2" />
+          <div className="shell cinema-section-fg grid gap-16 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
             <div className="lg:sticky lg:top-32 lg:self-start">
               <Reveal>
-                <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
+                <h2 className="font-display text-[clamp(2rem,4vw,3.1rem)] font-semibold">
                   Dalla prima analisi alla gestione completa.
                 </h2>
-                <p className="mt-5 max-w-md text-lg text-paper/70">
+                <p className="mt-6 max-w-md text-lg leading-relaxed text-paper/65">
                   Quattro passaggi. Dopo il primo, non devi più pensare a nulla:
                   al resto pensiamo noi.
                 </p>
               </Reveal>
-              <Reveal delay={120} className="mt-8 hidden lg:block">
+              <Reveal delay={100} className="mt-10 hidden lg:block">
                 <a href="#valutazione" className="btn btn-brass">
                   Inizia dal primo passo <IconArrow className="h-4 w-4" />
                 </a>
-                <p className="mt-4 text-sm text-paper/50">
+                <p className="mt-4 text-sm text-paper/45">
                   L&apos;analisi iniziale è gratuita e senza impegno.
                 </p>
               </Reveal>
             </div>
 
-            <Reveal delay={120} className="lg:pt-2">
+            <Reveal delay={100} className="lg:pt-1">
               <Journey steps={steps} />
             </Reveal>
-          </div>
 
-          {/* seam: dissolve nel chiaro della sezione successiva */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-32"
-            style={{ background: "linear-gradient(180deg, transparent, var(--color-paper))" }}
-          />
+            <Reveal delay={80} className="lg:hidden">
+              <a href="#valutazione" className="btn btn-brass">
+                Inizia dal primo passo <IconArrow className="h-4 w-4" />
+              </a>
+              <p className="mt-4 text-sm text-paper/45">
+                L&apos;analisi iniziale è gratuita e senza impegno.
+              </p>
+            </Reveal>
+          </div>
         </section>
 
-        {/* ══════════════════ TRASPARENZA — tu vedi tutto ══════════════════ */}
-        <section id="trasparenza" className="bg-paper py-16 sm:py-24 lg:py-32">
-          <div className="shell grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+        {/* ══════════════════ TRASPARENZA — stadio 3 ══════════════════ */}
+        <section
+          id="trasparenza"
+          data-cinema-stage="3"
+          data-cinema-surface="light"
+          className="cinema-section py-20 sm:py-28 lg:py-36"
+        >
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg grid items-center gap-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
             <div>
               <Reveal
                 as="h2"
-                className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-balance text-ink"
+                className="font-display text-[clamp(2rem,4vw,3.1rem)] font-semibold text-balance text-ink"
               >
                 Noi ci occupiamo di tutto.
                 <br className="hidden sm:inline" />{" "}
                 Tu vedi tutto.
               </Reveal>
-              <Reveal as="p" delay={140} className="mt-5 max-w-lg text-lg text-muted">
+              <Reveal
+                as="p"
+                delay={120}
+                className="mt-6 max-w-lg text-lg leading-relaxed text-muted"
+              >
                 Delegare non significa perdere il controllo. Dalla tua area
                 dedicata segui prenotazioni, ricavi, controlli qualità e
                 adempimenti fiscali — in ogni momento, da qualsiasi dispositivo.
               </Reveal>
             </div>
 
-            {/* Mock dell'area proprietario (dati illustrativi) */}
-            <Reveal delay={160}>
+            {/* Mock area proprietario — same labels/metrics, sharper chrome */}
+            <Reveal delay={140}>
               <div className="mx-auto w-full max-w-sm">
-                <div className="overflow-hidden rounded-2xl bg-forest-2 text-paper shadow-[0_50px_90px_-45px_rgba(8,32,25,0.75)]">
-                  <div className="flex items-center justify-between border-b border-white/10 px-6 py-4">
+                <div className="overflow-hidden rounded-sm bg-forest-2 text-paper shadow-[0_40px_80px_-40px_rgba(8,32,25,0.7)] ring-1 ring-forest/20">
+                  <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4 sm:px-6">
                     <span className="flex items-center gap-2.5">
                       <span className="flex h-8 w-8 items-center justify-center rounded-full bg-forest text-paper">
                         <OasiMark className="h-5 w-5" />
                       </span>
-                      <span className="text-sm font-medium">Area proprietario</span>
+                      <span className="text-sm font-medium">
+                        Area proprietario
+                      </span>
                     </span>
-                    <span className="flex items-center gap-1.5 text-xs text-paper/55">
+                    <span className="flex items-center gap-1.5 text-xs text-paper/50">
                       Oasi corallo <IconChevronDown className="h-3.5 w-3.5" />
                     </span>
                   </div>
 
-                  <div className="px-6 pt-5">
-                    <p className="text-xs font-medium text-paper/45">Ricavi del mese</p>
-                    <p className="mt-1 flex items-baseline gap-2">
-                      <span className="font-display tnum text-3xl font-semibold">€ 2.480</span>
-                      <span className="text-xs text-paper/50">occupazione 84%</span>
+                  <div className="px-5 pt-6 sm:px-6">
+                    <p className="text-xs font-medium tracking-wide text-paper/40">
+                      Ricavi del mese
                     </p>
-                    <div className="mt-4 flex h-16 items-end gap-1.5" aria-hidden>
+                    <p className="mt-1.5 flex items-baseline gap-2.5">
+                      <span className="font-display tnum text-3xl font-semibold tracking-tight">
+                        € 2.480
+                      </span>
+                      <span className="text-xs text-paper/45">
+                        occupazione 84%
+                      </span>
+                    </p>
+                    <div
+                      className="mt-5 flex h-14 items-end gap-1.5"
+                      aria-hidden
+                    >
                       {mockBars.map((h, i) => (
                         <span
                           key={i}
-                          className={`flex-1 rounded-t-sm ${i === mockBars.length - 1 ? "bg-brass" : "bg-white/15"}`}
+                          className={`flex-1 rounded-t-[1px] ${
+                            i === mockBars.length - 1
+                              ? "bg-brass"
+                              : "bg-white/[0.12]"
+                          }`}
                           style={{ height: `${h}%` }}
                         />
                       ))}
                     </div>
                   </div>
 
-                  <div className="mt-5 space-y-px bg-white/5">
+                  <div className="mt-6 space-y-px border-t border-white/[0.06] bg-white/[0.03]">
                     {[
-                      { icon: IconCamera, text: "Controllo qualità completato", meta: "12 foto" },
-                      { icon: IconTax, text: "Imposte versate per tuo conto", meta: "F24" },
-                      { icon: IconCalendar, text: "Nuova prenotazione", meta: "4 notti" },
+                      {
+                        icon: IconCamera,
+                        text: "Controllo qualità completato",
+                        meta: "12 foto",
+                      },
+                      {
+                        icon: IconTax,
+                        text: "Imposte versate per tuo conto",
+                        meta: "F24",
+                      },
+                      {
+                        icon: IconCalendar,
+                        text: "Nuova prenotazione",
+                        meta: "4 notti",
+                      },
                     ].map((r) => (
-                      <div key={r.text} className="flex items-center gap-3 bg-forest-2 px-6 py-3.5">
-                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/10 text-brass">
+                      <div
+                        key={r.text}
+                        className="flex items-center gap-3 px-5 py-3.5 sm:px-6"
+                      >
+                        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/[0.08] text-brass">
                           <r.icon className="h-4 w-4" />
                         </span>
-                        <span className="flex-1 text-sm text-paper/85">{r.text}</span>
-                        <span className="tnum text-xs text-paper/45">{r.meta}</span>
+                        <span className="flex-1 text-sm text-paper/80">
+                          {r.text}
+                        </span>
+                        <span className="tnum text-xs text-paper/40">
+                          {r.meta}
+                        </span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="flex items-center gap-2 border-t border-white/10 px-6 py-3.5 text-xs text-paper/50">
+                  <div className="flex items-center gap-2 border-t border-white/[0.08] px-5 py-3.5 text-xs text-paper/45 sm:px-6">
                     <IconCheck className="h-3.5 w-3.5 text-sage" />
                     Tutto in regola: nessuna azione richiesta da parte tua
                   </div>
                 </div>
-                <p className="mt-3 text-center text-xs text-muted/70">
+                <p className="mt-4 text-center text-xs text-muted/70">
                   Anteprima illustrativa dell&apos;area proprietario.
                 </p>
               </div>
@@ -369,166 +428,200 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ══════════════════ RECENSIONI — anteprima profilo Airbnb ══════════════════ */}
-        <section id="recensioni" className="bg-stone py-16 sm:py-24 lg:py-32">
-          <div className="shell">
-            <Reveal className="max-w-2xl">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
-                Il nostro profilo host, in anteprima.
-              </h2>
-              <p className="mt-5 text-lg text-muted">
-                Annunci, valutazioni e recensioni sono quelli reali del nostro
-                profilo verificato su Airbnb. Puoi controllare tutto, quando vuoi.
-              </p>
+        {/* ══════════════════ RECENSIONI — showroom host ══════════════════ */}
+        <section
+          id="recensioni"
+          data-cinema-stage="3"
+          data-cinema-surface="light"
+          className="cinema-section py-20 sm:py-28 lg:py-36"
+        >
+          <div className="cinema-section-bg bg-stone" />
+          <div className="shell cinema-section-fg">
+            <div className="grid gap-10 lg:grid-cols-[1fr_auto] lg:items-end lg:gap-16">
+              <Reveal className="max-w-2xl">
+                <h2 className="font-display text-[clamp(2rem,4vw,3.1rem)] font-semibold text-ink">
+                  Il nostro profilo host, in anteprima.
+                </h2>
+                <p className="mt-5 text-lg leading-relaxed text-muted">
+                  Annunci, valutazioni e recensioni sono quelli reali del nostro
+                  profilo verificato su Airbnb. Puoi controllare tutto, quando
+                  vuoi.
+                </p>
+              </Reveal>
+
+              <Reveal delay={80} className="flex items-center gap-4">
+                <span className="relative shrink-0">
+                  <span className="block h-14 w-14 overflow-hidden rounded-full ring-1 ring-line">
+                    <Image
+                      src="/persone/avatar.jpg"
+                      alt="Avatar del profilo host Oasi Properties"
+                      width={56}
+                      height={56}
+                      className="h-full w-full object-cover"
+                    />
+                  </span>
+                  <span className="absolute -right-0.5 bottom-0 flex h-5 w-5 items-center justify-center rounded-full bg-forest text-paper ring-2 ring-stone">
+                    <IconCheck className="h-2.5 w-2.5" />
+                  </span>
+                </span>
+                <span>
+                  <span className="block font-display text-lg font-semibold text-ink">
+                    Oasi Properties
+                  </span>
+                  <span className="text-sm text-muted">
+                    Host verificato su Airbnb
+                  </span>
+                </span>
+              </Reveal>
+            </div>
+
+            {/* Metrics band */}
+            <Reveal delay={100} className="mt-12">
+              <dl className="grid grid-cols-3 gap-px overflow-hidden rounded-sm border border-line bg-line">
+                <div className="bg-paper px-5 py-6 text-center sm:px-8 sm:py-8">
+                  <dd className="font-display tnum text-2xl font-semibold text-ink sm:text-3xl">
+                    358
+                  </dd>
+                  <dt className="mt-1.5 text-xs tracking-wide text-muted sm:text-sm">
+                    Recensioni
+                  </dt>
+                </div>
+                <div className="bg-paper px-5 py-6 text-center sm:px-8 sm:py-8">
+                  <dd className="flex items-center justify-center gap-1.5 font-display text-2xl font-semibold text-ink sm:text-3xl">
+                    <span className="tnum">4,56</span>
+                    <IconStar className="h-4 w-4 text-brass sm:h-5 sm:w-5" />
+                  </dd>
+                  <dt className="mt-1.5 text-xs tracking-wide text-muted sm:text-sm">
+                    Valutazione media
+                  </dt>
+                </div>
+                <div className="bg-paper px-5 py-6 text-center sm:px-8 sm:py-8">
+                  <dd className="font-display tnum text-2xl font-semibold text-ink sm:text-3xl">
+                    3
+                  </dd>
+                  <dt className="mt-1.5 text-xs tracking-wide text-muted sm:text-sm">
+                    Anni da host
+                  </dt>
+                </div>
+              </dl>
             </Reveal>
 
-            <Reveal delay={120} className="mt-12">
-              <div className="overflow-hidden rounded-2xl border border-line bg-paper shadow-[0_50px_90px_-55px_rgba(16,61,48,0.5)]">
-                <div className="grid md:grid-cols-[280px_1fr]">
-                  {/* colonna profilo, come su Airbnb */}
-                  <div className="flex flex-col items-center border-b border-line bg-stone/40 px-8 py-9 text-center md:border-b-0 md:border-r">
-                    <div className="relative">
-                      <span className="block h-24 w-24 overflow-hidden rounded-full ring-1 ring-line">
-                        <Image
-                          src="/persone/avatar.jpg"
-                          alt="Avatar del profilo host Oasi Properties"
-                          width={96}
-                          height={96}
-                          className="h-full w-full object-cover"
-                        />
-                      </span>
-                      <span className="absolute -right-1 bottom-0 flex h-7 w-7 items-center justify-center rounded-full bg-forest text-paper ring-2 ring-paper">
-                        <IconCheck className="h-3.5 w-3.5" />
-                      </span>
-                    </div>
-                    <p className="font-display mt-4 text-xl font-semibold text-ink">
-                      Oasi Properties
-                    </p>
-                    <p className="mt-0.5 text-sm text-muted">Host verificato su Airbnb</p>
-
-                    <dl className="mt-7 w-full divide-y divide-line border-y border-line text-left">
-                      <div className="flex items-baseline justify-between py-3">
-                        <dd className="font-display tnum text-lg font-semibold text-ink">358</dd>
-                        <dt className="text-xs text-muted">Recensioni</dt>
-                      </div>
-                      <div className="flex items-baseline justify-between py-3">
-                        <dd className="flex items-center gap-1 font-display text-lg font-semibold text-ink">
-                          <span className="tnum">4,56</span>
-                          <IconStar className="h-3.5 w-3.5 text-brass" />
-                        </dd>
-                        <dt className="text-xs text-muted">Valutazione media</dt>
-                      </div>
-                      <div className="flex items-baseline justify-between py-3">
-                        <dd className="font-display tnum text-lg font-semibold text-ink">3</dd>
-                        <dt className="text-xs text-muted">Anni da host</dt>
-                      </div>
-                    </dl>
-
-                    <a
-                      href={AIRBNB_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn btn-ghost mt-7 w-full text-sm"
+            {/* Guest quotes */}
+            <div className="mt-10 grid gap-4 md:grid-cols-3">
+              {reviews.map((r, i) => (
+                <Reveal key={r.author} delay={80 + i * 60}>
+                  <figure className="flex h-full flex-col rounded-sm border border-line bg-paper p-6 sm:p-7">
+                    <span
+                      className="flex text-brass"
+                      aria-label="Valutazione 5 su 5"
                     >
-                      Vedi il profilo su Airbnb <IconExternal className="h-4 w-4" />
-                    </a>
-                  </div>
-
-                  {/* recensioni */}
-                  <div className="flex flex-col">
-                    <div className="grid flex-1 divide-y divide-line">
-                      {reviews.map((r) => (
-                        <figure key={r.author} className="flex flex-col justify-center px-6 py-6 sm:px-8">
-                          <span className="flex text-brass" aria-label="Valutazione 5 su 5">
-                            {Array.from({ length: 5 }).map((_, i) => (
-                              <IconStar key={i} className="h-3.5 w-3.5" />
-                            ))}
-                          </span>
-                          <blockquote className="mt-3 text-[0.95rem] leading-relaxed text-ink">
-                            {r.text}
-                          </blockquote>
-                          <figcaption className="mt-4 flex items-center gap-3">
-                            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-mist font-display text-sm text-forest">
-                              {r.author[0]}
-                            </span>
-                            <span>
-                              <span className="block text-sm font-medium text-ink">{r.author}</span>
-                              <span className="flex items-center gap-1 text-xs text-muted">
-                                <IconPin className="h-3 w-3" /> {r.place}
-                              </span>
-                            </span>
-                          </figcaption>
-                        </figure>
+                      {Array.from({ length: 5 }).map((_, j) => (
+                        <IconStar key={j} className="h-3.5 w-3.5" />
                       ))}
-                    </div>
-                  </div>
-                </div>
+                    </span>
+                    <blockquote className="mt-4 flex-1 text-[0.95rem] leading-relaxed text-ink">
+                      {r.text}
+                    </blockquote>
+                    <figcaption className="mt-6 flex items-center gap-3 border-t border-line pt-5">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full bg-mist font-display text-sm text-forest">
+                        {r.author[0]}
+                      </span>
+                      <span>
+                        <span className="block text-sm font-medium text-ink">
+                          {r.author}
+                        </span>
+                        <span className="flex items-center gap-1 text-xs text-muted">
+                          <IconPin className="h-3 w-3" /> {r.place}
+                        </span>
+                      </span>
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
 
-                {/* gli annunci, con le foto reali */}
-                <div className="border-t border-line bg-stone/50 px-6 py-6 sm:px-8">
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <p className="text-sm font-medium text-muted/70">Gli annunci in gestione</p>
-                    <p className="text-xs text-muted">
-                      10 annunci attivi · Torino, Moncalieri e Riviera ligure
-                    </p>
-                  </div>
-                  {/* 6 colonne già da `sm` rendevano le miniature più piccole
-                      (75px) che su telefono (92px): si passa da 4. */}
-                  <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
-                    {listings.map((l) => (
-                      <a
-                        key={l.src}
-                        href={AIRBNB_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group"
-                      >
-                        <span className="block aspect-square overflow-hidden rounded-lg">
-                          <Image
-                            src={l.src}
-                            alt={`Annuncio a ${l.place}`}
-                            width={220}
-                            height={220}
-                            /* Senza `sizes` verrebbero scaricate sei immagini
-                               da 640px per riquadri da 92px. */
-                            sizes="(min-width: 1024px) 170px, (min-width: 640px) 130px, 30vw"
-                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          />
-                        </span>
-                        <span className="mt-1.5 flex items-center justify-between text-xs">
-                          <span className="truncate font-medium text-ink/80">{l.place}</span>
-                          <span className="flex shrink-0 items-center gap-0.5 text-muted">
-                            {l.rating ? (
-                              <>
-                                <IconStar className="h-3 w-3 text-brass" />
-                                <span className="tnum">{l.rating}</span>
-                              </>
-                            ) : (
-                              "Novità"
-                            )}
-                          </span>
-                        </span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
+            {/* Listing photo grid */}
+            <Reveal delay={120} className="mt-12">
+              <div className="flex flex-wrap items-baseline justify-between gap-2">
+                <p className="text-sm font-medium text-muted">
+                  Gli annunci in gestione
+                </p>
+                <p className="text-xs text-muted/80">
+                  10 annunci attivi · Torino, Moncalieri e Riviera ligure
+                </p>
+              </div>
+              <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+                {listings.map((l) => (
+                  <a
+                    key={l.src}
+                    href={AIRBNB_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group"
+                  >
+                    <span className="block aspect-square overflow-hidden rounded-sm ring-1 ring-line">
+                      <Image
+                        src={l.src}
+                        alt={`Annuncio a ${l.place}`}
+                        width={220}
+                        height={220}
+                        sizes="(min-width: 1024px) 170px, (min-width: 640px) 30vw, 45vw"
+                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </span>
+                    <span className="mt-2 flex items-center justify-between gap-1 text-xs">
+                      <span className="truncate font-medium text-ink/80">
+                        {l.place}
+                      </span>
+                      <span className="flex shrink-0 items-center gap-0.5 text-muted">
+                        {l.rating ? (
+                          <>
+                            <IconStar className="h-3 w-3 text-brass" />
+                            <span className="tnum">{l.rating}</span>
+                          </>
+                        ) : (
+                          "Novità"
+                        )}
+                      </span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+
+              <div className="mt-10 flex justify-center">
+                <a
+                  href={AIRBNB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-ghost text-sm"
+                >
+                  Vedi il profilo su Airbnb{" "}
+                  <IconExternal className="h-4 w-4" />
+                </a>
               </div>
             </Reveal>
           </div>
         </section>
 
-        {/* ══════════════════ CHI C'È DIETRO ══════════════════ */}
-        <section id="chi-sono" className="bg-paper py-16 sm:py-24 lg:py-32">
-          <div className="shell grid items-center gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
+        {/* ══════════════════ CHI C'È DIETRO — stadio 3 ══════════════════ */}
+        <section
+          id="chi-sono"
+          data-cinema-stage="3"
+          data-cinema-surface="light"
+          className="cinema-section py-20 sm:py-28 lg:py-36"
+        >
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg grid items-center gap-14 lg:grid-cols-[0.78fr_1.22fr] lg:gap-20">
             <Reveal>
-              <div className="relative mx-auto w-full max-w-xs">
-                <span className="block overflow-hidden rounded-2xl shadow-[0_45px_80px_-50px_rgba(16,61,48,0.6)]">
+              <div className="relative mx-auto w-full max-w-sm lg:max-w-none">
+                <span className="block overflow-hidden rounded-sm shadow-[0_40px_70px_-45px_rgba(16,61,48,0.55)] ring-1 ring-line">
                   <Image
                     src="/persone/ivano.jpg"
                     alt="Ivano, fondatore di Oasi Properties"
-                    width={480}
-                    height={480}
-                    className="h-auto w-full object-cover"
+                    width={560}
+                    height={700}
+                    sizes="(min-width: 1024px) 380px, 90vw"
+                    className="aspect-[4/5] h-auto w-full object-cover"
                   />
                 </span>
                 <span className="absolute -bottom-4 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full bg-forest px-4 py-2 text-sm font-medium text-paper shadow-lg">
@@ -537,73 +630,94 @@ export default function Home() {
                 </span>
               </div>
             </Reveal>
-            <div>
+            <div className="lg:pt-2">
               <Reveal
                 as="h2"
-                className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-balance text-ink"
+                className="font-display text-[clamp(2rem,4vw,3.1rem)] font-semibold text-balance text-ink"
               >
                 Dietro ogni immobile,
                 <br className="hidden sm:inline" />{" "}
                 una persona. Non un call center.
               </Reveal>
-              <Reveal as="p" delay={100} className="mt-6 max-w-xl text-lg text-muted">
+              <Reveal
+                as="p"
+                delay={100}
+                className="mt-7 max-w-xl text-lg leading-relaxed text-muted"
+              >
                 Sono Ivano, fondatore di Oasi Properties. Gestisco affitti brevi
                 da 5 anni tra Torino e la Riviera ligure: oltre 7.000
                 prenotazioni, un metodo costruito ospite dopo ospite e
                 proprietari che mi affidano il loro immobile da anni.
               </Reveal>
-              <Reveal as="p" delay={160} className="mt-4 max-w-xl text-lg text-muted">
+              <Reveal
+                as="p"
+                delay={150}
+                className="mt-4 max-w-xl text-lg leading-relaxed text-muted"
+              >
                 Ogni proprietario lavora direttamente con me e con il mio team:
                 conosco ogni immobile che gestiamo, e rispondo personalmente dei
                 risultati.
               </Reveal>
-              <Reveal delay={220} className="mt-8">
+              <Reveal delay={200} className="mt-9">
                 <a href="#valutazione" className="btn btn-primary">
-                  Parliamo del tuo immobile <IconArrow className="h-4 w-4" />
+                  Parliamo del tuo immobile{" "}
+                  <IconArrow className="h-4 w-4" />
                 </a>
               </Reveal>
             </div>
           </div>
         </section>
 
-        {/* ══════════════════ CTA + FORM ══════════════════ */}
+        {/* ══════════════════ CTA + FORM — stadio 4 ══════════════════ */}
         <section
-          className="relative overflow-hidden py-16 text-paper sm:py-24 lg:py-32"
-          style={{ background: "radial-gradient(120% 90% at 15% 10%, #14493a, #0b2a21 55%, #082019)" }}
+          data-cinema-stage="4"
+          data-cinema-surface="dark"
+          className="cinema-section overflow-hidden py-20 text-paper sm:py-28 lg:py-36"
         >
-          {/* seam: entra dal chiaro della sezione precedente */}
+          <div className="cinema-section-bg bg-forest-2" />
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-40"
-            style={{ background: "linear-gradient(180deg, var(--color-paper), transparent)" }}
+            className="cinema-section-bg opacity-50"
+            style={{
+              background:
+                "radial-gradient(80% 60% at 10% 0%, rgba(20,73,58,0.5) 0%, transparent 50%)",
+            }}
           />
-          <div className="glow" style={{ background: "rgba(198,161,91,0.14)", width: 400, height: 400, top: -60, right: -40 }} />
-          <div className="shell relative grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-            <div>
-              <Reveal as="h2" className="font-display text-[clamp(2.2rem,4.6vw,3.4rem)] font-semibold">
+          <div className="shell cinema-section-fg grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-start lg:gap-16">
+            <div className="lg:sticky lg:top-32 lg:pt-2">
+              <Reveal
+                as="h2"
+                className="font-display text-[clamp(2.15rem,4.4vw,3.25rem)] font-semibold"
+              >
                 Ricevi una valutazione personalizzata.
               </Reveal>
-              <Reveal as="p" delay={140} className="mt-6 max-w-md text-lg text-paper/70">
-                In pochi minuti capiamo insieme quanto può rendere il tuo immobile e
-                qual è il modello di gestione più adatto. Senza impegno.
+              <Reveal
+                as="p"
+                delay={120}
+                className="mt-6 max-w-md text-lg leading-relaxed text-paper/65"
+              >
+                In pochi minuti capiamo insieme quanto può rendere il tuo
+                immobile e qual è il modello di gestione più adatto. Senza
+                impegno.
               </Reveal>
-              <Reveal delay={220} className="mt-8 space-y-3">
+              <Reveal delay={180} className="mt-9 space-y-3.5">
                 {[
                   "Risposta da un consulente Oasi Properties",
                   "Analisi del potenziale, non una stima automatica",
                   "Nessun costo, nessun vincolo",
                 ].map((x) => (
-                  <div key={x} className="flex items-center gap-3 text-paper/80">
-                    <IconCheck className="h-5 w-5 shrink-0 text-brass" />
+                  <div
+                    key={x}
+                    className="flex items-start gap-3 text-paper/75"
+                  >
+                    <IconCheck className="mt-0.5 h-5 w-5 shrink-0 text-brass" />
                     {x}
                   </div>
                 ))}
               </Reveal>
             </div>
 
-            {/* Il modulo non passa da <Reveal>: è il bersaglio di ogni CTA e
-                atterrarci sopra mentre è ancora invisibile è il peggior
-                arrivo possibile. */}
+            {/* Form target: never wrap LeadForm in Reveal */}
             <div id="valutazione">
               <LeadForm />
             </div>

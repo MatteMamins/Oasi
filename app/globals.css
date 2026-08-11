@@ -121,7 +121,7 @@ body {
   );
 }
 
-/* ---- Buttons ---- */
+/* ---- Buttons (premium chrome — quiet motion, no bounce) ---- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -131,6 +131,7 @@ body {
   font-weight: 500;
   font-size: 0.95rem;
   line-height: 1.2;
+  letter-spacing: 0.01em;
   min-height: 44px;
   max-width: 100%;
   text-align: center;
@@ -138,8 +139,8 @@ body {
   border-radius: 2px;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: transform 0.18s ease, background 0.2s ease, color 0.2s ease,
-    border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease;
   text-decoration: none;
 }
 .btn:disabled {
@@ -151,8 +152,8 @@ body {
 }
 .btn-primary:hover {
   background: var(--color-forest-2);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -12px rgba(16, 61, 48, 0.55);
+  transform: none;
+  box-shadow: 0 10px 28px -14px rgba(16, 61, 48, 0.5);
 }
 .btn-brass {
   background: var(--color-brass);
@@ -160,8 +161,8 @@ body {
 }
 .btn-brass:hover {
   background: var(--color-brass-2);
-  transform: translateY(-2px);
-  box-shadow: 0 14px 34px -14px rgba(198, 161, 91, 0.7);
+  transform: none;
+  box-shadow: 0 10px 28px -14px rgba(198, 161, 91, 0.55);
 }
 .btn-ghost {
   background: transparent;
@@ -171,6 +172,7 @@ body {
 .btn-ghost:hover {
   border-color: var(--color-forest);
   color: var(--color-forest);
+  background: rgba(16, 61, 48, 0.04);
 }
 .btn-on-dark {
   background: transparent;
@@ -180,6 +182,7 @@ body {
 .btn-on-dark:hover {
   border-color: var(--color-brass);
   color: var(--color-brass);
+  background: rgba(198, 161, 91, 0.06);
 }
 
 /* ---- Focus ring accessibile ---- */
@@ -247,8 +250,9 @@ textarea:focus-visible,
   .rise {
     animation: none;
   }
-  .btn:hover {
-    transform: none;
+  .btn-primary:hover,
+  .btn-brass:hover {
+    box-shadow: none;
   }
   *,
   *::before,
@@ -324,43 +328,400 @@ html[data-flip="owner"]::view-transition-new(root) {
 }
 
 /* ============================================================
-   Il percorso — timeline che si disegna allo scroll (signature)
+   Scroll-cinema — elevazione frontale fissa che si costruisce
+   scorrendo la landing (stadi 0→4).
+   ============================================================ */
+/* Sezioni a tre layer: bg (0) → cinema fissa (1) → contenuto (2).
+   Senza z-index sulla section i layer interleave-ano col fixed. */
+.cinema-section {
+  position: relative;
+}
+
+.cinema-section-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cinema-section-fg {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── House elevation cinema ─────────────────────────────────── */
+.house-cinema {
+  --house-stroke: var(--color-brass);
+  --house-muted: var(--color-sage);
+  --house-opacity: 0.34;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.house-cinema[data-ready="true"] {
+  opacity: var(--house-opacity);
+}
+
+.house-cinema[data-surface="light"] {
+  --house-stroke: var(--color-forest);
+  --house-muted: var(--color-sage);
+  --house-opacity: 0.1;
+}
+
+.house-cinema[data-surface="dark"] {
+  --house-stroke: var(--color-brass);
+  --house-muted: var(--color-sage);
+  --house-opacity: 0.36;
+}
+
+.house-cinema[data-stage="4"] {
+  --house-opacity: 0.38;
+}
+
+.house-cinema[data-surface="light"][data-stage="4"] {
+  --house-opacity: 0.12;
+}
+
+.house-plane {
+  position: absolute;
+  inset: -8%;
+  display: grid;
+  place-items: center;
+}
+
+.house-svg {
+  width: min(1200px, 128vw);
+  height: min(1200px, 128vw);
+  max-width: none;
+  overflow: visible;
+}
+
+.house-stroke {
+  fill: none;
+  stroke: var(--house-stroke);
+  stroke-width: 1.15;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  vector-effect: non-scaling-stroke;
+  transition:
+    stroke-dashoffset 1.05s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.6s ease;
+}
+
+.house-stroke-grid {
+  stroke: var(--house-muted);
+  stroke-width: 0.7;
+  opacity: 0.45;
+}
+
+.house-stroke-ground {
+  stroke-width: 1.2;
+}
+
+.house-stroke-eave {
+  stroke-width: 1.05;
+  opacity: 0.85;
+}
+
+.house-stroke-mullion {
+  stroke-width: 0.85;
+  opacity: 0.75;
+}
+
+.house-layer-body {
+  stroke-width: 1.5;
+}
+
+/* Stage 0: grid + ground */
+.house-layer-grid .house-stroke {
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+.house-cinema[data-stage="0"] .house-layer-grid .house-stroke,
+.house-cinema[data-stage="1"] .house-layer-grid .house-stroke,
+.house-cinema[data-stage="2"] .house-layer-grid .house-stroke,
+.house-cinema[data-stage="3"] .house-layer-grid .house-stroke,
+.house-cinema[data-stage="4"] .house-layer-grid .house-stroke {
+  stroke-dashoffset: 0;
+  opacity: 0.45;
+}
+.house-cinema[data-stage="4"] .house-layer-grid .house-stroke {
+  opacity: 0.18;
+}
+
+.house-layer-ground .house-stroke {
+  stroke-dashoffset: 1;
+  opacity: 0.35;
+}
+.house-cinema[data-stage="0"] .house-layer-ground .house-stroke,
+.house-cinema[data-stage="1"] .house-layer-ground .house-stroke,
+.house-cinema[data-stage="2"] .house-layer-ground .house-stroke,
+.house-cinema[data-stage="3"] .house-layer-ground .house-stroke,
+.house-cinema[data-stage="4"] .house-layer-ground .house-stroke {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+/* Stage 1: body */
+.house-layer-body {
+  stroke-dashoffset: 1;
+  opacity: 0.35;
+}
+.house-cinema[data-stage="1"] .house-layer-body,
+.house-cinema[data-stage="2"] .house-layer-body,
+.house-cinema[data-stage="3"] .house-layer-body,
+.house-cinema[data-stage="4"] .house-layer-body {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+/* Stage 2: roof */
+.house-layer-roof .house-stroke {
+  stroke-dashoffset: 1;
+  opacity: 0.35;
+}
+.house-cinema[data-stage="2"] .house-layer-roof .house-stroke,
+.house-cinema[data-stage="3"] .house-layer-roof .house-stroke,
+.house-cinema[data-stage="4"] .house-layer-roof .house-stroke {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+/* Stage 3: openings fully (no continuous progress) */
+.house-layer-openings .house-stroke {
+  stroke-dashoffset: 1;
+  opacity: 0;
+  transition:
+    stroke-dashoffset 0.95s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.6s ease;
+}
+.house-cinema[data-stage="3"] .house-layer-openings .house-stroke,
+.house-cinema[data-stage="4"] .house-layer-openings .house-stroke {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+/* Stage 4: detail + tracer + glow; grid already faded above */
+.house-layer-detail .house-stroke {
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+.house-cinema[data-stage="4"] .house-layer-detail .house-stroke {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+.house-tracer {
+  fill: none;
+  stroke: var(--house-stroke);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 0.06 0.94;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  vector-effect: non-scaling-stroke;
+}
+
+.house-cinema[data-stage="4"] .house-tracer {
+  animation: house-trace 8s linear 0.4s infinite;
+}
+
+@keyframes house-trace {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+  8%,
+  88% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -1;
+  }
+}
+
+.house-glow {
+  fill: var(--house-stroke);
+  opacity: 0;
+  filter: blur(40px);
+  transform-origin: center;
+  transition: opacity 0.8s ease;
+}
+
+.house-cinema[data-stage="4"] .house-glow {
+  opacity: 0.08;
+  animation: house-breathe 5.5s ease-in-out infinite;
+}
+
+@keyframes house-breathe {
+  0%,
+  100% {
+    opacity: 0.05;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 0.12;
+    transform: scale(1.04);
+  }
+}
+
+@media (max-width: 639px) {
+  .house-cinema[data-surface="dark"] {
+    --house-opacity: 0.24;
+  }
+
+  .house-cinema[data-surface="light"] {
+    --house-opacity: 0.07;
+  }
+
+  .house-cinema[data-stage="4"] {
+    --house-opacity: 0.3;
+  }
+
+  .house-cinema[data-surface="light"][data-stage="4"] {
+    --house-opacity: 0.08;
+  }
+
+  .house-plane {
+    inset: -18%;
+  }
+
+  .house-stroke-grid {
+    opacity: 0.3;
+  }
+
+  .house-glow,
+  .house-tracer {
+    display: none;
+  }
+}
+
+@media (scripting: none) {
+  /* Force complete house (stage-4 look). Higher specificity than
+     default layer hide rules (.house-layer-* .house-stroke). */
+  .house-cinema {
+    --house-opacity: 0.2;
+    opacity: 0.2;
+  }
+
+  .house-cinema .house-layer-grid .house-stroke,
+  .house-cinema .house-layer-ground .house-stroke,
+  .house-cinema .house-layer-body,
+  .house-cinema .house-layer-roof .house-stroke,
+  .house-cinema .house-layer-openings .house-stroke,
+  .house-cinema .house-layer-detail .house-stroke {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  .house-cinema .house-layer-grid .house-stroke {
+    opacity: 0.18;
+  }
+
+  .house-cinema .house-tracer {
+    display: none;
+  }
+
+  .journey-station {
+    opacity: 1;
+  }
+
+  .journey-fill {
+    height: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .house-cinema {
+    transition: none;
+  }
+
+  .house-stroke,
+  .house-glow {
+    transition: none;
+  }
+
+  /* Same specificity pattern as scripting:none — complete house
+     without relying on JS setting data-stage="4". */
+  .house-cinema .house-layer-grid .house-stroke,
+  .house-cinema .house-layer-ground .house-stroke,
+  .house-cinema .house-layer-body,
+  .house-cinema .house-layer-roof .house-stroke,
+  .house-cinema .house-layer-openings .house-stroke,
+  .house-cinema .house-layer-detail .house-stroke {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  .house-cinema .house-layer-grid .house-stroke {
+    opacity: 0.18;
+  }
+
+  .house-tracer,
+  .house-glow {
+    animation: none !important;
+  }
+
+  .house-tracer {
+    display: none;
+  }
+
+  .house-cinema[data-stage="4"] .house-glow {
+    opacity: 0.06;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   Il percorso — timeline premium (hairline track + brass fill)
    ============================================================ */
 .journey {
   position: relative;
   max-width: 640px;
   margin-inline: 0;
   list-style: none;
+  padding: 0;
 }
 .journey-track,
 .journey-fill {
   position: absolute;
-  left: 1.5rem;
-  width: 2px;
-  transform: translateX(-1px);
-  border-radius: 2px;
+  left: 1.375rem; /* center of 2.75rem node */
+  width: 1px;
+  transform: translateX(-0.5px);
   pointer-events: none;
 }
 .journey-track {
   top: 0;
   height: 100%;
-  background: rgba(255, 255, 255, 0.13);
+  background: rgba(255, 255, 255, 0.12);
 }
 .journey-fill {
   top: 0;
   height: 0;
-  background: linear-gradient(180deg, var(--color-brass), var(--color-brass-2));
-  box-shadow: 0 0 18px rgba(198, 161, 91, 0.55);
+  background: var(--color-brass);
   transition: height 140ms linear;
 }
 .journey-station {
   display: grid;
-  grid-template-columns: 3rem 1fr;
-  gap: 1.4rem;
-  padding-block: 1.4rem 4.6rem;
+  grid-template-columns: 2.75rem 1fr;
+  gap: 1.5rem;
+  padding-block: 0.35rem 3.75rem;
+  opacity: 0.72;
+  transition: opacity 0.45s ease;
 }
 .journey-station:last-child {
   padding-bottom: 0;
+}
+.journey-station[data-active="true"] {
+  opacity: 1;
 }
 .journey-node {
   position: relative;
@@ -368,13 +729,14 @@ html[data-flip="owner"]::view-transition-new(root) {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 3rem;
-  height: 3rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   background: var(--color-forest-2);
-  color: rgba(250, 251, 248, 0.5);
-  font-size: 1rem;
+  color: rgba(250, 251, 248, 0.42);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
   transition: background 0.45s ease, color 0.45s ease, border-color 0.45s ease,
     box-shadow 0.45s ease;
 }
@@ -382,26 +744,28 @@ html[data-flip="owner"]::view-transition-new(root) {
   background: var(--color-brass);
   color: var(--color-forest-2);
   border-color: var(--color-brass);
-  box-shadow: 0 0 0 6px rgba(198, 161, 91, 0.12),
-    0 12px 30px -12px rgba(198, 161, 91, 0.7);
+  box-shadow: 0 0 0 4px rgba(198, 161, 91, 0.1);
 }
 .journey-body {
-  padding-top: 0.45rem;
+  padding-top: 0.35rem;
+  min-width: 0;
 }
 .journey-body h3 {
-  font-size: clamp(1.25rem, 2.4vw, 1.5rem);
-  color: var(--color-paper);
+  font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: rgba(250, 251, 248, 0.88);
   transition: color 0.45s ease;
 }
 .journey-station[data-active="true"] .journey-body h3 {
   color: var(--color-brass);
 }
 .journey-body p {
-  margin-top: 0.55rem;
-  max-width: 34ch;
-  color: rgba(250, 251, 248, 0.62);
+  margin-top: 0.6rem;
+  max-width: 38ch;
+  color: rgba(250, 251, 248, 0.58);
   font-size: 0.95rem;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 /* ---- Scroll cue: avvia il percorso ---- */
@@ -430,6 +794,14 @@ html[data-flip="owner"]::view-transition-new(root) {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .journey-station {
+    opacity: 1;
+  }
+
+  .journey-fill {
+    height: 100%;
+  }
+
   .journey-fill,
   .journey-node,
   .journey-body h3 {

@@ -98,9 +98,11 @@ export function Nav({
 
   const linkCls = (mobile = false) =>
     mobile
-      ? `block py-3 text-base font-medium ${tone === "dark" ? "text-paper" : "text-ink"}`
-      : `text-sm font-medium transition-colors ${
-          dark ? "text-paper/75 hover:text-paper" : "text-muted hover:text-forest"
+      ? `flex min-h-11 items-center py-3 text-base font-medium tracking-tight ${
+          tone === "dark" ? "text-paper" : "text-ink"
+        }`
+      : `text-sm font-medium tracking-tight transition-colors duration-200 ${
+          dark ? "text-paper/70 hover:text-paper" : "text-muted hover:text-forest"
         }`;
 
   const renderLink = (l: NavLink, mobile = false) =>
@@ -127,11 +129,11 @@ export function Nav({
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-300 ${
         solid
           ? tone === "dark"
-            ? "bg-forest-3/90 shadow-[0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md"
-            : "bg-paper/90 shadow-[0_1px_0_var(--color-line),0_10px_30px_-24px_rgba(16,61,48,0.4)] backdrop-blur-md"
+            ? "bg-forest-3/95 shadow-[0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md"
+            : "bg-paper/95 shadow-[0_1px_0_var(--color-line)] backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
@@ -181,8 +183,10 @@ export function Nav({
           ref={menuButtonRef}
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className={`flex h-11 w-11 items-center justify-center rounded-sm border lg:hidden ${
-            dark ? "border-white/30 text-paper" : "border-line text-forest"
+          className={`flex h-11 w-11 items-center justify-center rounded-sm border transition-colors duration-200 lg:hidden ${
+            dark
+              ? "border-white/20 text-paper hover:border-white/40"
+              : "border-line text-forest hover:border-forest/40"
           }`}
           aria-label={open ? "Chiudi menu" : "Apri menu"}
           aria-expanded={open}
@@ -207,7 +211,7 @@ export function Nav({
         >
           <div className="shell py-5">
             <p
-              className={`pb-3 text-sm font-semibold ${
+              className={`pb-3 text-xs font-medium uppercase tracking-[0.14em] ${
                 tone === "dark" ? "text-paper/40" : "text-muted"
               }`}
             >
@@ -240,7 +244,7 @@ export function Nav({
                       closeMenu();
                       primeFlip("partner");
                     }}
-                    className="group block"
+                    className="group block min-h-11"
                   >
                     <span
                       className={`block text-sm ${

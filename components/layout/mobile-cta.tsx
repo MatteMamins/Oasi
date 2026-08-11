@@ -55,8 +55,8 @@ export function MobileCta({
       aria-hidden={!visible}
       inert={!visible || undefined}
     >
-      <div className="border-t border-line bg-paper/95 px-[var(--edge)] pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md">
-        <a href={href} className="btn btn-primary w-full">
+      <div className="border-t border-white/10 bg-forest-3/95 px-[var(--edge)] pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md">
+        <a href={href} className="btn btn-brass w-full">
           {label}
           <IconArrow className="h-4 w-4" />
         </a>
