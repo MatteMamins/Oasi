@@ -70,8 +70,17 @@ const UTM_KEYS = [
 /* 16px sotto `sm` non è estetica: sotto quella soglia Safari iOS zooma la
    pagina al focus del campo e non torna più indietro. */
 const field =
-  "w-full rounded-sm border border-line bg-paper px-4 py-3 text-base text-ink placeholder:text-muted/60 outline-none transition-colors focus:border-forest sm:text-[0.95rem]";
+  "w-full rounded-sm border border-line bg-stone/40 px-4 py-3 text-base text-ink placeholder:text-muted/60 outline-none transition-colors focus:border-forest focus:bg-paper sm:text-[0.95rem]";
 const labelCls = "mb-1.5 block text-sm font-medium text-ink";
+const cardChrome =
+  "rounded-sm border border-line bg-paper shadow-[0_32px_64px_-36px_rgba(8,32,25,0.55)] ring-1 ring-white/10";
+const optionBase =
+  "min-h-11 rounded-sm border px-4 py-3.5 text-left text-[0.95rem] font-medium transition-colors duration-200";
+const optionIdle =
+  "border-line bg-paper hover:border-forest/40 hover:bg-stone";
+const optionActive = "border-forest bg-forest text-paper";
+const chipBase =
+  "min-h-11 rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200";
 
 export function LeadForm() {
   const [step, setStep] = useState(0);
@@ -261,9 +270,9 @@ export function LeadForm() {
         role="status"
         aria-live="polite"
         tabIndex={-1}
-        className="flex flex-col items-center rounded-xl border border-line bg-paper px-6 py-14 text-center"
+        className={`flex flex-col items-center px-6 py-14 text-center ${cardChrome}`}
       >
-        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-forest text-paper">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-forest text-paper ring-1 ring-brass/30">
           <IconCheck className="h-7 w-7" />
         </span>
         <h3 className="mt-5 font-display text-2xl text-ink">Richiesta ricevuta</h3>
@@ -281,7 +290,7 @@ export function LeadForm() {
   const isContact = step === CONTACT_STEP;
 
   return (
-    <div className="rounded-xl border border-line bg-paper p-6 text-ink sm:p-8">
+    <div className={`${cardChrome} p-6 text-ink sm:p-8`}>
       {/* header + progresso */}
       <p className="font-display text-xl font-semibold sm:text-2xl">
         Prepariamo la valutazione del tuo immobile
@@ -289,7 +298,7 @@ export function LeadForm() {
       <p className="mt-2 text-sm text-muted">5 passaggi · nessun impegno</p>
       <div className="mt-5 flex items-center gap-3">
         <div
-          className="h-1.5 flex-1 overflow-hidden rounded-full bg-stone"
+          className="h-1.5 flex-1 overflow-hidden rounded-full bg-forest/15"
           role="progressbar"
           aria-label="Avanzamento della valutazione"
           aria-valuemin={1}
@@ -356,10 +365,8 @@ export function LeadForm() {
                 key={o}
                 type="button"
                 onClick={() => pick(o)}
-                className={`rounded-sm border px-4 py-3.5 text-left text-[0.95rem] font-medium transition-colors ${
-                  answers[current.key] === o
-                    ? "border-forest bg-forest text-paper"
-                    : "border-line bg-paper hover:border-forest"
+                className={`${optionBase} ${
+                  answers[current.key] === o ? optionActive : optionIdle
                 }`}
               >
                 {o}
@@ -403,10 +410,8 @@ export function LeadForm() {
                   type="button"
                   onClick={() => toggleMulti(o)}
                   aria-pressed={sel}
-                  className={`min-h-11 rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-                    sel
-                      ? "border-forest bg-forest text-paper"
-                      : "border-line bg-paper hover:border-forest"
+                  className={`${chipBase} ${
+                    sel ? optionActive : optionIdle
                   }`}
                 >
                   {o}
@@ -536,7 +541,7 @@ export function LeadForm() {
           {errors.form && (
             <p
               role="alert"
-              className="mt-4 rounded-sm bg-red-50 px-4 py-2.5 text-sm text-red-700"
+              className="mt-4 rounded-sm border border-red-100 bg-red-50 px-4 py-2.5 text-sm text-red-700"
             >
               {errors.form}
             </p>
