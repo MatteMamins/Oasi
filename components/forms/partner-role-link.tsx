@@ -34,7 +34,7 @@ export function PartnerRoleLink({
     <a
       href="#contatti"
       onClick={rememberRole}
-      className="group flex h-full min-h-56 flex-col justify-between rounded-sm border border-line bg-paper p-7 ring-1 ring-transparent transition-colors duration-300 hover:border-forest hover:ring-forest/10"
+      className="group flex h-full min-h-56 flex-col justify-between rounded-sm border border-line bg-stone p-7 ring-1 ring-transparent transition-colors duration-300 hover:border-forest hover:ring-forest/10"
     >
       <div>
         <h3 className="font-display text-xl font-semibold text-ink">{role}</h3>
