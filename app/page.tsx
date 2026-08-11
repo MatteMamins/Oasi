@@ -192,12 +192,14 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Partner bridge — quiet strip, no cinema stage */}
+        {/* Partner bridge — quiet strip, no stage attrs; cinema layers keep
+            content above fixed HouseCinema (z-1). */}
         <nav
           aria-label="Percorso per professionisti"
-          className="relative border-b border-line bg-paper"
+          className="cinema-section border-b border-line"
         >
-          <div className="shell flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg flex flex-col gap-1 py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <p className="text-sm text-muted">
               Sei un professionista immobiliare?
             </p>

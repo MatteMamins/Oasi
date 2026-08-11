@@ -1071,7 +1071,7 @@ html[data-flip="owner"]::view-transition-new(root) {
   grid-template-columns: 2.75rem 1fr;
   gap: 1.5rem;
   padding-block: 0.35rem 3.75rem;
-  opacity: 0.55;
+  opacity: 0.72;
   transition: opacity 0.45s ease;
 }
 .journey-station:last-child {
