@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Nav } from "@/components/layout/nav";
 import { PageTransition } from "@/components/layout/page-transition";
 import { Reveal } from "@/components/motion/reveal";
+import { HouseCinema } from "@/components/motion/house-cinema";
 import { Journey } from "@/components/ui/journey";
 import { LeadForm } from "@/components/forms/lead-form";
 import { MobileCta } from "@/components/layout/mobile-cta";
@@ -114,18 +115,25 @@ export default function Home() {
   return (
     <PageTransition>
       <Nav />
-      <main id="top" tabIndex={-1}>
-        {/* ══════════════════ HERO ══════════════════ */}
+      <main id="top" tabIndex={-1} className="relative">
+        {/* Elevazione frontale: avanza con lo scroll (stadi 0→4). */}
+        <HouseCinema />
+
+        {/* ══════════════════ HERO ══════════════════
+            Stadio 0: griglia + involucro. Entrata copy: .rise. */}
         <section
-          className="relative overflow-hidden pt-32 pb-20 sm:pt-40 lg:pb-28"
-          style={{
-            background:
-              "radial-gradient(120% 90% at 80% -10%, #14493a 0%, #0b2a21 45%, #082019 100%)",
-          }}
+          data-cinema-stage="0"
+          data-cinema-surface="dark"
+          className="cinema-section overflow-hidden pt-32 pb-20 sm:pt-40 lg:pb-28"
         >
-          {/* Niente <Reveal> qui sopra: l'hero deve essere leggibile al primo
-              paint, non dopo l'hydration. L'entrata è la classe CSS .rise. */}
-          <div className="shell relative grid items-center gap-10 sm:gap-14 lg:grid-cols-[1fr_0.8fr] lg:gap-20">
+          <div
+            className="cinema-section-bg"
+            style={{
+              background:
+                "radial-gradient(120% 90% at 80% -10%, #14493a 0%, #0b2a21 45%, #082019 100%)",
+            }}
+          />
+          <div className="shell cinema-section-fg grid items-center gap-10 sm:gap-14 lg:grid-cols-[1fr_0.8fr] lg:gap-20">
             <div>
               <h1 className="rise font-display text-[clamp(2.6rem,5vw,4rem)] font-semibold text-paper">
                 Il tuo immobile,
@@ -145,7 +153,8 @@ export default function Home() {
                 style={{ "--rise-delay": "140ms" } as React.CSSProperties}
               >
                 <a href="#valutazione" className="btn btn-brass">
-                  Richiedi la valutazione gratuita <IconArrow className="h-4 w-4" />
+                  Richiedi la valutazione gratuita{" "}
+                  <IconArrow className="h-4 w-4" />
                 </a>
               </div>
               <div
@@ -181,9 +190,10 @@ export default function Home() {
 
         <nav
           aria-label="Percorso per professionisti"
-          className="border-b border-line bg-paper"
+          className="cinema-section border-b border-line"
         >
-          <div className="shell flex flex-col gap-1.5 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg flex flex-col gap-1.5 py-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <p className="text-sm text-muted">
               Sei un professionista immobiliare?
             </p>
@@ -197,9 +207,15 @@ export default function Home() {
           </div>
         </nav>
 
-        {/* ══════════════════ PERCHÉ L'AFFITTO BREVE ══════════════════ */}
-        <section id="perche" className="bg-paper py-16 sm:py-24 lg:py-32">
-          <div className="shell">
+        {/* ══════════════════ PERCHÉ L'AFFITTO BREVE — stadio 1 ══════════════════ */}
+        <section
+          id="perche"
+          data-cinema-stage="1"
+          data-cinema-surface="light"
+          className="cinema-section py-16 sm:py-24 lg:py-32"
+        >
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg">
             <Reveal className="max-w-3xl">
               {/* Sotto `sm` l'a capo forzato spezzerebbe righe che il browser
                   manda già a capo da sole: meglio lasciarle bilanciare. */}
@@ -238,23 +254,31 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ══════════════════ COME FUNZIONA — Il percorso ══════════════════ */}
+        {/* ══════════════════ COME FUNZIONA — stadio 2 + rooms 1–4 ══════════════════ */}
         <section
           id="come-funziona"
-          className="relative overflow-hidden py-16 text-paper sm:py-24 lg:py-32"
-          style={{ background: "linear-gradient(180deg,#082019,#0b2a21 26%,#0e3529 60%,#0b2a21)" }}
+          data-cinema-stage="2"
+          data-cinema-surface="dark"
+          className="cinema-section overflow-hidden py-16 text-paper sm:py-24 lg:py-32"
         >
+          <div
+            className="cinema-section-bg"
+            style={{
+              background:
+                "linear-gradient(180deg,#082019,#0b2a21 26%,#0e3529 60%,#0b2a21)",
+            }}
+          />
           {/* seam: entra dal chiaro della sezione precedente */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-32"
+            className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-32"
             style={{ background: "linear-gradient(180deg, var(--color-paper), transparent)" }}
           />
           <div
             className="glow"
-            style={{ background: "rgba(198,161,91,0.10)", width: 360, height: 360, top: 120, right: -80 }}
+            style={{ background: "rgba(198,161,91,0.10)", width: 360, height: 360, top: 120, right: -80, zIndex: 1 }}
           />
-          <div className="shell relative grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+          <div className="shell cinema-section-fg grid gap-14 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="lg:sticky lg:top-32 lg:self-start">
               <Reveal>
                 <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
@@ -288,9 +312,15 @@ export default function Home() {
           />
         </section>
 
-        {/* ══════════════════ TRASPARENZA — tu vedi tutto ══════════════════ */}
-        <section id="trasparenza" className="bg-paper py-16 sm:py-24 lg:py-32">
-          <div className="shell grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
+        {/* ══════════════════ TRASPARENZA — stadio 3 ══════════════════ */}
+        <section
+          id="trasparenza"
+          data-cinema-stage="3"
+          data-cinema-surface="light"
+          className="cinema-section py-16 sm:py-24 lg:py-32"
+        >
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
             <div>
               <Reveal
                 as="h2"
@@ -370,8 +400,14 @@ export default function Home() {
         </section>
 
         {/* ══════════════════ RECENSIONI — anteprima profilo Airbnb ══════════════════ */}
-        <section id="recensioni" className="bg-stone py-16 sm:py-24 lg:py-32">
-          <div className="shell">
+        <section
+          id="recensioni"
+          data-cinema-stage="3"
+          data-cinema-surface="light"
+          className="cinema-section py-16 sm:py-24 lg:py-32"
+        >
+          <div className="cinema-section-bg bg-stone" />
+          <div className="shell cinema-section-fg">
             <Reveal className="max-w-2xl">
               <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold text-ink">
                 Il nostro profilo host, in anteprima.
@@ -518,8 +554,14 @@ export default function Home() {
         </section>
 
         {/* ══════════════════ CHI C'È DIETRO ══════════════════ */}
-        <section id="chi-sono" className="bg-paper py-16 sm:py-24 lg:py-32">
-          <div className="shell grid items-center gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
+        <section
+          id="chi-sono"
+          data-cinema-stage="3"
+          data-cinema-surface="light"
+          className="cinema-section py-16 sm:py-24 lg:py-32"
+        >
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg grid items-center gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:gap-16">
             <Reveal>
               <div className="relative mx-auto w-full max-w-xs">
                 <span className="block overflow-hidden rounded-2xl shadow-[0_45px_80px_-50px_rgba(16,61,48,0.6)]">
@@ -566,19 +608,27 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ══════════════════ CTA + FORM ══════════════════ */}
+        {/* ══════════════════ CTA + FORM — stadio 4 ══════════════════ */}
         <section
-          className="relative overflow-hidden py-16 text-paper sm:py-24 lg:py-32"
-          style={{ background: "radial-gradient(120% 90% at 15% 10%, #14493a, #0b2a21 55%, #082019)" }}
+          data-cinema-stage="4"
+          data-cinema-surface="dark"
+          className="cinema-section overflow-hidden py-16 text-paper sm:py-24 lg:py-32"
         >
+          <div
+            className="cinema-section-bg"
+            style={{
+              background:
+                "radial-gradient(120% 90% at 15% 10%, #14493a, #0b2a21 55%, #082019)",
+            }}
+          />
           {/* seam: entra dal chiaro della sezione precedente */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-40"
+            className="pointer-events-none absolute inset-x-0 top-0 z-[1] h-40"
             style={{ background: "linear-gradient(180deg, var(--color-paper), transparent)" }}
           />
-          <div className="glow" style={{ background: "rgba(198,161,91,0.14)", width: 400, height: 400, top: -60, right: -40 }} />
-          <div className="shell relative grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <div className="glow" style={{ background: "rgba(198,161,91,0.14)", width: 400, height: 400, top: -60, right: -40, zIndex: 1 }} />
+          <div className="shell cinema-section-fg grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <div>
               <Reveal as="h2" className="font-display text-[clamp(2.2rem,4.6vw,3.4rem)] font-semibold">
                 Ricevi una valutazione personalizzata.

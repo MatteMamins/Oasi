@@ -328,8 +328,9 @@ html[data-flip="owner"]::view-transition-new(root) {
 }
 
 /* ============================================================
-   Scroll-cinema — una planimetria fissa che si costruisce
-   scorrendo la landing (stadi 0→4, rooms 0→4 nel percorso).
+   Scroll-cinema — elevazione frontale fissa che si costruisce
+   scorrendo la landing (stadi 0→4). Blueprint rules retained
+   until Task 6 cleanup.
    ============================================================ */
 /* Sezioni a tre layer: bg (0) → cinema fissa (1) → contenuto (2).
    Senza z-index sulla section i layer interleave-ano col fixed. */
@@ -349,6 +350,311 @@ html[data-flip="owner"]::view-transition-new(root) {
   z-index: 2;
 }
 
+/* ── House elevation cinema ─────────────────────────────────── */
+.house-cinema {
+  --house-stroke: var(--color-brass);
+  --house-muted: var(--color-sage);
+  --house-opacity: 0.34;
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.house-cinema[data-ready="true"] {
+  opacity: var(--house-opacity);
+}
+
+.house-cinema[data-surface="light"] {
+  --house-stroke: var(--color-forest);
+  --house-muted: var(--color-sage);
+  --house-opacity: 0.1;
+}
+
+.house-cinema[data-surface="dark"] {
+  --house-stroke: var(--color-brass);
+  --house-muted: var(--color-sage);
+  --house-opacity: 0.36;
+}
+
+.house-cinema[data-stage="4"] {
+  --house-opacity: 0.46;
+}
+
+.house-cinema[data-surface="light"][data-stage="4"] {
+  --house-opacity: 0.12;
+}
+
+.house-plane {
+  position: absolute;
+  inset: -8%;
+  display: grid;
+  place-items: center;
+}
+
+.house-svg {
+  width: min(1200px, 128vw);
+  height: min(1200px, 128vw);
+  max-width: none;
+  overflow: visible;
+}
+
+.house-stroke {
+  fill: none;
+  stroke: var(--house-stroke);
+  stroke-width: 1.15;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  vector-effect: non-scaling-stroke;
+  transition:
+    stroke-dashoffset 1.05s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.6s ease;
+}
+
+.house-stroke-grid {
+  stroke: var(--house-muted);
+  stroke-width: 0.7;
+  opacity: 0.45;
+}
+
+.house-stroke-ground {
+  stroke-width: 1.2;
+}
+
+.house-stroke-eave {
+  stroke-width: 1.05;
+  opacity: 0.85;
+}
+
+.house-stroke-mullion {
+  stroke-width: 0.85;
+  opacity: 0.75;
+}
+
+.house-layer-body {
+  stroke-width: 1.5;
+}
+
+/* Stage 0: grid + ground */
+.house-layer-grid .house-stroke {
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+.house-cinema[data-stage="0"] .house-layer-grid .house-stroke,
+.house-cinema[data-stage="1"] .house-layer-grid .house-stroke,
+.house-cinema[data-stage="2"] .house-layer-grid .house-stroke,
+.house-cinema[data-stage="3"] .house-layer-grid .house-stroke,
+.house-cinema[data-stage="4"] .house-layer-grid .house-stroke {
+  stroke-dashoffset: 0;
+  opacity: 0.45;
+}
+.house-cinema[data-stage="4"] .house-layer-grid .house-stroke {
+  opacity: 0.18;
+}
+
+.house-layer-ground .house-stroke {
+  stroke-dashoffset: 1;
+  opacity: 0.35;
+}
+.house-cinema[data-stage="0"] .house-layer-ground .house-stroke,
+.house-cinema[data-stage="1"] .house-layer-ground .house-stroke,
+.house-cinema[data-stage="2"] .house-layer-ground .house-stroke,
+.house-cinema[data-stage="3"] .house-layer-ground .house-stroke,
+.house-cinema[data-stage="4"] .house-layer-ground .house-stroke {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+/* Stage 1: body */
+.house-layer-body {
+  stroke-dashoffset: 1;
+  opacity: 0.35;
+}
+.house-cinema[data-stage="1"] .house-layer-body,
+.house-cinema[data-stage="2"] .house-layer-body,
+.house-cinema[data-stage="3"] .house-layer-body,
+.house-cinema[data-stage="4"] .house-layer-body {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+/* Stage 2: roof */
+.house-layer-roof .house-stroke {
+  stroke-dashoffset: 1;
+  opacity: 0.35;
+}
+.house-cinema[data-stage="2"] .house-layer-roof .house-stroke,
+.house-cinema[data-stage="3"] .house-layer-roof .house-stroke,
+.house-cinema[data-stage="4"] .house-layer-roof .house-stroke {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+/* Stage 3: openings fully (no continuous progress) */
+.house-layer-openings .house-stroke {
+  stroke-dashoffset: 1;
+  opacity: 0;
+  transition:
+    stroke-dashoffset 0.95s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.6s ease;
+}
+.house-cinema[data-stage="3"] .house-layer-openings .house-stroke,
+.house-cinema[data-stage="4"] .house-layer-openings .house-stroke {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+/* Stage 4: detail + tracer + glow; grid already faded above */
+.house-layer-detail .house-stroke {
+  stroke-dashoffset: 1;
+  opacity: 0;
+}
+.house-cinema[data-stage="4"] .house-layer-detail .house-stroke {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}
+
+.house-tracer {
+  fill: none;
+  stroke: var(--house-stroke);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-dasharray: 0.06 0.94;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  vector-effect: non-scaling-stroke;
+}
+
+.house-cinema[data-stage="4"] .house-tracer {
+  animation: house-trace 8s linear 0.4s infinite;
+}
+
+@keyframes house-trace {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+  8%,
+  88% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -1;
+  }
+}
+
+.house-glow {
+  fill: var(--house-stroke);
+  opacity: 0;
+  filter: blur(40px);
+  transform-origin: center;
+  transition: opacity 0.8s ease;
+}
+
+.house-cinema[data-stage="4"] .house-glow {
+  opacity: 0.08;
+  animation: house-breathe 5.5s ease-in-out infinite;
+}
+
+@keyframes house-breathe {
+  0%,
+  100% {
+    opacity: 0.05;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 0.12;
+    transform: scale(1.04);
+  }
+}
+
+@media (max-width: 639px) {
+  .house-cinema[data-surface="dark"] {
+    --house-opacity: 0.24;
+  }
+
+  .house-cinema[data-surface="light"] {
+    --house-opacity: 0.07;
+  }
+
+  .house-cinema[data-stage="4"] {
+    --house-opacity: 0.3;
+  }
+
+  .house-cinema[data-surface="light"][data-stage="4"] {
+    --house-opacity: 0.08;
+  }
+
+  .house-plane {
+    inset: -18%;
+  }
+
+  .house-stroke-grid {
+    opacity: 0.3;
+  }
+
+  .house-glow {
+    display: none;
+  }
+}
+
+@media (scripting: none) {
+  .house-cinema {
+    --house-opacity: 0.2;
+    opacity: 0.2;
+  }
+
+  .house-stroke {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  .house-tracer {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .house-cinema {
+    transition: none;
+  }
+
+  .house-stroke,
+  .house-glow {
+    transition: none;
+  }
+
+  .house-stroke {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+
+  .house-layer-grid .house-stroke {
+    opacity: 0.18;
+  }
+
+  .house-tracer,
+  .house-glow {
+    animation: none !important;
+  }
+
+  .house-tracer {
+    display: none;
+  }
+
+  .house-cinema[data-stage="4"] .house-glow {
+    opacity: 0.06;
+    transform: none;
+  }
+}
+
+/* ── Legacy blueprint cinema (Task 6 cleanup) ───────────────── */
 .blueprint-cinema {
   --cinema-stroke: var(--color-brass);
   --cinema-muted: var(--color-sage);
