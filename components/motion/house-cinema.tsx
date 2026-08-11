@@ -44,9 +44,17 @@ function FrontElevation() {
         />
       </g>
 
+      {/* Outer silhouette (body + gable) — tracer only, not a stage layer */}
+      <defs>
+        <path
+          id="house-silhouette"
+          pathLength={1}
+          d="M320 740V420H300L500 280L700 420H680V740Z"
+        />
+      </defs>
+
       {/* Façade body — stage 1 */}
       <path
-        id="house-silhouette"
         className="house-stroke house-layer house-layer-body"
         pathLength={1}
         d="M320 420H680V740H320Z"

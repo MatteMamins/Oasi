@@ -605,17 +605,28 @@ html[data-flip="owner"]::view-transition-new(root) {
 }
 
 @media (scripting: none) {
+  /* Force complete house (stage-4 look). Higher specificity than
+     default layer hide rules (.house-layer-* .house-stroke). */
   .house-cinema {
     --house-opacity: 0.2;
     opacity: 0.2;
   }
 
-  .house-stroke {
+  .house-cinema .house-layer-grid .house-stroke,
+  .house-cinema .house-layer-ground .house-stroke,
+  .house-cinema .house-layer-body,
+  .house-cinema .house-layer-roof .house-stroke,
+  .house-cinema .house-layer-openings .house-stroke,
+  .house-cinema .house-layer-detail .house-stroke {
     stroke-dashoffset: 0;
     opacity: 1;
   }
 
-  .house-tracer {
+  .house-cinema .house-layer-grid .house-stroke {
+    opacity: 0.18;
+  }
+
+  .house-cinema .house-tracer {
     display: none;
   }
 }

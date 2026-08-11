@@ -120,7 +120,7 @@ export default function Home() {
         <HouseCinema />
 
         {/* ══════════════════ HERO ══════════════════
-            Stadio 0: griglia + involucro. Entrata copy: .rise. */}
+            Stadio 0: griglia + ground. Entrata copy: .rise. */}
         <section
           data-cinema-stage="0"
           data-cinema-surface="dark"
@@ -254,7 +254,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ══════════════════ COME FUNZIONA — stadio 2 + rooms 1–4 ══════════════════ */}
+        {/* ══════════════════ COME FUNZIONA — stadio 2 (roof) ══════════════════ */}
         <section
           id="come-funziona"
           data-cinema-stage="2"
