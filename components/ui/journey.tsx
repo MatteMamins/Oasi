@@ -64,7 +64,7 @@ export function Journey({ steps }: { steps: Step[] }) {
   }, [steps]);
 
   return (
-    <ol ref={listRef} className="journey">
+    <ol ref={listRef} className="journey" aria-label="Il percorso">
       <span className="journey-track" aria-hidden />
       <span ref={fillRef} className="journey-fill" aria-hidden />
       {steps.map((s, i) => (
