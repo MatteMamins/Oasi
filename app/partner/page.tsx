@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nav } from "@/components/layout/nav";
 import { PageTransition } from "@/components/layout/page-transition";
 import { Reveal } from "@/components/motion/reveal";
+import { HouseCinema } from "@/components/motion/house-cinema";
 import { Footer } from "@/components/layout/footer";
 import { MobileCta } from "@/components/layout/mobile-cta";
 import { PartnerForm } from "@/components/forms/partner-form";
@@ -121,48 +122,47 @@ export default function Partner() {
         cta={{ href: "#contatti", label: "Valutiamo una collaborazione" }}
       />
 
-      <main id="top" tabIndex={-1}>
+      <main id="top" tabIndex={-1} className="relative">
+        <HouseCinema />
+
+        {/* ══════════════════ HERO — stadio 0 ══════════════════ */}
         <section
-          className="relative overflow-hidden pt-32 pb-16 sm:pt-44 sm:pb-24 lg:pb-36"
-          style={{
-            background:
-              "radial-gradient(120% 90% at 80% -10%, #14493a 0%, #0b2a21 45%, #082019 100%)",
-          }}
+          data-cinema-stage="0"
+          data-cinema-surface="dark"
+          className="cinema-section overflow-hidden pt-36 pb-24 sm:pt-44 sm:pb-28 lg:pb-36"
         >
+          <div className="cinema-section-bg bg-forest-2" />
           <div
             aria-hidden
-            className="glow"
+            className="cinema-section-bg opacity-60"
             style={{
-              background: "rgba(198,161,91,0.14)",
-              width: 420,
-              height: 420,
-              top: -80,
-              right: 40,
+              background:
+                "radial-gradient(90% 70% at 85% 0%, rgba(20,73,58,0.55) 0%, transparent 55%)",
             }}
           />
           {/* Come nella home: l'hero entra via CSS, non aspetta l'hydration. */}
-          <div className="shell relative max-w-4xl">
-            <h1 className="rise font-display text-[clamp(2.4rem,5vw,4.2rem)] font-semibold text-balance text-paper">
+          <div className="shell cinema-section-fg max-w-4xl">
+            <h1 className="rise font-display text-[clamp(2.4rem,5vw,4.2rem)] font-semibold tracking-tight text-balance text-paper">
               Porta immobili a Oasi.
               <br className="hidden sm:inline" />{" "}
               Costruiamo valore insieme.
             </h1>
             <p
-              className="rise mt-6 max-w-2xl text-lg text-paper/70 sm:text-xl"
+              className="rise mt-7 max-w-2xl text-lg leading-relaxed text-paper/70 sm:text-xl"
               style={{ "--rise-delay": "80ms" } as React.CSSProperties}
             >
               Tu porti l&apos;opportunità o il portfolio. Oasi gestisce prezzi,
               fiscalità, operatività e ospiti.
             </p>
             <div
-              className="rise mt-10 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6"
+              className="rise mt-11 flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6"
               style={{ "--rise-delay": "140ms" } as React.CSSProperties}
             >
               <a href="#contatti" className="btn btn-brass">
                 Valutiamo una collaborazione
                 <IconArrow className="h-4 w-4" />
               </a>
-              <p className="flex items-center gap-2 text-sm text-paper/60">
+              <p className="flex items-center gap-2 text-sm text-paper/55">
                 <IconCheck className="h-4 w-4 shrink-0 text-brass" />
                 <span className="tnum">7.000+ prenotazioni gestite</span>
               </p>
@@ -170,19 +170,26 @@ export default function Partner() {
           </div>
         </section>
 
-        <section id="percorsi" className="bg-paper py-16 sm:py-24 lg:py-32">
-          <div className="shell">
+        {/* ══════════════════ PERCORSI — stadio 1 ══════════════════ */}
+        <section
+          id="percorsi"
+          data-cinema-stage="1"
+          data-cinema-surface="light"
+          className="cinema-section py-20 sm:py-28 lg:py-36"
+        >
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg">
             <Reveal className="max-w-2xl">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
+              <h2 className="font-display text-[clamp(2rem,4vw,3.1rem)] font-semibold text-ink">
                 Parti dal profilo che ti rappresenta.
               </h2>
-              <p className="mt-4 text-lg text-muted">
+              <p className="mt-5 text-lg leading-relaxed text-muted">
                 Il modello cambia in base a come lavori. La prima call serve a
                 capire subito quale collaborazione ha senso per te.
               </p>
             </Reveal>
 
-            <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               {profiles.map((profile, index) => (
                 <Reveal key={profile.title} delay={index * 70}>
                   <PartnerRoleLink role={profile.title} text={profile.text} />
@@ -192,10 +199,10 @@ export default function Partner() {
 
             <Reveal
               delay={120}
-              className="mt-8 overflow-hidden rounded-xl border border-line bg-stone"
+              className="mt-10 overflow-hidden rounded-sm border border-line bg-stone"
             >
               <div className="border-b border-line px-6 py-5 sm:px-8">
-                <h3 className="font-display text-xl font-semibold">
+                <h3 className="font-display text-xl font-semibold text-ink">
                   Una collaborazione, responsabilità chiare.
                 </h3>
               </div>
@@ -203,16 +210,21 @@ export default function Partner() {
                 {responsibilities.map((group, index) => (
                   <div
                     key={group.title}
-                    className={`px-6 py-6 sm:px-8 ${
+                    className={`px-6 py-7 sm:px-8 ${
                       index === 0
                         ? "border-b border-line md:border-r md:border-b-0"
                         : ""
                     }`}
                   >
-                    <p className="text-sm font-semibold text-forest">{group.title}</p>
-                    <ul className="mt-4 space-y-3">
+                    <p className="text-sm font-semibold text-forest">
+                      {group.title}
+                    </p>
+                    <ul className="mt-5 space-y-3.5">
                       {group.items.map((item) => (
-                        <li key={item} className="flex items-start gap-3 text-muted">
+                        <li
+                          key={item}
+                          className="flex items-start gap-3 text-muted"
+                        >
                           <IconCheck className="mt-0.5 h-4 w-4 shrink-0 text-forest" />
                           <span>{item}</span>
                         </li>
@@ -225,56 +237,64 @@ export default function Partner() {
           </div>
         </section>
 
+        {/* ══════════════════ BENEFICI — stadio 2 ══════════════════ */}
         <section
           id="benefici"
-          className="relative overflow-hidden bg-forest-3 py-16 text-paper sm:py-24 lg:py-32"
+          data-cinema-stage="2"
+          data-cinema-surface="dark"
+          className="cinema-section overflow-hidden py-20 text-paper sm:py-28 lg:py-36"
         >
-          <div
-            aria-hidden
-            className="glow"
-            style={{
-              background: "rgba(198,161,91,0.11)",
-              width: 400,
-              height: 400,
-              bottom: -120,
-              left: -100,
-            }}
-          />
-          <div className="shell relative">
+          <div className="cinema-section-bg bg-forest-2" />
+          <div className="shell cinema-section-fg">
             <Reveal className="max-w-3xl">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
+              <h2 className="font-display text-[clamp(2rem,4vw,3.1rem)] font-semibold">
                 Tre cose che non devi più costruire da solo.
               </h2>
             </Reveal>
 
-            <div className="mt-14 grid gap-12 md:grid-cols-3 md:gap-8">
+            <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-10">
               {benefits.map((benefit, index) => (
                 <Reveal
                   key={benefit.title}
                   delay={index * 90}
-                  className="border-t border-white/15 pt-7"
+                  className="border-t border-white/15 pt-8"
                 >
-                  <p className="tnum text-xs text-brass">{benefit.n}</p>
-                  <h3 className="font-display mt-4 text-2xl font-semibold text-brass">
+                  <p className="tnum text-xs tracking-wide text-brass">
+                    {benefit.n}
+                  </p>
+                  <h3 className="font-display mt-5 text-[clamp(1.5rem,2.4vw,1.85rem)] font-semibold text-brass">
                     {benefit.title}
                   </h3>
-                  <p className="mt-4 text-paper/65">{benefit.text}</p>
+                  <p className="mt-4 leading-relaxed text-paper/65">
+                    {benefit.text}
+                  </p>
                 </Reveal>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="processo" className="bg-paper py-16 sm:py-24 lg:py-32">
-          <div className="shell">
+        {/* ══════════════════ PROCESSO — stadio 3 ══════════════════ */}
+        <section
+          id="processo"
+          data-cinema-stage="3"
+          data-cinema-surface="light"
+          className="cinema-section py-20 sm:py-28 lg:py-36"
+        >
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg">
             <Reveal className="max-w-2xl">
-              <h2 className="font-display text-[clamp(2rem,4vw,3rem)] font-semibold">
+              <h2 className="font-display text-[clamp(2rem,4vw,3.1rem)] font-semibold text-ink">
                 Dal primo confronto all&apos;operatività, in tre passaggi.
               </h2>
             </Reveal>
             <div className="mt-16 grid gap-12 md:grid-cols-3 md:gap-10">
               {steps.map((item, index) => (
-                <Reveal key={item.title} delay={index * 90} className="relative pt-6">
+                <Reveal
+                  key={item.title}
+                  delay={index * 90}
+                  className="relative pt-6"
+                >
                   <span
                     aria-hidden
                     className="tnum absolute -top-6 left-0 text-6xl font-medium text-mist"
@@ -282,10 +302,12 @@ export default function Partner() {
                     {item.n}
                   </span>
                   <div className="relative">
-                    <h3 className="font-display text-xl font-semibold">
+                    <h3 className="font-display text-xl font-semibold text-ink">
                       {item.title}
                     </h3>
-                    <p className="mt-3 text-muted">{item.text}</p>
+                    <p className="mt-3 leading-relaxed text-muted">
+                      {item.text}
+                    </p>
                   </div>
                 </Reveal>
               ))}
@@ -293,41 +315,61 @@ export default function Partner() {
           </div>
         </section>
 
-        <section id="faq" className="bg-stone py-16 sm:py-24 lg:py-28">
-          <div className="shell max-w-3xl">
+        {/* ══════════════════ FAQ — stadio 3 ══════════════════ */}
+        <section
+          id="faq"
+          data-cinema-stage="3"
+          data-cinema-surface="light"
+          className="cinema-section py-20 sm:py-28 lg:py-32"
+        >
+          <div className="cinema-section-bg bg-stone" />
+          <div className="shell cinema-section-fg max-w-3xl">
             <Reveal>
-              <h2 className="font-display text-[clamp(2rem,4vw,2.7rem)] font-semibold">
+              <h2 className="font-display text-[clamp(2rem,4vw,2.85rem)] font-semibold text-ink">
                 Le tre domande essenziali.
               </h2>
             </Reveal>
-            <Reveal delay={90} className="mt-10 border-t border-line">
+            <Reveal delay={90} className="mt-12 border-t border-line">
               {faq.map((item) => (
                 <details key={item.q} className="group border-b border-line">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-5 font-semibold [&::-webkit-details-marker]:hidden">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-6 font-semibold text-ink [&::-webkit-details-marker]:hidden">
                     {item.q}
                     <IconChevronDown className="h-4 w-4 shrink-0 text-muted transition-transform duration-300 group-open:rotate-180" />
                   </summary>
-                  <p className="max-w-2xl pb-6 text-muted">{item.a}</p>
+                  <p className="max-w-2xl pb-7 leading-relaxed text-muted">
+                    {item.a}
+                  </p>
                 </details>
               ))}
             </Reveal>
           </div>
         </section>
 
-        <section id="contatti" className="bg-paper py-16 sm:py-24 lg:py-32">
-          <div className="shell grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
-            <div>
+        {/* ══════════════════ CONTATTI + FORM — stadio 4 (light/calm) ══════════════════ */}
+        <section
+          id="contatti"
+          data-cinema-stage="4"
+          data-cinema-surface="light"
+          className="cinema-section py-20 sm:py-28 lg:py-36"
+        >
+          <div className="cinema-section-bg bg-paper" />
+          <div className="shell cinema-section-fg grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-16">
+            <div className="lg:sticky lg:top-32 lg:pt-2">
               <Reveal
                 as="h2"
-                className="font-display text-[clamp(2.2rem,4.6vw,3.4rem)] font-semibold"
+                className="font-display text-[clamp(2.15rem,4.4vw,3.25rem)] font-semibold text-ink"
               >
                 Valutiamo una collaborazione.
               </Reveal>
-              <Reveal as="p" delay={100} className="mt-5 max-w-md text-lg text-muted">
+              <Reveal
+                as="p"
+                delay={100}
+                className="mt-6 max-w-md text-lg leading-relaxed text-muted"
+              >
                 Dicci come lavori e dove operi. Useremo queste informazioni per
                 capire insieme se e come collaborare.
               </Reveal>
-              <Reveal delay={160} className="mt-8 space-y-3">
+              <Reveal delay={160} className="mt-9 space-y-3.5">
                 {["Confronto diretto", "Nessun costo, nessun impegno"].map(
                   (item) => (
                     <p key={item} className="flex items-center gap-3 text-ink">
