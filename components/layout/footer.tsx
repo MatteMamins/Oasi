@@ -11,7 +11,7 @@ const fLink =
 
 export function Footer() {
   return (
-    <footer className="relative bg-forest-3 py-14 text-paper/60">
+    <footer className="relative z-[2] bg-forest-3 py-14 text-paper/60">
       <div className="shell">
         <div className="flex flex-col justify-between gap-10 border-b border-white/10 pb-10 md:flex-row md:gap-12">
           <div className="max-w-sm">

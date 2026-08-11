@@ -329,8 +329,7 @@ html[data-flip="owner"]::view-transition-new(root) {
 
 /* ============================================================
    Scroll-cinema — elevazione frontale fissa che si costruisce
-   scorrendo la landing (stadi 0→4). Blueprint rules retained
-   until Task 6 cleanup.
+   scorrendo la landing (stadi 0→4).
    ============================================================ */
 /* Sezioni a tre layer: bg (0) → cinema fissa (1) → contenuto (2).
    Senza z-index sulla section i layer interleave-ano col fixed. */
@@ -381,7 +380,7 @@ html[data-flip="owner"]::view-transition-new(root) {
 }
 
 .house-cinema[data-stage="4"] {
-  --house-opacity: 0.46;
+  --house-opacity: 0.38;
 }
 
 .house-cinema[data-surface="light"][data-stage="4"] {
@@ -599,7 +598,8 @@ html[data-flip="owner"]::view-transition-new(root) {
     opacity: 0.3;
   }
 
-  .house-glow {
+  .house-glow,
+  .house-tracer {
     display: none;
   }
 }
@@ -629,6 +629,14 @@ html[data-flip="owner"]::view-transition-new(root) {
   .house-cinema .house-tracer {
     display: none;
   }
+
+  .journey-station {
+    opacity: 1;
+  }
+
+  .journey-fill {
+    height: 100%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -641,12 +649,19 @@ html[data-flip="owner"]::view-transition-new(root) {
     transition: none;
   }
 
-  .house-stroke {
+  /* Same specificity pattern as scripting:none — complete house
+     without relying on JS setting data-stage="4". */
+  .house-cinema .house-layer-grid .house-stroke,
+  .house-cinema .house-layer-ground .house-stroke,
+  .house-cinema .house-layer-body,
+  .house-cinema .house-layer-roof .house-stroke,
+  .house-cinema .house-layer-openings .house-stroke,
+  .house-cinema .house-layer-detail .house-stroke {
     stroke-dashoffset: 0;
     opacity: 1;
   }
 
-  .house-layer-grid .house-stroke {
+  .house-cinema .house-layer-grid .house-stroke {
     opacity: 0.18;
   }
 
@@ -779,6 +794,14 @@ html[data-flip="owner"]::view-transition-new(root) {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .journey-station {
+    opacity: 1;
+  }
+
+  .journey-fill {
+    height: 100%;
+  }
+
   .journey-fill,
   .journey-node,
   .journey-body h3 {
